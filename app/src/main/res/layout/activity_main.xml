@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.6"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="20dp"
+            android:text="아,"
+            android:textColor="#000000"
+            android:textSize="60dp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="20dp"
+            android:text="할게!"
+            android:textColor="#0DB1E2"
+            android:textSize="60dp"
+            android:textStyle="bold"
+            />
+
+    </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="To Do List &amp; Notice"
+            android:textColor="#000000"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:src="@drawable/work"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            >
+
+            <Button
+                android:drawableLeft="@drawable/kakao_button"
+                android:layout_marginTop="24dp"
+                android:paddingLeft="13dp"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/kakao_button_shape"
+                android:text="카카오로 시작하기"
+                android:textColor="#191919"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                />
+
+            <Button
+                android:drawableLeft="@drawable/google_button"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="13dp"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/google_button_shape"
+                android:text="구글로 시작하기"
+                android:textColor="#191919"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="홈화면 보기(확인용)"
+                android:textColor="@color/black"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+
+                />
+
+        </LinearLayout>
+
+</LinearLayout>
