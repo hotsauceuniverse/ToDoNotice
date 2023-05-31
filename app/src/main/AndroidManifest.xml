@@ -26,6 +26,9 @@
                 android:value="" />
         </activity>
         <activity android:name=".HomeActivity"/>
+        <activity
+            android:name=".Profile"
+            android:windowSoftInputMode="adjustPan" /> <!-- 뷰에 영향 없이 키패드 밀어올리기 -->
     </application>
 
 </manifest>
