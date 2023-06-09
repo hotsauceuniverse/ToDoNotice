@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".HomeFragment"
+    tools:context=".ToDoListFragment"
     >
 
     <TextView
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:text="HOME"
+        android:text="To Do List"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"

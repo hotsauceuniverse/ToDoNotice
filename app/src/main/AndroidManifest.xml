@@ -25,10 +25,10 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".HomeActivity"/>
-        <activity
-            android:name=".Profile"
-            android:windowSoftInputMode="adjustPan" /> <!-- 뷰에 영향 없이 키패드 밀어올리기 -->
+        <activity android:name=".MainHomeActivity"/>
+<!--        <activity-->
+<!--            android:name=".Profile"-->
+<!--            android:windowSoftInputMode="adjustPan" /> &lt;!&ndash; 뷰에 영향 없이 키패드 밀어올리기 &ndash;&gt;-->
     </application>
 
 </manifest>
