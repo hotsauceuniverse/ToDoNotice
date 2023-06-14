@@ -7,11 +7,13 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-public class ToDoListFragment extends Fragment {
+public class ProfileFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getActivity().setTitle("TODOLIST");
-        return inflater.inflate(R.layout.todolist, container, false);
+        getActivity().setTitle("profile");
+        return inflater.inflate(R.layout.profile, container, false);
+
     }
+
 }

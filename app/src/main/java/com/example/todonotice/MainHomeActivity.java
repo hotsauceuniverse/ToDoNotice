@@ -15,6 +15,7 @@ public class MainHomeActivity extends AppCompatActivity {
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private HomeFragment homeFragment = new HomeFragment();
     private ToDoListFragment toDoListFragment = new ToDoListFragment();
+    private ProfileFragment profileFragment = new ProfileFragment();
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -41,6 +42,14 @@ public class MainHomeActivity extends AppCompatActivity {
 
                 case R.id.item_2:
                     transaction.replace(R.id.content_frame, toDoListFragment).commitAllowingStateLoss();
+                    break;
+
+//                case R.id.item_3:
+//                    transaction.replace(R.id.content_frame, toDoListFragment).commitAllowingStateLoss();
+//                    break;
+
+                case R.id.item_4:
+                    transaction.replace(R.id.content_frame, profileFragment).commitAllowingStateLoss();
                     break;
             }
             return true;

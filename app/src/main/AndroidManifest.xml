@@ -2,6 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+<!--    https://kenial.tistory.com/838 참고 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.front" android:required="false" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -26,6 +34,7 @@
                 android:value="" />
         </activity>
         <activity android:name=".MainHomeActivity"/>
+        <activity android:name=".ProfileActivity"/>
 <!--        <activity-->
 <!--            android:name=".Profile"-->
 <!--            android:windowSoftInputMode="adjustPan" /> &lt;!&ndash; 뷰에 영향 없이 키패드 밀어올리기 &ndash;&gt;-->
