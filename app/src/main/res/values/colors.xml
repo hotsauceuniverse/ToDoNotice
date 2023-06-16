@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="iphone_blue">#0DB1E2</color>
+    <color name="android_top_bar">#D1D1D1</color>
 </resources>
