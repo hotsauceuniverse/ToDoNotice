@@ -27,7 +27,7 @@ public class BackPressHandler {
 
         if (isBefore2Seconds()) {
             // 현재 액티비티가 HomeActivity인 경우에만 앱 종료
-            if (activity instanceof MainActivity) {
+            if (activity instanceof HomeActivity) {
                 appShutdown();
             } else {
                 activity.finish();
