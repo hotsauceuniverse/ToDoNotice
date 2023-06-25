@@ -1,11 +1,10 @@
 package com.example.todonotice;
 
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -118,38 +117,50 @@ public class FragmentProfile extends Fragment {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_GALLERY);
     }
 
-
     // 이미지 선택 결과 처리
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == getActivity().RESULT_OK) {
-            if(requestCode == REQUEST_CAMERA && data != null) {     // 카메라로부터 이미지를 가져온 경우
-                Bundle extras = data.getExtras();                   // 데이터에서 추가정보를 가져옴
-                Bitmap imageBitmap = (Bitmap) extras.get("data");   // data키를 사용하여 Bitmap 이미지를 추출
-                profileImageView.setImageBitmap(imageBitmap);       // profileImageView에 이미지를 설정하여 프로필 이미지로 표시
-            } else if (requestCode == REQUEST_GALLERY && data != null) {    // 갤러리에서 이미지를 선택한 경우
-                Uri selectedImage = data.getData();                         // 선택한 이미지의 Uri를 가져옴
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};   // 이미지의 파일 경로를 가져오기 위해 사용할 열의 이름이 포함됨
-
-                // getContentResolver().query()를 사용하여 ContentProvider에서 선택한 이미지에 대한 정보를 검색
-                // 이를 통해 이미지 파일의 실제 경로를 얻을 수 있음
-                Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                cursor.moveToFirst();   // cursor.moveToFirst()를 호출하여 결과 집합의 첫 번째 행으로 이동
-
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);     // 파일 경로가 있는 열의 인덱스를 가져옴
-
-                // cursor.getString(columnIndex)를 호출하여, 해당 열의 값을 가져옴
-                // 이 값은 이미지 파일의 경로이다.
-                String imagePath = cursor.getString(columnIndex);
-                cursor.close();
-
-                Bitmap imageBitmap = BitmapFactory.decodeFile(imagePath);       // 파일 경로에서 Bitmap 이미지를 디코딩함
-                profileImageView.setImageBitmap(imageBitmap);                   //  profileImageView에 이미지를 설정하여 프로필 이미지로 표시
+        if(resultCode == getActivity().RESULT_OK) {                     // 이미지 선택 결과가 OK(성공)인 경우에만 처리
+            if(requestCode == REQUEST_CAMERA && data != null) {         // 요청 코드가 REQUEST_CAMERA이고, 데이터가 null이 아닌 경우, 즉 카메라로부터 이미지를 가져온 경우
+                // 카메라로부터 이미지를 가져온 경우
+                Bundle extras = data.getExtras();                       // data.getExtras()를 사용하여 이미지 데이터를 가져옴
+                Bitmap imageBitmap = (Bitmap) extras.get("data");       // Bitmap 형태로 캐스트하여 imageBitmap 변수에 저장
+                profileImageView.setImageBitmap(imageBitmap);
+            } else if (requestCode == REQUEST_GALLERY && data != null) {    // 요청 코드가 REQUEST_GALLERY이고, 데이터가 null이 아닌 경우, 즉 갤러리에서 이미지를 선택한 경우
+                // 갤러리에서 이미지를 선택한 경우
+                Uri selectedImage = data.getData();                         // data.getData()를 사용하여 선택한 이미지의 Uri를 가져옴
+                performCrop(selectedImage);                                 // performCrop() 메서드를 호출하여 선택한 이미지를 크롭하며, selectedImage를 인자로 전달
+            } else if (requestCode == CROP_FROM_CAMERA && data != null) {   // 요청 코드가 CROP_FROM_CAMERA이고, 데이터가 null이 아닌 경우, 즉 크롭된 이미지를 받아온 경우
+                // 크롭된 이미지를 받아온 경우
+                Bundle extras = data.getExtras();                           // data.getExtras()를 사용하여 크롭된 이미지 데이터를 가져옴
+                Bitmap croppedBitmap = (Bitmap) extras.get("data");         // Bitmap 형태로 캐스트하여 croppedBitmap 변수에 저장
+                profileImageView.setImageBitmap(croppedBitmap);
             }
         }
-
     }
+
+    // 이미지 크롭
+    private void performCrop(Uri imageUri) {
+        try {
+            Intent cropIntent = new Intent("com.android.camera.action.CROP");
+            cropIntent.setDataAndType(imageUri, "image/*");     // imageUri는 크롭할 이미지의 Uri이며, "image/*"는 모든 이미지 타입을 지정
+
+            cropIntent.putExtra("crop", "true");
+            cropIntent.putExtra("outputX", 256);
+            cropIntent.putExtra("outputY", 256);
+            cropIntent.putExtra("aspectX", 1);
+            cropIntent.putExtra("aspectY", 1);
+            cropIntent.putExtra("scale", true);
+            cropIntent.putExtra("return-data", true);
+
+            startActivityForResult(cropIntent, CROP_FROM_CAMERA);
+        } catch (ActivityNotFoundException e) {
+            // 크롭 앱이 설치되어 있지 않은 경우 처리할 내용을 추가
+            Toast.makeText(requireContext(), "이미지 크롭 앱이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
 }
