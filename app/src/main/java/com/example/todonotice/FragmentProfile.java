@@ -1,6 +1,7 @@
 package com.example.todonotice;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,6 +23,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 
+
 // Fragment와 Activity에서 버튼이벤트를 발생시키는것은 조금 다르다. (Fragment는 android:onClick)를 사용x)
 // 프래그먼트에서는 OnClickListener를 상속받아서 구현해줘야함.
 // onClick메소드를 오버라이드 해줘야함.
@@ -33,6 +35,7 @@ public class FragmentProfile extends Fragment {
     private static final int CROP_FROM_CAMERA = 3;
     private static final int REQUEST_CAMERA_PERMISSION_CODE = 100;
     private ImageView profileImageView;
+
 
 
     @Override
@@ -87,6 +90,13 @@ public class FragmentProfile extends Fragment {
         }
     }
 
+    // 앨범 열기
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_GALLERY);
+    }
+
     private void launchCamera() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (cameraIntent.resolveActivity(requireActivity().getPackageManager()) != null) {
@@ -110,13 +120,6 @@ public class FragmentProfile extends Fragment {
         }
     }
 
-    // 앨범 열기
-    private void openGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("image/*");
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_GALLERY);
-    }
-
     // 이미지 선택 결과 처리
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -127,7 +130,8 @@ public class FragmentProfile extends Fragment {
                 // 카메라로부터 이미지를 가져온 경우
                 Bundle extras = data.getExtras();                       // data.getExtras()를 사용하여 이미지 데이터를 가져옴
                 Bitmap imageBitmap = (Bitmap) extras.get("data");       // Bitmap 형태로 캐스트하여 imageBitmap 변수에 저장
-                profileImageView.setImageBitmap(imageBitmap);
+//                profileImageView.setImageBitmap(imageBitmap);
+                performCrop(getImageUri(getActivity(), imageBitmap));
             } else if (requestCode == REQUEST_GALLERY && data != null) {    // 요청 코드가 REQUEST_GALLERY이고, 데이터가 null이 아닌 경우, 즉 갤러리에서 이미지를 선택한 경우
                 // 갤러리에서 이미지를 선택한 경우
                 Uri selectedImage = data.getData();                         // data.getData()를 사용하여 선택한 이미지의 Uri를 가져옴
@@ -148,11 +152,12 @@ public class FragmentProfile extends Fragment {
             cropIntent.setDataAndType(imageUri, "image/*");     // imageUri는 크롭할 이미지의 Uri이며, "image/*"는 모든 이미지 타입을 지정
 
             cropIntent.putExtra("crop", "true");
-            cropIntent.putExtra("outputX", 256);
-            cropIntent.putExtra("outputY", 256);
+//            cropIntent.putExtra("outputX", 256);
+//            cropIntent.putExtra("outputY", 256);
             cropIntent.putExtra("aspectX", 1);
             cropIntent.putExtra("aspectY", 1);
-            cropIntent.putExtra("scale", true);
+//            cropIntent.putExtra("scale", true);
+            cropIntent.putExtra("scale", false);
             cropIntent.putExtra("return-data", true);
 
             startActivityForResult(cropIntent, CROP_FROM_CAMERA);
@@ -162,5 +167,10 @@ public class FragmentProfile extends Fragment {
         }
     }
 
+    // 사진 찍는 그대로 원본으로 크롭 기능 실행되도록 수정 필요 https://als2019.tistory.com/58
+    private Uri getImageUri(Context context, Bitmap bitmap) {
+        String filePath = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
+        return Uri.parse(filePath);
+    }
 
 }
