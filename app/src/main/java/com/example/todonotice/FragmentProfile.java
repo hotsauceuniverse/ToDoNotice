@@ -22,7 +22,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import java.io.ByteArrayOutputStream;
 
 
 // Fragment와 Activity에서 버튼이벤트를 발생시키는것은 조금 다르다. (Fragment는 android:onClick)를 사용x)
@@ -126,49 +125,53 @@ public class FragmentProfile extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == getActivity().RESULT_OK) {                     // 이미지 선택 결과가 OK(성공)인 경우에만 처리
-            if(requestCode == REQUEST_CAMERA && data != null) {         // 요청 코드가 REQUEST_CAMERA이고, 데이터가 null이 아닌 경우, 즉 카메라로부터 이미지를 가져온 경우
-                // 카메라로부터 이미지를 가져온 경우
-                Bundle extras = data.getExtras();                       // data.getExtras()를 사용하여 이미지 데이터를 가져옴
-                Bitmap imageBitmap = (Bitmap) extras.get("data");       // Bitmap 형태로 캐스트하여 imageBitmap 변수에 저장
+        // 이미지 선택 결과가 OK인 경우에만 처리
+        if(resultCode == getActivity().RESULT_OK) {
+
+            if(requestCode == REQUEST_CAMERA && data != null) {
+                // 카메라로부터 이미지를 가져온 경우, data.getExtras()를 사용하여 이미지 데이터를 가져옴
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
 //                profileImageView.setImageBitmap(imageBitmap);
                 performCrop(getImageUri(getActivity(), imageBitmap));
-            } else if (requestCode == REQUEST_GALLERY && data != null) {    // 요청 코드가 REQUEST_GALLERY이고, 데이터가 null이 아닌 경우, 즉 갤러리에서 이미지를 선택한 경우
-                // 갤러리에서 이미지를 선택한 경우
-                Uri selectedImage = data.getData();                         // data.getData()를 사용하여 선택한 이미지의 Uri를 가져옴
-                performCrop(selectedImage);                                 // performCrop() 메서드를 호출하여 선택한 이미지를 크롭하며, selectedImage를 인자로 전달
-            } else if (requestCode == CROP_FROM_CAMERA && data != null) {   // 요청 코드가 CROP_FROM_CAMERA이고, 데이터가 null이 아닌 경우, 즉 크롭된 이미지를 받아온 경우
-                // 크롭된 이미지를 받아온 경우
-                Bundle extras = data.getExtras();                           // data.getExtras()를 사용하여 크롭된 이미지 데이터를 가져옴
-                Bitmap croppedBitmap = (Bitmap) extras.get("data");         // Bitmap 형태로 캐스트하여 croppedBitmap 변수에 저장
+
+            } else if (requestCode == REQUEST_GALLERY && data != null) {
+                // 갤러리에서 이미지를 선택한 경우, data.getData()를 사용하여 선택한 이미지의 Uri를 가져옴
+                Uri selectedImage = data.getData();
+                performCrop(selectedImage);
+
+            } else if (requestCode == CROP_FROM_CAMERA && data != null) {
+                // 크롭된 이미지를 받아온 경우, data.getExtras()를 사용하여 크롭된 이미지 데이터를 가져옴
+                Bundle extras = data.getExtras();
+                Bitmap croppedBitmap = (Bitmap) extras.get("data");
                 profileImageView.setImageBitmap(croppedBitmap);
             }
         }
     }
 
-    // 이미지 크롭
+    // 이미지 크롭 https://g-y-e-o-m.tistory.com/48
     private void performCrop(Uri imageUri) {
         try {
             Intent cropIntent = new Intent("com.android.camera.action.CROP");
             cropIntent.setDataAndType(imageUri, "image/*");     // imageUri는 크롭할 이미지의 Uri이며, "image/*"는 모든 이미지 타입을 지정
 
             cropIntent.putExtra("crop", "true");
-//            cropIntent.putExtra("outputX", 256);
-//            cropIntent.putExtra("outputY", 256);
-            cropIntent.putExtra("aspectX", 1);
-            cropIntent.putExtra("aspectY", 1);
-//            cropIntent.putExtra("scale", true);
+            cropIntent.putExtra("outputX", 256);    // crop한 이미지의 x축 크기, 결과물의 크기
+            cropIntent.putExtra("outputY", 256);    // crop한 이미지의 y축 크기
+            cropIntent.putExtra("aspectX", 1);      // crop 박스의 x축 비율, 1&1이면 정사각형
+            cropIntent.putExtra("aspectY", 1);      // crop 박스의 y축 비율
+            cropIntent.putExtra("scale", true);
             cropIntent.putExtra("scale", false);
             cropIntent.putExtra("return-data", true);
+            cropIntent.putExtra("output", imageUri); // 크롭된 이미지를 저장할 파일의 Uri를 지정
 
             startActivityForResult(cropIntent, CROP_FROM_CAMERA);
         } catch (ActivityNotFoundException e) {
-            // 크롭 앱이 설치되어 있지 않은 경우 처리할 내용을 추가
-            Toast.makeText(requireContext(), "이미지 크롭 앱이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
     }
 
-    // 사진 찍는 그대로 원본으로 크롭 기능 실행되도록 수정 필요 https://als2019.tistory.com/58
+    // 사진 찍는 그대로 원본으로 크롭 기능 실행되도록 수정 필요 createScaledBitmap()??
     private Uri getImageUri(Context context, Bitmap bitmap) {
         String filePath = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
         return Uri.parse(filePath);
