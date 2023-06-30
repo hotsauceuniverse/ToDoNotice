@@ -171,7 +171,7 @@ public class FragmentProfile extends Fragment {
         }
     }
 
-    // 사진 찍는 그대로 원본으로 크롭 기능 실행되도록 수정 필요 createScaledBitmap()??
+    // 사진 찍는 그대로 원본으로 크롭 기능 실행되도록 수정 필요 createScaledBitmap()
     private Uri getImageUri(Context context, Bitmap bitmap) {
         String filePath = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
         return Uri.parse(filePath);
