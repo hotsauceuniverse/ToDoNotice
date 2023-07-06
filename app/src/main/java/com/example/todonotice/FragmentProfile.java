@@ -23,7 +23,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 
-
 // Fragment와 Activity에서 버튼이벤트를 발생시키는것은 조금 다르다. (Fragment는 android:onClick)를 사용x)
 // 프래그먼트에서는 OnClickListener를 상속받아서 구현해줘야함.
 // onClick메소드를 오버라이드 해줘야함.
@@ -90,18 +89,18 @@ public class FragmentProfile extends Fragment {
         }
     }
 
-    // 앨범 열기
-    private void openGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("image/*");
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_GALLERY);
-    }
-
     private void launchCamera() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (cameraIntent.resolveActivity(requireActivity().getPackageManager()) != null) {
             startActivityForResult(cameraIntent, REQUEST_CAMERA);
         }
+    }
+
+    // 앨범 열기
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_GALLERY);
     }
 
     @Override
@@ -132,7 +131,6 @@ public class FragmentProfile extends Fragment {
                 // 카메라로부터 이미지를 가져온 경우, data.getExtras()를 사용하여 이미지 데이터를 가져옴
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
-//                profileImageView.setImageBitmap(imageBitmap);
                 performCrop(getImageUri(getActivity(), imageBitmap));
 
             } else if (requestCode == REQUEST_GALLERY && data != null) {
@@ -149,6 +147,8 @@ public class FragmentProfile extends Fragment {
         }
     }
 
+
+
     // 이미지 크롭 https://g-y-e-o-m.tistory.com/48
     private void performCrop(Uri imageUri) {
         try {
@@ -161,9 +161,7 @@ public class FragmentProfile extends Fragment {
             cropIntent.putExtra("aspectX", 1);      // crop 박스의 x축 비율, 1&1이면 정사각형
             cropIntent.putExtra("aspectY", 1);      // crop 박스의 y축 비율
             cropIntent.putExtra("scale", true);
-            cropIntent.putExtra("scale", false);
             cropIntent.putExtra("return-data", true);
-            cropIntent.putExtra("output", imageUri); // 크롭된 이미지를 저장할 파일의 Uri를 지정
 
             startActivityForResult(cropIntent, CROP_FROM_CAMERA);
         } catch (ActivityNotFoundException e) {
@@ -171,10 +169,9 @@ public class FragmentProfile extends Fragment {
         }
     }
 
-    // 사진 찍는 그대로 원본으로 크롭 기능 실행되도록 수정 필요 createScaledBitmap()
     private Uri getImageUri(Context context, Bitmap bitmap) {
         String filePath = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
         return Uri.parse(filePath);
     }
-
 }
+

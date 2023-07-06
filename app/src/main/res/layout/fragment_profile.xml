@@ -46,6 +46,7 @@
         >
 
         <!--        de.hdodenhof.circleimageview.CircleImageView -> ImageView 변경 -->
+
         <ImageView
             android:id="@+id/profile_image"
             android:layout_width="130dp"
