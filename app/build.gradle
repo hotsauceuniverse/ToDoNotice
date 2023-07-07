@@ -40,4 +40,7 @@ dependencies {
 
     implementation 'de.hdodenhof:circleimageview:3.1.0' // 원형 프로필
     implementation 'com.airbnb.android:lottie:5.0.2'    // 로티
+
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'    // RecyclerView
 }
