@@ -23,11 +23,8 @@
         android:layout_height="70dp"
         app:itemIconTint="@color/nav_color"
         app:itemTextColor="@color/nav_color"
-
         app:menu="@menu/menu"
         android:background="@drawable/rounded"
         />
-
-<!--    app:layout_constraintBottom_toBottomOf="parent"-->
 
 </LinearLayout>

@@ -28,7 +28,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -36,11 +35,13 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <activity android:name=".MainActivity"/>
+
         <activity
             android:name=".ProfileActivity"
             android:windowSoftInputMode="adjustPan" /> <!-- 뷰에 영향 없이 키패드 밀어올리기 -->
-        <activity android:name=".NoticeActivity"/>
+
     </application>
 
 </manifest>
