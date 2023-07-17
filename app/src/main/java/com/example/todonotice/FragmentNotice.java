@@ -11,7 +11,7 @@ public class FragmentNotice extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getActivity().setTitle("NOTICE");
-        return inflater.inflate(R.layout.fragment_notice, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_notice, container, false);
+        return rootView;
     }
 }

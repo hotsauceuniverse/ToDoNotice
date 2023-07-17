@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private FragmentNotice fragmentNotice = new FragmentNotice();
     private FragmentProfile fragmentProfile = new FragmentProfile();
 
+    static BottomNavigationView bottom_nav;
+
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
