@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -17,8 +19,6 @@ public class MainActivity extends AppCompatActivity {
     private FragmentToDoList fragmentToDoList = new FragmentToDoList();
     private FragmentNotice fragmentNotice = new FragmentNotice();
     private FragmentProfile fragmentProfile = new FragmentProfile();
-
-    static BottomNavigationView bottom_nav;
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -57,5 +57,35 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     }
+
+    public void showNoticeToolbar() {
+        Toolbar toolbar = findViewById(R.id.notice_toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle("게시판");
+        }
+    }
+
+    public void showNoticeBottomNavigation() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
+        bottomNavigationView.setSelectedItemId(R.id.item_3);
+    }
+
+
+    public void showToDoListToolbar() {
+        Toolbar toolbar = findViewById(R.id.todolist_toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle("할 일");
+        }
+    }
+
+    public void showToDoListBottomNavigation() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
+        bottomNavigationView.setSelectedItemId(R.id.item_2);
+    }
+
 
 }

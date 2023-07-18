@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:background="@color/white"
     tools:context=".ToDoListActivity"
+    android:id="@+id/todolist_layout"
     >
 
     <androidx.appcompat.widget.Toolbar

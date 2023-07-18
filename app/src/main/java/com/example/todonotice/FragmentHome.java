@@ -1,17 +1,19 @@
 package com.example.todonotice;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.fragment.app.FragmentTransaction;
 
 public class FragmentHome extends Fragment {
+
+    private Toolbar noticeToolbar, todolistToolbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -19,25 +21,58 @@ public class FragmentHome extends Fragment {
 
         LinearLayout notice_pre = rootView.findViewById(R.id.notice_pre);
 
+        LinearLayout todolist_pre = rootView.findViewById(R.id.todolist_pre);
+
+
         notice_pre.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
 
-//                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                FragmentNotice fragmentNotice = new FragmentNotice();
-//                transaction.replace(R.id.home_layout, fragmentNotice);
-//                transaction.addToBackStack(null);
-//
-//                transaction.commit();
+                // Notice toolBar, BottomNavigationBar 변경
+                MainActivity mainActivity = (MainActivity) getActivity();
+                mainActivity.showNoticeToolbar();
+                mainActivity.showNoticeBottomNavigation();
 
-                // notice_pre 탭 시, notice 뷰 업데이트
-                Intent intent = new Intent(getActivity(), NoticeActivity.class);
+                noticeToolbar = mainActivity.findViewById(R.id.notice_toolbar);
+                mainActivity.setSupportActionBar(noticeToolbar);
+                ActionBar actionBar = mainActivity.getSupportActionBar();
+                if (actionBar != null) {
+                    actionBar.setDisplayHomeAsUpEnabled(true);
+                    actionBar.setTitle("게시판");
+                }
 
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-                View v  = inflater.inflate(R.layout.main_activity, null);
-                BottomNavigationView bottomNavigationView = v.findViewById(R.id.bottom_nav);
+                FragmentNotice fragmentNotice = new FragmentNotice();
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.content_frame, fragmentNotice); // R.id.content_frame는 FragmentNotice를 추가할 컨테이너 ID
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
 
-                startActivity(intent);
+
+        todolist_pre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // ToDoList toolBar, BottomNavigationBar 변경
+                MainActivity mainActivity = (MainActivity) getActivity();
+                mainActivity.showToDoListToolbar();
+                mainActivity.showToDoListBottomNavigation();
+
+                todolistToolbar = mainActivity.findViewById(R.id.todolist_toolbar);
+                mainActivity.setSupportActionBar(todolistToolbar);
+                ActionBar actionBar = mainActivity.getSupportActionBar();
+                if (actionBar != null) {
+                    actionBar.setDisplayHomeAsUpEnabled(true);
+                    actionBar.setTitle("할 일");
+                }
+
+                FragmentToDoList fragmentToDoList = new FragmentToDoList();
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.content_frame, fragmentToDoList);
+                transaction.addToBackStack(null);
+                transaction.commit();
 
             }
         });
@@ -46,31 +81,3 @@ public class FragmentHome extends Fragment {
     }
 
 }
-
-
-
-
-//  // notice_pre 탭 시, notice 뷰 업데이트
-//  // notice_toolbar 업데이트
-//  toolbar = findViewById(R.id.notice_toolbar);
-//
-//  // 하단 navigationBar 업데이트
-//  // main_activity에서 navigationBar 가져오기
-//  LayoutInflater inflater = LayoutInflater.from(this);
-//  View view = inflater.inflate(R.layout.main_activity, null);
-//  BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottom_nav);
-
-
-//    // 툴바 설정
-//    Toolbar toolbar = findViewById(R.id.notice_toolbar);
-//    setSupportActionBar(toolbar);
-//
-//    // 하단 네비게이션 바 설정
-//    BottomNavigationView bottomNavigationView = ((MainActivity) getParent()).findViewById(R.id.bottom_nav);
-//    bottomNavigationView.setSelectedItemId(R.id.navigation_notice);
-//
-//    // FragmentNotice 표시
-//    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//    FragmentNotice fragmentNotice = new FragmentNotice();
-//    transaction.replace(R.id.notice_layout, fragmentNotice);
-//    transaction.commit();
