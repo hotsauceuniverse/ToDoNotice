@@ -44,6 +44,7 @@
             /> <!-- 뷰에 영향 없이 키패드 밀어올리기 -->
 
         <activity android:name=".NoticeActivity"/>
+        <activity android:name=".WriteActivity"/>
 
     </application>
 
