@@ -45,7 +45,6 @@
 
         <activity android:name=".NoticeActivity"/>
         <activity android:name=".WriteActivity"/>
-
     </application>
 
 </manifest>

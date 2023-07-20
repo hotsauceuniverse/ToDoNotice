@@ -34,8 +34,8 @@ public class WriteActivity extends AppCompatActivity {
         // 업로드 버튼 활성화
         upload_btn = (TextView) findViewById(R.id.upload_btn);
         context_area = (EditText) findViewById(R.id.context_area);
-        upload_btn.setEnabled(false); // 초기에 버튼 비활성화
-        upload_btn.addTextChangedListener(new TextWatcher() {
+
+        context_area.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -59,3 +59,4 @@ public class WriteActivity extends AppCompatActivity {
         });
     }
 }
+
