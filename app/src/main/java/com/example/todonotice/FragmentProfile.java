@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 
 // Fragment와 Activity에서 버튼이벤트를 발생시키는것은 조금 다르다. (Fragment는 android:onClick)를 사용x)
 // 프래그먼트에서는 OnClickListener를 상속받아서 구현해줘야함.
@@ -33,17 +33,17 @@ public class FragmentProfile extends Fragment {
     private static final int REQUEST_GALLERY = 2;
     private static final int CROP_FROM_CAMERA = 3;
     private static final int REQUEST_CAMERA_PERMISSION_CODE = 100;
-    private ImageView profileImageView;
+    private CircleImageView profileImageView;
+    private int Default_profile = R.drawable.default_profile;
 
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getActivity().setTitle("profile");
+        View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        profileImageView = view.findViewById(R.id.profile_image);
-        Log.d("test123", "test123");
+        profileImageView = rootView.findViewById(R.id.profile_image);
+        profileImageView.setImageResource(Default_profile);
 
         // 사진 업로드
         profileImageView.setOnClickListener(new View.OnClickListener() {
@@ -52,13 +52,14 @@ public class FragmentProfile extends Fragment {
                 showImagePickerDialog();
             }
         });
-        return view;
+        return rootView;
     }
+
 
     private void showImagePickerDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("프로필 이미지 선택");
-        builder.setItems(new CharSequence[]{"카메라", "앨범"}, new DialogInterface.OnClickListener() {
+        builder.setItems(new CharSequence[]{"카메라", "앨범", "기본 이미지"}, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
@@ -67,6 +68,9 @@ public class FragmentProfile extends Fragment {
                         break;
                     case 1:
                         openGallery();
+                        break;
+                    case 2:
+                        profileImageView.setImageResource(Default_profile);
                         break;
                 }
             }

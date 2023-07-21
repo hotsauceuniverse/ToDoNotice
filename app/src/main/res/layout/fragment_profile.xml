@@ -44,15 +44,16 @@
         app:layout_constraintTop_toBottomOf="@+id/profile_toolbar"
         >
 
-        <!--        de.hdodenhof.circleimageview.CircleImageView -> ImageView 변경 -->
+        <!-- ImageView 속성-->
+        <!-- 가로(너비) 크기를 줄일 때 세로(높이)도 비율에 맞게 줄어들길 원한다면 adjustViewBounds 속성을 true로 설정 하면 됨.-->
+        <!-- de.hdodenhof.circleimageview.CircleImageView 에서 adjustViewBounds를 사용해서 계속 앱이 종료 되었음.-->
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
             android:layout_width="130dp"
             android:layout_height="130dp"
             android:layout_gravity="center"
             android:layout_marginTop="70dp"
-            android:adjustViewBounds="true"
             android:src="@drawable/default_profile"
             app:civ_border_width="2dp"
             android:clickable="true"
