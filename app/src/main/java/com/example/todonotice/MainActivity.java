@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private FragmentHome fragmentHome = new FragmentHome();
     private FragmentToDoList fragmentToDoList = new FragmentToDoList();
-    private FragmentNotice fragmentNotice = new FragmentNotice();
+    private NoticeActivity fragmentNotice = new NoticeActivity();
     private FragmentProfile fragmentProfile = new FragmentProfile();
 
     @Override
@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.item_3);
     }
-
 
     public void showToDoListToolbar() {
         Toolbar toolbar = findViewById(R.id.todolist_toolbar);

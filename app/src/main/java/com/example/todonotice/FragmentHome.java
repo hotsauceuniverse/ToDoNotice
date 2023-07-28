@@ -23,7 +23,6 @@ public class FragmentHome extends Fragment {
 
         LinearLayout todolist_pre = rootView.findViewById(R.id.todolist_pre);
 
-
         notice_pre.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -44,7 +43,7 @@ public class FragmentHome extends Fragment {
 
                 FragmentNotice fragmentNotice = new FragmentNotice();
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.content_frame, fragmentNotice); // R.id.content_frame는 FragmentNotice를 추가할 컨테이너 ID
+                transaction.replace(R.id.content_frame, fragmentNotice);    // R.id.content_frame는 FragmentNotice를 추가할 컨테이너 ID
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
@@ -73,10 +72,8 @@ public class FragmentHome extends Fragment {
                 transaction.replace(R.id.content_frame, fragmentToDoList);
                 transaction.addToBackStack(null);
                 transaction.commit();
-
             }
         });
         return rootView;
     }
-
 }

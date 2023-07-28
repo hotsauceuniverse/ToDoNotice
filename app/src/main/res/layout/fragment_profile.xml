@@ -11,29 +11,34 @@
     android:id="@+id/profile_layout"
     >
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/profile_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:elevation="5dp"
-        android:background="@color/white"
-        app:contentInsetStart="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        >
+<!--    Toolbar안에 뷰를 넣다보면 왼쪽 부분이 조금 비어있는 것을 확인할 수 있는데, 이는 Toolbar에 기본으로 왼쪽 margin이 16dp씩 들어가 있기 때문이다.-->
+<!--    android:contentInsetStart="0dp"-->
+<!--    app:contentInsetStart="0dp"-->
+<!--    를 넣어주면 왼쪽 margin이 없어지게 된다.-->
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="프로필"
-            android:textSize="24dp"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:textColor="@color/black"
-            />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/profile_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="5dp"
+            android:background="@color/white"
+            app:contentInsetStart="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            >
 
-    </androidx.appcompat.widget.Toolbar>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="프로필"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                />
+
+        </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"

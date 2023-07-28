@@ -11,77 +11,77 @@
     android:id="@+id/write_layout"
     >
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/write_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
-        android:elevation="5dp"
-        app:contentInsetStart="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/write_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            android:elevation="5dp"
+            app:contentInsetStart="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="글쓰기"
-            android:textColor="@color/black"
-            android:textSize="24dp"
-            android:textStyle="bold"
-            />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="글쓰기"
+                android:textColor="@color/black"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                />
 
-        <ImageView
-            android:id="@+id/close_btn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/close_img"
-            android:layout_marginLeft="16dp"
-            />
+            <ImageView
+                android:id="@+id/close_btn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/close_img"
+                android:layout_marginLeft="16dp"
+                />
 
-        <TextView
-            android:id="@+id/upload_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="업로드"
-            android:textSize="20dp"
-            android:textColor="#D1D1D1"
-            android:layout_gravity="end"
-            android:layout_marginRight="17dp"
-            />
+            <TextView
+                android:id="@+id/upload_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="업로드"
+                android:textSize="20dp"
+                android:textColor="#D1D1D1"
+                android:layout_gravity="end"
+                android:layout_marginRight="17dp"
+                />
 
-    </androidx.appcompat.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
-        android:id="@+id/write_content"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/white"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/write_toolbar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        >
+        <LinearLayout
+            android:id="@+id/write_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/write_toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
 
 <!--        Toolbar 바로 밑에 LinearLayout 위치 시키려면-->
 <!--        android:layout_height="0dp"-->
 <!--        app:layout_constraintTop_toBottomOf="@+id/"-->
 <!--        app:layout_constraintBottom_toBottomOf="parent"-->
 
-        <EditText
-            android:id="@+id/context_area"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="생각나는 이야기를 자유롭게 적어보세요. :)"
-            android:maxLength="1000"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:inputType="textMultiLine|textNoSuggestions"
-            android:backgroundTint="@android:color/transparent"
-            />
+            <EditText
+                android:id="@+id/context_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="생각나는 이야기를 자유롭게 적어보세요. :)"
+                android:maxLength="1000"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:inputType="textMultiLine|textNoSuggestions"
+                android:backgroundTint="@android:color/transparent"
+                />
 
-    </LinearLayout>
+        </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
