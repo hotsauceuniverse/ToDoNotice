@@ -9,10 +9,14 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 import android.Manifest;
 
@@ -35,8 +39,8 @@ public class FragmentProfile extends Fragment {
     private static final int REQUEST_CAMERA_PERMISSION_CODE = 100;
     private CircleImageView profileImageView;
     private int Default_profile = R.drawable.default_profile;
-
-
+    Button profile_edit_button;
+    private  EditText nicknameEditText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,7 +56,40 @@ public class FragmentProfile extends Fragment {
                 showImagePickerDialog();
             }
         });
+
+        // 프로필 버튼 색상 변경
+        nicknameEditText = rootView.findViewById(R.id.nickname);
+        profile_edit_button = rootView.findViewById(R.id.profile_edit_button);
+        updateButtonColor();
+
+        nicknameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                updateButtonColor();
+            }
+        });
         return rootView;
+    }
+
+    private void updateButtonColor() {
+        String nickname = nicknameEditText.getText().toString().trim();
+        if(!TextUtils.isEmpty(nickname)) {
+            int iphone_pink = ContextCompat.getColor(getContext(), R.color.iphone_pink);
+            profile_edit_button.setBackgroundColor(iphone_pink);
+        } else {
+            int gray = ContextCompat.getColor(getContext(), R.color.android_top_bar);
+            profile_edit_button.setBackgroundColor(gray);
+        }
     }
 
 
@@ -150,8 +187,6 @@ public class FragmentProfile extends Fragment {
             }
         }
     }
-
-
 
     // 이미지 크롭 https://g-y-e-o-m.tistory.com/48
     private void performCrop(Uri imageUri) {

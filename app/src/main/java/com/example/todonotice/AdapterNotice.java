@@ -17,11 +17,13 @@ public class AdapterNotice extends RecyclerView.Adapter<AdapterNotice.ViewHolder
 
     // Alt + Insert
     // Constructor
+    // 생성자에서 데이터 리스트 객체를 전달받음
     public AdapterNotice(ArrayList<NoticeData> arrayList) {
         this.arrayList = arrayList;
     }
 
     // Implement Methods
+    // 아이템 뷰를 위한 뷰홀더 객체 생성 후 리턴
     @NonNull
     @Override
     public AdapterNotice.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -31,6 +33,7 @@ public class AdapterNotice extends RecyclerView.Adapter<AdapterNotice.ViewHolder
         return viewHolder;
     }
 
+    // position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시
     @Override
     public void onBindViewHolder(@NonNull AdapterNotice.ViewHolder holder, int position) {
         holder.profile_img.setImageResource(arrayList.get(position).getProfile_img());
@@ -49,12 +52,14 @@ public class AdapterNotice extends RecyclerView.Adapter<AdapterNotice.ViewHolder
         });
     }
 
+    // 전체 데이터 갯수 리턴
     @Override
     public int getItemCount() {
         // 글 추가할 때 리스트 뷰가 추가되는 부분
         return arrayList.size();
     }
 
+    // 아이템 뷰를 저장하는 뷰홀더 클래스
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         AppCompatTextView user_id_tv;

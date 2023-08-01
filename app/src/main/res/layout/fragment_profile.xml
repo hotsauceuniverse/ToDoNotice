@@ -80,7 +80,7 @@
             android:textSize="18dp"
             />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <Button
             android:id="@+id/profile_edit_button"
             android:layout_width="300dp"
             android:layout_height="50dp"

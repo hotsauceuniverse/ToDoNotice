@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private FragmentHome fragmentHome = new FragmentHome();
     private FragmentToDoList fragmentToDoList = new FragmentToDoList();
-    private NoticeActivity fragmentNotice = new NoticeActivity();
+    private FragmentNoticeOutline fragmentNotice = new FragmentNoticeOutline();
     private FragmentProfile fragmentProfile = new FragmentProfile();
 
     @Override

@@ -1,6 +1,9 @@
 package com.example.todonotice;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -8,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -16,6 +20,8 @@ public class WriteActivity extends AppCompatActivity {
     ImageView close_btn;
     TextView upload_btn;
     EditText context_area;
+    ImageView add_file;
+    private static final int REQUEST_GALLERY = 22;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +63,32 @@ public class WriteActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // 글쓰기 사진 업로드
+        add_file = findViewById(R.id.add_file);
+        add_file.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                writeOpenGallery();
+            }
+        });
+    }
+
+    private void writeOpenGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent, "Select Picure"), REQUEST_GALLERY);
+    }
+
+    // 이미지 선택 결과 처리
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK) {
+            if(requestCode == REQUEST_GALLERY && data != null) {
+                Uri selectedImage = data.getData();
+            }
+        }
     }
 }
 
