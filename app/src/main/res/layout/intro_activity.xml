@@ -80,6 +80,7 @@
                 >
 
                 <Button
+                    android:id="@+id/kakao_login"
                     android:drawableLeft="@drawable/kakao_button_resize"
                     android:layout_marginTop="24dp"
                     android:paddingLeft="13dp"
@@ -94,6 +95,7 @@
                     />
     +
                 <Button
+                    android:id="@+id/google_login"
                     android:drawableLeft="@drawable/google_button_resize"
                     android:layout_marginTop="10dp"
                     android:paddingLeft="13dp"

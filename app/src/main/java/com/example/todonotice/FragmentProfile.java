@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
 
@@ -25,7 +27,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.kakao.sdk.user.UserApiClient;
+import com.kakao.sdk.user.model.User;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+import kotlin.jvm.functions.Function2;
+
 
 // Fragment와 Activity에서 버튼이벤트를 발생시키는것은 조금 다르다. (Fragment는 android:onClick)를 사용x)
 // 프래그먼트에서는 OnClickListener를 상속받아서 구현해줘야함.
@@ -40,7 +50,10 @@ public class FragmentProfile extends Fragment {
     private CircleImageView profileImageView;
     private int Default_profile = R.drawable.default_profile;
     Button profile_edit_button;
-    private  EditText nicknameEditText;
+    private EditText nicknameEditText;
+    private EditText nickname;
+    private TextView logOut;
+    private TextView deleteAccount;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,6 +71,7 @@ public class FragmentProfile extends Fragment {
         });
 
         // 프로필 버튼 색상 변경
+        nickname = rootView.findViewById(R.id.nickname);
         nicknameEditText = rootView.findViewById(R.id.nickname);
         profile_edit_button = rootView.findViewById(R.id.profile_edit_button);
         updateButtonColor();
@@ -78,20 +92,92 @@ public class FragmentProfile extends Fragment {
                 updateButtonColor();
             }
         });
+
+        // 로그아웃
+        logOut = rootView.findViewById(R.id.log_out);
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserApiClient.getInstance().logout(new Function1<Throwable, Unit>() {
+                    @Override
+                    public Unit invoke(Throwable throwable) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage("로그아웃 할까요?");
+                        builder.setPositiveButton("네!", new DialogInterface.OnClickListener() {
+                            // 인트로 화면으로 이동
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(getActivity(), IntroActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+
+                        builder.setNegativeButton("아니요!", new DialogInterface.OnClickListener() {
+                            // Alert창 닫기
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // 프로필 화면만 유지하면 됨
+                            }
+                        });
+
+                        return null;
+                    }
+                });
+            }
+        });
+
+        // 회원 탈퇴
+        deleteAccount = rootView.findViewById(R.id.delete_account);
+
+        profileImageConnect();
+
         return rootView;
     }
 
+
+
     private void updateButtonColor() {
-        String nickname = nicknameEditText.getText().toString().trim();
-        if(!TextUtils.isEmpty(nickname)) {
+        String currentNickname = nicknameEditText.getText().toString().trim();
+        // 기존 닉네임 저장
+        String originNickname = "";
+
+        // 로그인 시, 받아온 닉네임일 경우 변경버튼 = 회색
+        // 기존 닉네임에서 수정 할 경우 = 핑크색
+        if(!TextUtils.isEmpty(currentNickname) && !currentNickname.equals(originNickname)) {
             int iphone_pink = ContextCompat.getColor(getContext(), R.color.iphone_pink);
+            Drawable shapeDrawableOn = getResources().getDrawable(R.drawable.profile_edit_button_on);
             profile_edit_button.setBackgroundColor(iphone_pink);
+            profile_edit_button.setBackground(shapeDrawableOn);
         } else {
             int gray = ContextCompat.getColor(getContext(), R.color.android_top_bar);
+            Drawable shapeDrawableOff = getResources().getDrawable(R.drawable.profile_edit_button_off);
             profile_edit_button.setBackgroundColor(gray);
+            profile_edit_button.setBackground(shapeDrawableOff);
         }
     }
 
+    // 로그인 후 프로필 사진, 닉네임 연동
+    private void profileImageConnect() {
+        UserApiClient.getInstance().me(new Function2<User, Throwable, Unit>() {
+            @Override
+            public Unit invoke(User user, Throwable throwable) {
+                // 프로필 이미지 설정
+                String profileImageUrl = user.getKakaoAccount().getProfile().getThumbnailImageUrl();
+                if(profileImageUrl != null && !profileImageUrl.isEmpty()) {
+                    Glide.with(requireContext())
+                            .load(profileImageUrl)
+                            .placeholder(R.drawable.default_profile)    // 기본이미지 설정
+                            .into(profileImageView);
+                } else {
+                    profileImageView.setImageResource(Default_profile);
+                }
+                // 닉네임 설정
+                String nickname = user.getKakaoAccount().getProfile().getNickname();
+                nicknameEditText.setText(nickname);
+                return null;
+            }
+        });
+    }
 
     private void showImagePickerDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
