@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,8 @@ public class FragmentProfile extends Fragment {
     private EditText nickname;
     private TextView logOut;
     private TextView deleteAccount;
+    // 기존 닉네임 저장
+    String originNickname ="";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,24 +77,6 @@ public class FragmentProfile extends Fragment {
         nickname = rootView.findViewById(R.id.nickname);
         nicknameEditText = rootView.findViewById(R.id.nickname);
         profile_edit_button = rootView.findViewById(R.id.profile_edit_button);
-        updateButtonColor();
-
-        nicknameEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                updateButtonColor();
-            }
-        });
 
         // 로그아웃
         logOut = rootView.findViewById(R.id.log_out);
@@ -135,14 +120,13 @@ public class FragmentProfile extends Fragment {
     }
 
 
-
     private void updateButtonColor() {
         String currentNickname = nicknameEditText.getText().toString().trim();
-        // 기존 닉네임 저장
-        String originNickname = "";
 
-        // 로그인 시, 받아온 닉네임일 경우 변경버튼 = 회색
-        // 기존 닉네임에서 수정 할 경우 = 핑크색
+        Log.e("asdww","TextUtils.isEmpty(currentNickname)   "+TextUtils.isEmpty(currentNickname));
+
+        // 프로필 사진 & 닉네임 변경 될 때 = 핑크색
+        // 초기 프로필 사진 & 초기 닉네임 일 때 = 회색
         if(!TextUtils.isEmpty(currentNickname) && !currentNickname.equals(originNickname)) {
             int iphone_pink = ContextCompat.getColor(getContext(), R.color.iphone_pink);
             Drawable shapeDrawableOn = getResources().getDrawable(R.drawable.profile_edit_button_on);
@@ -173,7 +157,24 @@ public class FragmentProfile extends Fragment {
                 }
                 // 닉네임 설정
                 String nickname = user.getKakaoAccount().getProfile().getNickname();
+                originNickname = nickname;
                 nicknameEditText.setText(nickname);
+                nicknameEditText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                        updateButtonColor();
+                    }
+                });
                 return null;
             }
         });

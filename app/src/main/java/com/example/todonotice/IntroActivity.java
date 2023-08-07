@@ -58,7 +58,7 @@ public class IntroActivity extends AppCompatActivity {
                 Log.e(TAG,"CallBack Method");
                 // oAuthToken != null 이면 로그인 성공
                 if(oAuthToken != null) {
-                    // 토근이 전달된다면 로그인이 성공한 것이고 토큰이 전달되지 않으면 로그인 실패
+                    // 토큰이 전달된다면 로그인이 성공한 것이고, 토큰이 전달되지 않으면 로그인 실패
                     updateKakaoLoginUi();
                 } else {
                     // 로그인 실패
