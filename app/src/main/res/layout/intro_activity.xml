@@ -109,16 +109,6 @@
                     android:textStyle="bold"
                     />
 
-                <TextView
-                    android:id="@+id/test"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="홈화면 보기(확인용)"
-                    android:textColor="@color/black"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    />
-
             </LinearLayout>
 
 </LinearLayout>

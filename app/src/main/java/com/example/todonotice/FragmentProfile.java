@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.User;
 
@@ -74,7 +75,7 @@ public class FragmentProfile extends Fragment {
         });
 
         // 프로필 버튼 색상 변경
-        nickname = rootView.findViewById(R.id.nickname);
+//        nickname = rootView.findViewById(R.id.nickname);
         nicknameEditText = rootView.findViewById(R.id.nickname);
         profile_edit_button = rootView.findViewById(R.id.profile_edit_button);
 
@@ -116,8 +117,23 @@ public class FragmentProfile extends Fragment {
 
         profileImageConnect();
 
+        // IntroActivity Google key값 전달
+        Intent intent = getActivity().getIntent();
+        String googleName = intent.getStringExtra("userName");
+        String googleImg = intent.getStringExtra("userPhoto");
+
+        // 사진, 닉네임 뷰 세팅
+        nicknameEditText.setText(googleName);
+        Glide.with(this).load(googleImg).into(profileImageView);
+
         return rootView;
     }
+
+    // 구글 로그인 후 프로필 사진, 닉네임 연동
+    private void googleAccountConnect() {
+
+    }
+
 
 
     private void updateButtonColor() {
@@ -140,7 +156,7 @@ public class FragmentProfile extends Fragment {
         }
     }
 
-    // 로그인 후 프로필 사진, 닉네임 연동
+    // 카카오 로그인 후 프로필 사진, 닉네임 연동
     private void profileImageConnect() {
         UserApiClient.getInstance().me(new Function2<User, Throwable, Unit>() {
             @Override
