@@ -55,38 +55,59 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <LinearLayout
-            android:id="@+id/write_content"
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/notice_feed"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/white"
-            android:orientation="vertical"
+            android:layout_weight="1"
+            android:fillViewport="true"
             app:layout_constraintTop_toBottomOf="@+id/write_toolbar"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/add_file_area"
             >
+
+            <LinearLayout
+                android:id="@+id/write_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                >
 
 <!--        Toolbar 바로 밑에 LinearLayout 위치 시키려면-->
 <!--        android:layout_height="0dp"-->
 <!--        app:layout_constraintTop_toBottomOf="@+id/"-->
 <!--        app:layout_constraintBottom_toBottomOf="parent"-->
 
-            <EditText
-                android:id="@+id/context_area"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="생각나는 이야기를 자유롭게 적어보세요. :)"
-                android:maxLength="10000"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:inputType="textMultiLine|textNoSuggestions"
-                android:backgroundTint="@android:color/transparent"
-                />
+                <EditText
+                    android:id="@+id/context_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="생각나는 이야기를 자유롭게 적어보세요. :)"
+                    android:maxLength="10000"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:inputType="textMultiLine|textNoSuggestions"
+                    android:backgroundTint="@android:color/transparent"
+                    />
 
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/image_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
         <!--첨부파일-->
         <LinearLayout
+            android:id="@+id/add_file_area"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal"
@@ -94,12 +115,12 @@
             >
 
             <ImageView
+                android:id="@+id/add_file"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/add_image"
                 android:layout_marginLeft="15dp"
-                android:id="@+id/add_file"
                 />
 
         </LinearLayout>

@@ -1,5 +1,6 @@
 package com.example.todonotice;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ public class AdapterNotice extends RecyclerView.Adapter<AdapterNotice.ViewHolder
     // 생성자에서 데이터 리스트 객체를 전달받음
     public AdapterNotice(ArrayList<NoticeData> arrayList) {
         this.arrayList = arrayList;
+        Log.d("arrayList", "arrayList" + arrayList);
     }
 
     // Implement Methods
@@ -30,6 +32,7 @@ public class AdapterNotice extends RecyclerView.Adapter<AdapterNotice.ViewHolder
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_notice, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
+        Log.d("viewHolder", "viewHolder" + viewHolder);
         return viewHolder;
     }
 
@@ -56,6 +59,7 @@ public class AdapterNotice extends RecyclerView.Adapter<AdapterNotice.ViewHolder
     @Override
     public int getItemCount() {
         // 글 추가할 때 리스트 뷰가 추가되는 부분
+        Log.d("arrayList.size", "arrayList.size" + arrayList.size());
         return arrayList.size();
     }
 
@@ -69,6 +73,7 @@ public class AdapterNotice extends RecyclerView.Adapter<AdapterNotice.ViewHolder
         protected ImageView comment_button;
         protected ImageView more_button;
 
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             user_id_tv = itemView.findViewById(R.id.user_id_tv);
@@ -77,6 +82,8 @@ public class AdapterNotice extends RecyclerView.Adapter<AdapterNotice.ViewHolder
             like_iv = itemView.findViewById(R.id.like_iv);
             comment_button = itemView.findViewById(R.id.comment_button);
             more_button = itemView.findViewById(R.id.more_button);
+
+            Log.d("itemView", "itemView" + itemView);
 
         }
     }
