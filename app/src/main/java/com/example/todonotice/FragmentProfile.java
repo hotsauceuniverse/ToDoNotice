@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.UserManager;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -29,7 +30,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.User;
 
@@ -53,11 +53,9 @@ public class FragmentProfile extends Fragment {
     private int Default_profile = R.drawable.default_profile;
     Button profile_edit_button;
     private EditText nicknameEditText;
-    private EditText nickname;
     private TextView logOut;
     private TextView deleteAccount;
-    // 기존 닉네임 저장
-    String originNickname ="";
+    String originNickname ="";  // 기존 닉네임 저장
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,7 +73,6 @@ public class FragmentProfile extends Fragment {
         });
 
         // 프로필 버튼 색상 변경
-//        nickname = rootView.findViewById(R.id.nickname);
         nicknameEditText = rootView.findViewById(R.id.nickname);
         profile_edit_button = rootView.findViewById(R.id.profile_edit_button);
 
@@ -84,28 +81,35 @@ public class FragmentProfile extends Fragment {
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // UserApiClient.getInstance().logout 메서드 내에서 예외 처리
                 UserApiClient.getInstance().logout(new Function1<Throwable, Unit>() {
                     @Override
                     public Unit invoke(Throwable throwable) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setMessage("로그아웃 할까요?");
-                        builder.setPositiveButton("네!", new DialogInterface.OnClickListener() {
-                            // 인트로 화면으로 이동
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent intent = new Intent(getActivity(), IntroActivity.class);
-                                startActivity(intent);
-                            }
-                        });
+                        if (throwable == null) {
+                            // 로그아웃에 성공한 경우
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage("로그아웃 할까요?");
+                            builder.setPositiveButton("네!", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Intent intent = new Intent(getActivity(), IntroActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
 
-                        builder.setNegativeButton("아니요!", new DialogInterface.OnClickListener() {
-                            // Alert창 닫기
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                // 프로필 화면만 유지하면 됨
-                            }
-                        });
+                            builder.setNegativeButton("아니요!", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // 프로필 화면만 유지하면 됨
+                                }
+                            });
 
+                            builder.show();
+                        } else {
+                            // 로그아웃에 실패한 경우
+                            Toast.makeText(getActivity(), "로그아웃에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                        // UserApiClient.getInstance().logout 메서드가 성공하면 throwable 파라미터는 null
                         return null;
                     }
                 });
@@ -114,7 +118,30 @@ public class FragmentProfile extends Fragment {
 
         // 회원 탈퇴
         deleteAccount = rootView.findViewById(R.id.delete_account);
+        deleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(getActivity())
+                        .setMessage("탈퇴하실껀가요..?")
+                        .setPositiveButton("네!", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
 
+                            }
+                        })
+                        .setNegativeButton("아니요!", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // 프로필 화면만 유지하면 됨
+                            }
+                        })
+                        .show();
+            }
+        });
+
+
+
+        // 카카오 로그인 후 프로필 사진, 닉네임 연동
         profileImageConnect();
 
         // IntroActivity Google key값 전달
@@ -133,8 +160,6 @@ public class FragmentProfile extends Fragment {
     private void googleAccountConnect() {
 
     }
-
-
 
     private void updateButtonColor() {
         String currentNickname = nicknameEditText.getText().toString().trim();

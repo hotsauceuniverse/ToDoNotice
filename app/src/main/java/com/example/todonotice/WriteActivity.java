@@ -1,6 +1,7 @@
 package com.example.todonotice;
 
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,16 +27,13 @@ public class WriteActivity extends AppCompatActivity {
 
     private static final String TAG = "Multiple Image";
     ArrayList<Uri> uriArrayList = new ArrayList<>();
-
-    // 이미지를 보여줄 recyclerView
-    RecyclerView img_recyclerView;
-
-    // recyclerView에 적용시킬 어댑터
-    AdapterWrite adapterWrite;
+    RecyclerView img_recyclerView;      // 이미지를 보여줄 recyclerView
+    AdapterWrite adapterWrite;          // recyclerView에 적용시킬 어댑터
     ImageView close_btn;
     TextView upload_btn;
     EditText context_area;
     ImageView add_file;
+    public static Context mContext;     // Activity 함수 호출
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +54,11 @@ public class WriteActivity extends AppCompatActivity {
         context_area = (EditText) findViewById(R.id.context_area);
         RecyclerView recyclerView = findViewById(R.id.img_recyclerView);
 
-        AdapterWrite adapter = new AdapterWrite(uriArrayList, getApplicationContext());
-        recyclerView.setAdapter(adapter);
+        adapterWrite = new AdapterWrite(uriArrayList, getApplicationContext());
+        recyclerView.setAdapter(adapterWrite);
 
         // RecyclerView에 이미지 추가될 때의 리스너 설정
-        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        adapterWrite.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
                 super.onChanged();
@@ -99,11 +97,18 @@ public class WriteActivity extends AppCompatActivity {
             }
         });
         img_recyclerView = findViewById(R.id.img_recyclerView);
+
+        // Activity 함수 호출 (싱글톤 패턴 알아보기)
+        mContext = this;
     }
 
-    private void updateUploadButton() {
+    // AdapterWrite 함수 연결
+    void updateUploadButton() {
         boolean isImagesAdded = uriArrayList.size() > 0;
         boolean isTextNotEmpty = context_area.getText().length() > 0;
+
+        Log.e("isImagesAdded", "isImagesAdded" + isImagesAdded);
+        Log.e("arrayList.size", "arrayList.size" + uriArrayList.size());
 
         upload_btn.setEnabled(isImagesAdded || isTextNotEmpty);
         upload_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), isImagesAdded || isTextNotEmpty ? R.color.iphone_pink : R.color.android_top_bar));
@@ -117,14 +122,13 @@ public class WriteActivity extends AppCompatActivity {
         // 어떤 이미지도 선택하지 않은 경우
         if(data == null) {
             Toast.makeText(getApplicationContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_SHORT).show();
+            Log.e("no image", String.valueOf(data.getData()));
         } else {
             // 이미지를 하나라도 선택한 경우
             if(data.getClipData() == null) {    // 이미지를 하나만 선택한 경우
-                Log.e("single choice : ", String.valueOf(data.getData()));
+                Log.e("one image ", String.valueOf(data.getData()));
                 Uri imageUri = data.getData();
                 uriArrayList.add(imageUri);
-
-                updateUploadButton();
 
                 adapterWrite = new AdapterWrite(uriArrayList, getApplicationContext());
                 img_recyclerView.setAdapter(adapterWrite);
@@ -142,7 +146,6 @@ public class WriteActivity extends AppCompatActivity {
 
                     for(int i = 0; i < clipData.getItemCount(); i++) {
                         Uri imageUri = clipData.getItemAt(i).getUri();  // 선택한 이미지들의 uri를 가져옴
-                        updateUploadButton();
 
                         try {
                             uriArrayList.add(imageUri);     // uri를 list에 담는다
@@ -154,6 +157,8 @@ public class WriteActivity extends AppCompatActivity {
                     adapterWrite = new AdapterWrite(uriArrayList, getApplicationContext());
                     img_recyclerView.setAdapter(adapterWrite);  // recyclerView에 adapter 세팅
                     img_recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,true));    // recyclerView 수직 스크롤 적용
+
+                    updateUploadButton();
                 }
             }
         }

@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-// 출처 https://stickode.tistory.com/61
+// 출처 : https://stickode.tistory.com/61
 public class AdapterWrite extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<Uri> mData = null;
@@ -88,6 +88,10 @@ public class AdapterWrite extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     mData.remove(clickedPosition); // 해당 이미지 삭제
                     notifyItemRemoved(clickedPosition);
                     notifyItemRangeChanged(clickedPosition, mData.size());
+
+                    // WriteActivity의 외부함수 호출
+                    // 출처 : https://itmining.tistory.com/15
+                    ((WriteActivity)WriteActivity.mContext).updateUploadButton();
                 }
             }
         });
