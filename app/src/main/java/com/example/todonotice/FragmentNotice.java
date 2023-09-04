@@ -41,6 +41,9 @@ public class FragmentNotice extends Fragment {
         builder.setView(dialogView);
 
         final AlertDialog alertDialog = builder.create();
+        ViewGroup.LayoutParams params = alertDialog.getWindow().getAttributes();
+        params.width = 20;
+        params.height = 20;
         alertDialog.show();
 
         // 복사하기 버튼 클릭 리스너
@@ -70,7 +73,5 @@ public class FragmentNotice extends Fragment {
             }
         });
     }
-
-
 }
 
