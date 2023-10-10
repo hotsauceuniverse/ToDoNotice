@@ -1,173 +1,148 @@
 package com.example.todonotice;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
 
 //  Activity에서 Fragment로 옮길때 변경사항
 //  1. onCreate() 메서드를 onCreateView()로 변경하여 프래그먼트 뷰를 생성하고 반환
 //  2. findViewById() 호출을 rootView.findById()로 변경 ( rootView는 onCreateView() 메서드에서 반환한 뷰 )
-//  3. openFileInput() 및 openFileOutput() 메서드를 requireContext().openFileInput() 및 requireContext().openFileOutput()로 변경
-//  4. 파일 작성 모드를 Context.MODE_PRIVATE로 변경
+
 
 public class FragmentToDoList extends Fragment {
 
-    public String readDay = null;
-    public String str = null;
-    public CalendarView calendar;
-    public Button save_button, edit_button, delete_button;
-    public TextView diaryTextView, textView;
-    public EditText contextEditText;
+    TextView monthYearText; // 년월 텍스트뷰
+    ImageView pre_Btn, next_Btn;
+    RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_todolist, container, false);
 
-        calendar = rootView.findViewById(R.id.calendar);
-        diaryTextView = rootView.findViewById(R.id.diaryTextView);
-        save_button = rootView.findViewById(R.id.save_button);
-        delete_button = rootView.findViewById(R.id.delete_button);
-        edit_button = rootView.findViewById(R.id.edit_button);
-        textView = rootView.findViewById(R.id.textView2);
-        contextEditText = rootView.findViewById(R.id.contextEditText);
+        // 초기화
+        monthYearText = rootView.findViewById(R.id.monthYear_tv);
+        pre_Btn = rootView.findViewById(R.id.pre_btn);
+        next_Btn = rootView.findViewById(R.id.next_btn);
+        recyclerView = rootView.findViewById(R.id.recyclerView);
 
-        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        // 현재 날짜 (now에서 API level 26 (current minSdk is 21) 올리기)
+        CalendarUtil.selectDate = LocalDate.now();
+
+        // 화면 설정
+        setMonthView();
+
+        // 이전달 버튼 이벤트
+        pre_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
-                diaryTextView.setVisibility(View.VISIBLE);
-                save_button.setVisibility(View.VISIBLE);
-                contextEditText.setVisibility(View.VISIBLE);
-                textView.setVisibility(View.INVISIBLE);
-                edit_button.setVisibility(View.INVISIBLE);
-                delete_button.setVisibility(View.INVISIBLE);
-                diaryTextView.setText(String.format("%d / %d / %d", year, month + 1, dayOfMonth));
-                contextEditText.setText("");
-                checkDay(year, month, dayOfMonth);
+            public void onClick(View view) {
+                // -1한 월을 넣어준다 (2월 -> 1월)
+                CalendarUtil.selectDate = CalendarUtil.selectDate.minusMonths(1);
+                Log.d("pre_btn", "pre_btn" + CalendarUtil.selectDate);
+                setMonthView();
             }
         });
 
-        save_button.setOnClickListener(new View.OnClickListener() {
+        // 다음달 버튼 이벤트
+        next_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveDiary(readDay);
-                str = contextEditText.getText().toString();
-                textView.setText(str);
-                save_button.setVisibility(View.INVISIBLE);
-                edit_button.setVisibility(View.VISIBLE);
-                delete_button.setVisibility(View.VISIBLE);
-                contextEditText.setVisibility(View.INVISIBLE);
-                textView.setVisibility(View.VISIBLE);
+                // +1한 월을 넣어준다 (2월 -> 3월)
+                CalendarUtil.selectDate = CalendarUtil.selectDate.plusMonths(1);
+                Log.d("next_btn", "next_btn" + CalendarUtil.selectDate);
+                setMonthView();
             }
         });
         return rootView;
     }
 
-    // 선택 날짜에 해당하는 일정 검색
-    public void checkDay(int cYear, int cMonth, int cDay) {
-        readDay = "" + cYear + "-" + (cMonth + 1) + "" + "-" + cDay + ".txt";	// 저장할 파일 이름 설정
-        FileInputStream fileInputStream;	// 파일 읽기 선언
+    // 날짜 타입 설정
+    private String yearMonthFormDate(LocalDate date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월");
+        return date.format(formatter);
+    }
 
-        // 선택한 일정 파일 열고 데이터 읽기
-        // fileData 배열에 저장
-        try {
-            fileInputStream = requireContext().openFileInput(readDay);
+    // 화면 설정
+    private void setMonthView() {
+        // 년월 텍스트뷰 셋팅
+        monthYearText.setText(yearMonthFormDate(CalendarUtil.selectDate));
 
-            byte[] fileData = new byte[fileInputStream.available()];
-            fileInputStream.read(fileData);
-            fileInputStream.close();
+        // 해당 월 날짜 가져오기
+        ArrayList<LocalDate> dayList = daysInMonthArray(CalendarUtil.selectDate);
 
-            str = new String(fileData);
+        // 어뎁터 데이터 적용
+        CalendarAdapter adapter = new CalendarAdapter(dayList);
 
-            contextEditText.setVisibility(View.INVISIBLE);
-            textView.setVisibility(View.VISIBLE);
-            textView.setText(str);
+        // 레이아웃 설정(열 7개)
+        RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 7);
 
-            save_button.setVisibility(View.INVISIBLE);
-            edit_button.setVisibility(View.VISIBLE);
-            delete_button.setVisibility(View.VISIBLE);
+        // 레이아웃 적용
+        recyclerView.setLayoutManager(manager);
 
-            edit_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    contextEditText.setVisibility(View.VISIBLE);
-                    textView.setVisibility(View.INVISIBLE);
-                    contextEditText.setText(str);
+        // 어뎁터 적용
+        recyclerView.setAdapter(adapter);
+    }
 
-                    save_button.setVisibility(View.VISIBLE);
-                    edit_button.setVisibility(View.INVISIBLE);
-                    delete_button.setVisibility(View.INVISIBLE);
-                    textView.setText(contextEditText.getText());
+    // 날짜 생성
+    private ArrayList<LocalDate> daysInMonthArray(LocalDate date) {
+        ArrayList<LocalDate> dayList = new ArrayList<>();
+
+        // LocalDate에서 연도와 월 가져오기
+        YearMonth yearMonth = YearMonth.from(date);
+
+        // 해당 월 마지막 날짜 가져오기 (예 : 29, 30, 31)
+        int lastDay = yearMonth.lengthOfMonth();
+
+        // 해당 월의 첫 번째 날 가져오기 (예 : 4월 1일)
+        LocalDate firstDay = CalendarUtil.selectDate.withDayOfMonth(1);
+
+        // 월의 첫 번째 날 요일 가져오기 (예 : 월 = 1, 일 = 7)
+        int dayOfWeek = firstDay.getDayOfWeek().getValue();
+
+        // 첫 주에 공백을 추가하는 대신, 1일이 일요일로 시작하는 경우
+        // 마지막 주에서 남은 날짜를 추가하기
+        if (dayOfWeek == 7) {   // 1일이 일요일로 시작하는 경우
+            int remainingDays = lastDay;    // 초기화
+            for (int i = 1; i <= lastDay; i++) {
+                dayList.add(firstDay.plusDays(i - 1));
+                remainingDays--;
+            }
+            // 추가되지 않은 나머지 날짜에 대한 공백을 dayList에 추가하기
+            while (remainingDays > 0) {
+                dayList.add(null);
+                remainingDays--;
+            }
+        } else {
+            // 그 외의 경우에는 이전과 같이 첫 주에 공백을 추가하기
+            // 날짜 생성 (6주 = 42)
+            for (int i = 1; i < 42; i++) {
+                if (i <= dayOfWeek || i > lastDay + dayOfWeek) {
+                    dayList.add(null);
+                } else {
+                    dayList.add(firstDay.plusDays(i - dayOfWeek - 1));
                 }
-            });
-
-            delete_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    textView.setVisibility(View.INVISIBLE);
-                    contextEditText.setText("");
-                    contextEditText.setVisibility(View.VISIBLE);
-                    save_button.setVisibility(View.VISIBLE);
-                    edit_button.setVisibility(View.INVISIBLE);
-                    delete_button.setVisibility(View.INVISIBLE);
-                    removeDiary(readDay);
-                }
-            });
-
-            if (textView.getText() == null) {
-                textView.setVisibility(View.INVISIBLE);
-                diaryTextView.setVisibility(View.VISIBLE);
-                save_button.setVisibility(View.VISIBLE);
-                edit_button.setVisibility(View.INVISIBLE);
-                delete_button.setVisibility(View.INVISIBLE);
-                contextEditText.setVisibility(View.VISIBLE);
             }
         }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    //    참고 : https://c-an.tistory.com/13
-    //    Activity.java에서는 MODE_NO_LOCALIZED_COLLATORS : Database open flag: when set, the database is opened without support for localized collator
-    //    Fragment.java에서는 MODE_PRIVATE : File creation mode: the default mode, where the created file can only be accessed by the calling application (or all applications sharing the same user ID).
-
-    @SuppressLint("WrongConstant")
-    public void removeDiary(String readDay) {
-        FileOutputStream fileOutputStream;
-        try {
-            fileOutputStream = requireContext().openFileOutput(readDay, Context.MODE_PRIVATE);
-            String content = "";
-            fileOutputStream.write(content.getBytes());
-            fileOutputStream.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @SuppressLint("WrongConstant")
-    public void saveDiary(String readDay) {
-        FileOutputStream fileOutputStream;
-        try {
-            fileOutputStream = requireContext().openFileOutput(readDay, Context.MODE_PRIVATE);
-            String content = contextEditText.getText().toString();
-            fileOutputStream.write(content.getBytes());
-            fileOutputStream.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        return dayList;
     }
 }
+
+
+
+
+
+
+
