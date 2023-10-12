@@ -11,103 +11,40 @@
     android:id="@+id/home_layout"
     >
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/home_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/white"
-            android:elevation="5dp"
-            app:contentInsetStart="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="홈"
-                android:textColor="@color/black"
-                android:textSize="24dp"
-                android:textStyle="bold"
-                />
-
-        </androidx.appcompat.widget.Toolbar>
-
-    <RelativeLayout
-        android:id="@+id/profile_section"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/home_toolbar"
         android:layout_width="match_parent"
-        app:layout_constraintVertical_weight="1"
-        android:layout_height="150dp"
-        app:layout_constraintEnd_toStartOf="@+id/todolist_section"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:elevation="5dp"
+        app:contentInsetStart="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/home_toolbar"
+        app:layout_constraintTop_toTopOf="parent"
         >
 
-        <LinearLayout
-            android:id="@+id/profile_area"
-            android:layout_width="match_parent"
-            android:layout_height="130dp"
-            android:orientation="vertical"
-            >
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="홈"
+            android:textColor="@color/black"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            />
 
-            <TextView
-                android:id="@+id/profile_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="프로필"
-                android:textSize="23dp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                />
-
-            <!-- vertical_center 찾아보기 -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile_pre"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="7dp"
-                    app:civ_border_width="1dp"
-                    app:civ_border_color="#000000"
-                    android:src="@drawable/default_profile"
-                    />
-
-<!--                <com.airbnb.lottie.LottieAnimationView-->
-<!--                    android:layout_width="70dp"-->
-<!--                    android:layout_height="70dp"-->
-<!--                    android:layout_marginTop="7dp"-->
-<!--                    android:layout_marginLeft="5dp"-->
-<!--                    app:lottie_fileName="stars.json"-->
-<!--                    app:lottie_autoPlay="true"-->
-<!--                    app:lottie_loop="true"-->
-<!--                    />-->
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <RelativeLayout
         android:id="@+id/todolist_section"
         android:layout_width="match_parent"
         app:layout_constraintVertical_weight="2"
         android:layout_height="200dp"
+        android:layout_marginTop="25dp"
         app:layout_constraintEnd_toStartOf="@+id/notice_section"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/profile_section"
-        app:layout_constraintTop_toBottomOf="@id/profile_section"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/home_toolbar"
         >
 
         <LinearLayout
@@ -187,7 +124,7 @@
         android:layout_width="match_parent"
         app:layout_constraintVertical_weight="2"
         android:layout_height="200dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/news_section"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/todolist_section"
         app:layout_constraintTop_toBottomOf="@id/todolist_section"
@@ -250,6 +187,86 @@
                     android:layout_width="match_parent"
                     android:layout_height="65dp"
                     android:text="예시 두번째 게시물"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:drawableLeft="@drawable/notice_dot_resize"
+                    android:gravity="center_vertical"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/news_section"
+        android:layout_width="match_parent"
+        app:layout_constraintVertical_weight="2"
+        android:layout_height="200dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/notice_section"
+        app:layout_constraintTop_toBottomOf="@id/notice_section"
+        >
+
+        <LinearLayout
+            android:id="@+id/news_area"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/news_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="오늘 뉴스"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@drawable/news_main_pre_resize"
+                android:drawablePadding="7dp"
+                />
+
+            <LinearLayout
+                android:id="@+id/news_pre"
+                android:layout_width="380dp"
+                android:layout_height="130dp"
+                android:layout_gravity="center"
+                android:background="@drawable/todolist_preview_shape"
+                android:elevation="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:id="@+id/news_first"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:text="예시 첫번째 뉴스"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:drawableLeft="@drawable/notice_dot_resize"
+                    android:gravity="center_vertical"
+                    />
+
+                <View
+                    android:layout_width="350dp"
+                    android:layout_height="1dp"
+                    android:background="#D1D1D1"
+                    android:layout_gravity="center"
+                    />
+
+                <TextView
+                    android:id="@+id/news_second"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:text="예시 두번째 뉴스"
                     android:textColor="@color/black"
                     android:textSize="20dp"
                     android:layout_marginLeft="20dp"

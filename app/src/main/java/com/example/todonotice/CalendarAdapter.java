@@ -1,5 +1,6 @@
 package com.example.todonotice;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -74,6 +75,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
                     String yearMonthDay = iYear + "년" + iMonth + "월" + iDay + "일";
 
                     Toast.makeText(holder.itemView.getContext(), yearMonthDay, Toast.LENGTH_SHORT).show();
+
+                    // ToDoList Layout 이동 (xml 만들어야함)
+
                 }
             }
         });

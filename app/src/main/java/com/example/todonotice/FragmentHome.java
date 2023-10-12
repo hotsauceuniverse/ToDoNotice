@@ -1,5 +1,6 @@
 package com.example.todonotice;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 public class FragmentHome extends Fragment {
 
     private Toolbar noticeToolbar, todolistToolbar;
+    private LinearLayout news_pre;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -22,6 +24,8 @@ public class FragmentHome extends Fragment {
         LinearLayout notice_pre = rootView.findViewById(R.id.notice_pre);
 
         LinearLayout todolist_pre = rootView.findViewById(R.id.todolist_pre);
+
+        news_pre = rootView.findViewById(R.id.news_pre);
 
         notice_pre.setOnClickListener(new View.OnClickListener() {
 
@@ -50,7 +54,6 @@ public class FragmentHome extends Fragment {
             }
         });
 
-
         todolist_pre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,6 +76,15 @@ public class FragmentHome extends Fragment {
                 transaction.replace(R.id.content_frame, fragmentToDoList);
                 transaction.addToBackStack(null);
                 transaction.commit();
+            }
+        });
+
+        // 뉴스 레이아웃으로 이동 (fragment -> activity)
+        news_pre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), NewsActivity.class);
+                startActivity(intent);
             }
         });
         return rootView;
