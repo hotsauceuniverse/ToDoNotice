@@ -68,4 +68,9 @@ dependencies {
 
     // Also declare the dependency for the Google Play services library and specify its version
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
+
+    implementation "androidx.cardview:cardview:1.0.0"   // cardView
+    implementation 'com.facebook.fresco:fresco:3.1.1'   // fresco
+    implementation "com.android.volley:volley:1.2.1"    // volley
+
 }
