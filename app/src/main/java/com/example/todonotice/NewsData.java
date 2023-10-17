@@ -31,5 +31,4 @@ public class NewsData implements Serializable {
     public void setContent(String content) {
         this.content = content;
     }
-
 }

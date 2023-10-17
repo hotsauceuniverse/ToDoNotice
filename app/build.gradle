@@ -70,7 +70,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
 
     implementation "androidx.cardview:cardview:1.0.0"   // cardView
-    implementation 'com.facebook.fresco:fresco:3.1.1'   // fresco
+    implementation 'com.facebook.fresco:fresco:2.6.0'   // fresco
     implementation "com.android.volley:volley:1.2.1"    // volley
 
 }

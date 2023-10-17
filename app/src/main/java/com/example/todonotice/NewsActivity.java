@@ -55,6 +55,7 @@ public class NewsActivity extends AppCompatActivity {
 
         // 1. 화면 로딩 -> 뉴스 정보 받기
         queue = Volley.newRequestQueue(this);
+        Log.d("queue", "queue" + queue);
         getNews();
     }
 
@@ -67,7 +68,7 @@ public class NewsActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("news", "news" + response);
+                        Log.d("news1", "news1" + response);
 
                         // JSON의 형태로 직접 가져오기
                         try {
@@ -83,7 +84,7 @@ public class NewsActivity extends AppCompatActivity {
                             for (int i = 0, j = arrayArticles.length(); i < j; i++) {
                                 JSONObject obj = arrayArticles.getJSONObject(i);
 
-                                Log.d("news", "news" + obj.toString());
+                                Log.d("news2", "news2" + obj.toString());
 
                                 NewsData newsData = new NewsData();
                                 newsData.setTitle(obj.getString("title"));
@@ -91,22 +92,38 @@ public class NewsActivity extends AppCompatActivity {
                                 newsData.setContent(obj.getString("content"));
 
                                 news.add(newsData);
+
+                                Log.d("newsData", "newsData" + newsData);
                             }
 
                             // 2. 정보 -> 어뎁터 넘기기
                             newsAdapter = new NewsAdapter(news, NewsActivity.this);
                             newsRecyclerView.setAdapter(newsAdapter);
 
+                            Log.d("newsAdapter", "newsAdapter" + newsAdapter);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
+
                 }, new Response.ErrorListener() {
+
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Log.d("newsData", "error" + error.toString());
+                Log.d("newsData", "error" + error.networkResponse.toString());
             }
-        });
+        }){
+            // BasinNetwork.performRequest results "Unexpected response code 403 for 에러코드
+            // header가 없어서 생기는 문제 -> onErrorResponse 여기로 떨어짐
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("User-Agent", "Mozilla/5.0");
+                return headers;
+            }
+        };
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
     }
