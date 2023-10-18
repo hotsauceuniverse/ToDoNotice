@@ -96,8 +96,21 @@ public class NewsActivity extends AppCompatActivity {
                                 Log.d("newsData", "newsData" + newsData);
                             }
 
+                            // news_cell의 가장 상위 LinearLayout을 탭 할 때 넘기는 방법 (tag쓰고 position값 가져오기)
+                            newsAdapter = new NewsAdapter(news, NewsActivity.this, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    if (view.getTag() != null) {
+//                                        int position = (int)view.getTag();
+//                                        ((NewsAdapter)newsAdapter).getNews(position);
+//                                        Intent intent = new Intent(NewsActivity.this, );
+
+//                                        startActivity(intent);
+                                    }
+                                }
+                            });
+
                             // 2. 정보 -> 어뎁터 넘기기
-                            newsAdapter = new NewsAdapter(news, NewsActivity.this);
                             newsRecyclerView.setAdapter(newsAdapter);
 
                             Log.d("newsAdapter", "newsAdapter" + newsAdapter);
