@@ -1,5 +1,7 @@
 package com.example.todonotice;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +36,10 @@ public class NewsActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     RequestQueue queue;
 
+
+    public static Context mContext;     // Activity 함수 호출
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +65,7 @@ public class NewsActivity extends AppCompatActivity {
         getNews();
     }
 
+    // 네트워크 요청을 보내고, 응답을 받은 후 JSON 데이터를 처리
     public void getNews() {
 
         String url = "https://newsapi.org/v2/top-headlines?country=kr&apiKey=ce563d897b6c46a6b2e5ee5f32a22b1f";
@@ -139,5 +146,6 @@ public class NewsActivity extends AppCompatActivity {
         };
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
+        mContext = this;
     }
 }
