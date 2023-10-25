@@ -2,6 +2,7 @@ package com.example.todonotice;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,6 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private List<NewsData> mDataset;
-
     private static View.OnClickListener onClickListener;
 
     public NewsAdapter(List<NewsData> myDataset, Context context, View.OnClickListener onClick) {
@@ -35,7 +35,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public NewsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        LinearLayout linearLayout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.news_cell,parent,false);
+        LinearLayout linearLayout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.news_cell, parent, false);
         ViewHolder viewHolder = new ViewHolder(linearLayout);
 
         return viewHolder;
@@ -47,7 +47,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         holder.title_Tv.setText(newsData.getTitle());
 
-        String content  = newsData.getContent();
+        String content = newsData.getContent();
         if (content != null && content.length() > 0) {
             holder.contents_Tv.setText(content);
         } else {
@@ -59,6 +59,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         // tag
         holder.rootView.setTag(position);
+        Log.d("NewsTag", "NewsTag" + position);
     }
 
     @Override
@@ -78,7 +79,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             title_Tv = view.findViewById(R.id.title_tv);
             contents_Tv = view.findViewById(R.id.contents_tv);
             news_Iv = view.findViewById(R.id.news_iv);
-            rootView =  view;
+            rootView = view;
 
             view.setClickable(true);
             view.setEnabled(true);

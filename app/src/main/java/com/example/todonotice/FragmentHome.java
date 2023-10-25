@@ -83,8 +83,7 @@ public class FragmentHome extends Fragment {
         news_pre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // NewsActivity -> ProgressBarActivity로 수정
-                Intent intent = new Intent(getActivity(), ProgressBarActivity.class);
+                Intent intent = new Intent(getActivity(), NewsActivity.class);
                 startActivity(intent);
             }
         });

@@ -2,6 +2,7 @@ package com.example.todonotice;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,9 +37,7 @@ public class NewsActivity extends AppCompatActivity {
     private RecyclerView.Adapter newsAdapter;
     private RecyclerView.LayoutManager layoutManager;
     RequestQueue queue;
-
-
-    public static Context mContext;     // Activity 함수 호출
+    LottieAnimationView loadingAnimation;
 
 
     @Override
@@ -55,6 +55,10 @@ public class NewsActivity extends AppCompatActivity {
 
         newsRecyclerView = findViewById(R.id.news_recyclerView);
 
+        // progressbar custom
+        // NewsActivity 내에서 ProgressBar를 표시하고 숨기기
+        loadingAnimation = findViewById(R.id.loading_animation);
+
         newsRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         newsRecyclerView.setLayoutManager(layoutManager);
@@ -62,6 +66,9 @@ public class NewsActivity extends AppCompatActivity {
         // 1. 화면 로딩 -> 뉴스 정보 받기
         queue = Volley.newRequestQueue(this);
         Log.d("queue", "queue" + queue);
+
+        loadingAnimation.setVisibility(View.VISIBLE);
+
         getNews();
     }
 
@@ -75,6 +82,9 @@ public class NewsActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
+                        loadingAnimation.setVisibility(View.INVISIBLE);
+
                         Log.d("news1", "news1" + response);
 
                         // JSON의 형태로 직접 가져오기
@@ -111,7 +121,7 @@ public class NewsActivity extends AppCompatActivity {
 //                                        int position = (int)view.getTag();
 //                                        ((NewsAdapter)newsAdapter).getNews(position);
 //                                        Intent intent = new Intent(NewsActivity.this, );
-
+//
 //                                        startActivity(intent);
                                     }
                                 }
@@ -119,7 +129,6 @@ public class NewsActivity extends AppCompatActivity {
 
                             // 2. 정보 -> 어뎁터 넘기기
                             newsRecyclerView.setAdapter(newsAdapter);
-
                             Log.d("newsAdapter", "newsAdapter" + newsAdapter);
 
                         } catch (JSONException e) {
@@ -133,6 +142,8 @@ public class NewsActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.d("newsData", "error" + error.toString());
                 Log.d("newsData", "error" + error.networkResponse.toString());
+
+                loadingAnimation.setVisibility(View.INVISIBLE);
             }
         }){
             // BasinNetwork.performRequest results "Unexpected response code 403 for 에러코드
@@ -146,6 +157,5 @@ public class NewsActivity extends AppCompatActivity {
         };
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
-        mContext = this;
     }
 }
