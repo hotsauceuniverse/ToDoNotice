@@ -58,6 +58,11 @@ public class IntroActivity extends AppCompatActivity implements GoogleApiClient.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.intro_activity);
 
+        // android default intro splash remove (build:gradle, theme,
+        // https://stackoverflow.com/questions/72003647/react-native-splash-screen-on-android-12
+        androidx.core.splashscreen.SplashScreen.installSplashScreen(this);
+        setTheme(R.style.Theme_ToDoNotice);
+
         Log.d("getKeyHash", "" + getKeyHash(IntroActivity.this));
 
         // 카카오가 설치되어 있는지 확인 하는 메서드또한 카카오에서 제공 콜백 객체를 이용함
