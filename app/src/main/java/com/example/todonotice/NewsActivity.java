@@ -1,8 +1,6 @@
 package com.example.todonotice;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -118,14 +116,31 @@ public class NewsActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View view) {
                                     if (view.getTag() != null) {
-//                                        int position = (int)view.getTag();
-//                                        ((NewsAdapter)newsAdapter).getNews(position);
-//                                        Intent intent = new Intent(NewsActivity.this, );
-//
-//                                        startActivity(intent);
+                                        int position = (int)view.getTag();
+                                        ((NewsAdapter)newsAdapter).getNews(position);
+                                        Intent intent = new Intent(NewsActivity.this, );
+
+                                        startActivity(intent);
                                     }
                                 }
                             });
+
+//                            newsAdapter = new NewsAdapter(news, NewsActivity.this, new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View view) {
+//                                    if (view.getTag() != null) {
+//                                        int position = (int) view.getTag();
+//                                        NewsData clickedNews = ((NewsAdapter) newsAdapter).getNews(position);
+//
+//                                        if (clickedNews != null) {
+//                                            // 뉴스 웹뷰 액티비티로 이동
+//                                            Intent intent = new Intent(NewsActivity.this, NewsWebView.class);
+//                                            intent.putExtra("urlToLoad", clickedNews.getUrlToImage()); // 웹뷰에 표시할 URL 전달
+//                                            startActivity(intent);
+//                                        }
+//                                    }
+//                                }
+//                            });
 
                             // 2. 정보 -> 어뎁터 넘기기
                             newsRecyclerView.setAdapter(newsAdapter);
