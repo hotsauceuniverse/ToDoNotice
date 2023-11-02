@@ -15,6 +15,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -45,13 +46,12 @@ import kotlin.jvm.functions.Function2;
 
 public class IntroActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
-    Button Kakao_Button;
+    RelativeLayout Kakao_Button, Google_login ;
     private static final String TAG_k = "KakaoLogin";
     private static final String TAG_G = "GoogleLogin";
     private FirebaseAuth firebaseAuth;                  // firebase 인증 객체
     private GoogleApiClient googleApiClient;            // 구글 API 클라이언트 객체
     private static final int REQ_SIGN_GOOGLE = 100;     // 구글 로그인 결과 코드
-    Button Google_login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
