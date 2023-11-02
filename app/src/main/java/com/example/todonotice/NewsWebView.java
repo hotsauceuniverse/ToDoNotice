@@ -13,14 +13,5 @@ public class NewsWebView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news_webview);
 
-//        WebView webView = findViewById(R.id.news_webView);
-//        Intent intent = getIntent();
-//        if (intent != null) {
-//            String urlToLoad = intent.getStringExtra("urlToLoad");
-//            if (urlToLoad != null) {
-//                // URL을 웹뷰에 로드
-//                webView.loadUrl(urlToLoad);
-//            }
-//        }
     }
 }
