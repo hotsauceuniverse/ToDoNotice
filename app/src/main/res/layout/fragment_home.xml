@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white"
-        android:elevation="5dp"
+        android:elevation="8dp"
         app:contentInsetStart="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,363 +28,562 @@
             android:layout_height="34dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:src="@drawable/home_img"
             />
 
     </androidx.appcompat.widget.Toolbar>
 
-    <RelativeLayout
-        android:id="@+id/todolist_section"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        app:layout_constraintVertical_weight="2"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toStartOf="@+id/notice_section"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/home_toolbar"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/home_toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
         >
 
         <LinearLayout
-            android:id="@+id/todolist_area"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             >
 
-            <TextView
-                android:id="@+id/todolist_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="오늘 할 일!"
-                android:textSize="18dp"
-                android:textColor="@color/black"
-                android:layout_marginLeft="16dp"
-                />
-
-            <LinearLayout
-                android:id="@+id/todolist_pre_1"
+            <RelativeLayout
+                android:id="@+id/todolist_section"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_gravity="center"
-                android:background="@drawable/todolist_preview_shape"
-                android:elevation="5dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
+                app:layout_constraintVertical_weight="2"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:layout_constraintEnd_toStartOf="@+id/notice_section"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/home_toolbar"
                 >
 
-                <TextView
-                    android:id="@+id/todolist_first"
-                    android:layout_width="220dp"
-                    android:layout_height="20dp"
-                    android:text="오늘 내가 해야 할 일 첫번째!"
-                    android:textColor="#333333"
-                    android:textSize="14dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_gravity="center_vertical"
-                    />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    />
-
                 <LinearLayout
-                    android:id="@+id/action_1_layout"
-                    android:layout_width="73dp"
-                    android:layout_height="39dp"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_marginRight="16dp"
+                    android:id="@+id/todolist_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:orientation="vertical"
                     >
 
                     <TextView
-                        android:id="@+id/action_1_btn"
+                        android:id="@+id/todolist_title"
                         android:layout_width="wrap_content"
-                        android:layout_height="19dp"
-                        android:text="ACTION"
-                        android:textSize="14dp"
-                        android:textStyle="bold"
-                        android:textColor="#6200EE"
-                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:text="오늘 할 일!"
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="16dp"
                         />
+
+                    <LinearLayout
+                        android:id="@+id/todolist_pre_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/todolist_preview_shape"
+                        android:elevation="6dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        >
+
+                        <TextView
+                            android:id="@+id/todolist_first"
+                            android:layout_width="220dp"
+                            android:layout_height="20dp"
+                            android:text="오늘 내가 해야 할 일 첫번째!"
+                            android:textColor="#333333"
+                            android:textSize="14dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/action_1_layout"
+                            android:layout_width="73dp"
+                            android:layout_height="39dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginRight="16dp"
+                            >
+
+                            <TextView
+                                android:id="@+id/action_1_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="19dp"
+                                android:text="ACTION"
+                                android:textSize="14dp"
+                                android:textStyle="bold"
+                                android:textColor="#6200EE"
+                                android:layout_gravity="center"
+                                />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/todolist_pre_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/todolist_preview_shape"
+                        android:elevation="6dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal"
+                        >
+
+                        <TextView
+                            android:id="@+id/todolist_second"
+                            android:layout_width="220dp"
+                            android:layout_height="20dp"
+                            android:text="오늘 내가 해야 할 일 두번째!"
+                            android:textColor="#333333"
+                            android:textSize="14dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/action_2_layout"
+                            android:layout_width="73dp"
+                            android:layout_height="39dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginRight="16dp"
+                            >
+
+                            <TextView
+                                android:id="@+id/action_2_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="19dp"
+                                android:text="ACTION"
+                                android:textSize="14dp"
+                                android:textStyle="bold"
+                                android:textColor="#6200EE"
+                                android:layout_gravity="center"
+                                />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/todolist_pre_2"
+            <RelativeLayout
+                android:id="@+id/notice_section"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_gravity="center"
-                android:background="@drawable/todolist_preview_shape"
-                android:elevation="5dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal"
-                >
-
-                <TextView
-                    android:id="@+id/todolist_second"
-                    android:layout_width="220dp"
-                    android:layout_height="20dp"
-                    android:text="오늘 내가 해야 할 일 두번째!"
-                    android:textColor="#333333"
-                    android:textSize="14dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_gravity="center_vertical"
-                    />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    />
-
-                <LinearLayout
-                    android:id="@+id/action_2_layout"
-                    android:layout_width="73dp"
-                    android:layout_height="39dp"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_marginRight="16dp"
-                    >
-
-                    <TextView
-                        android:id="@+id/action_2_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="19dp"
-                        android:text="ACTION"
-                        android:textSize="14dp"
-                        android:textStyle="bold"
-                        android:textColor="#6200EE"
-                        android:layout_gravity="center"
-                        />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/notice_section"
-        android:layout_width="match_parent"
-        app:layout_constraintVertical_weight="2"
-        android:layout_height="250dp"
-        app:layout_constraintEnd_toStartOf="@+id/news_section"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/todolist_section"
-        app:layout_constraintTop_toBottomOf="@id/todolist_section"
-        >
-
-        <LinearLayout
-            android:id="@+id/notice_area"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-
-            <TextView
-                android:id="@+id/notice_title"
-                android:layout_width="wrap_content"
+                app:layout_constraintVertical_weight="2"
                 android:layout_height="wrap_content"
-                android:text="게시판"
-                android:textSize="18dp"
-                android:textColor="#171717"
-                android:layout_marginLeft="16dp"
-                />
-
-            <LinearLayout
-                android:id="@+id/notice_pre"
-                android:layout_width="380dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:elevation="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/news_section"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/todolist_section"
+                app:layout_constraintTop_toBottomOf="@id/todolist_section"
                 >
 
                 <LinearLayout
-                    android:id="@+id/sub_lay_1"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/notice_area"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     >
 
                     <TextView
-                        android:id="@+id/sub_tv_1"
+                        android:id="@+id/notice_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="서브타이틀1"
-                        android:textColor="#333333"
+                        android:text="게시판"
+                        android:textSize="18dp"
+                        android:textColor="#171717"
+                        android:layout_marginLeft="16dp"
                         />
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/sub_con_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    >
-
-                    <TextView
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:id="@+id/notice_pre"
+                        android:layout_width="380dp"
                         android:layout_height="wrap_content"
-                        android:maxLines="2"
-                        android:ellipsize="end"
-                        android:text="취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용"
-                        android:textColor="#666666"
-                        android:textSize="14dp"
-                        />
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginTop="20dp"
+                        android:orientation="vertical"
+                        >
+
+                        <LinearLayout
+                            android:id="@+id/sub_lay_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            >
+
+                            <TextView
+                                android:id="@+id/sub_tv_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="서브타이틀1"
+                                android:textColor="#333333"
+                                android:textSize="16dp"
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/sub_con_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            >
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="2"
+                                android:ellipsize="end"
+                                android:text="취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용"
+                                android:textColor="#666666"
+                                android:textSize="14dp"
+                                />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#D1D1D1"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="12dp"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/sub_lay_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginTop="22dp"
+                            >
+
+                            <TextView
+                                android:id="@+id/sub_tv_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="서브타이틀2"
+                                android:textColor="#333333"
+                                android:textSize="16dp"
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/sub_con_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            >
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="2"
+                                android:ellipsize="end"
+                                android:text="취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용"
+                                android:textColor="#666666"
+                                android:textSize="14dp"
+                                />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#D1D1D1"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="12dp"
+                            />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#D1D1D1"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="12dp"
-                    />
+            </RelativeLayout>
 
-                <LinearLayout
-                    android:id="@+id/sub_lay_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="22dp"
-                    >
-
-                    <TextView
-                        android:id="@+id/sub_tv_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="서브타이틀2"
-                        android:textColor="#333333"
-                        />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/sub_con_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:maxLines="2"
-                        android:ellipsize="end"
-                        android:text="취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용취미내용"
-                        android:textColor="#666666"
-                        android:textSize="14dp"
-                        />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#D1D1D1"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="12dp"
-                    />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <!--    여기서 부터 수정 하면 됨   -->
-    <RelativeLayout
-        android:id="@+id/news_section"
-        android:layout_width="match_parent"
-        app:layout_constraintVertical_weight="2"
-        android:layout_height="200dp"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/notice_section"
-        app:layout_constraintTop_toBottomOf="@id/notice_section"
-        >
-
-        <LinearLayout
-            android:id="@+id/news_area"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:orientation="vertical"
-            >
-
-            <TextView
-                android:id="@+id/news_title"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/news_section"
+                android:layout_width="match_parent"
+                app:layout_constraintVertical_weight="2"
                 android:layout_height="wrap_content"
-                android:text="투데이 뉴스"
-                android:textSize="18dp"
-                android:textColor="@color/black"
-                android:layout_marginLeft="10dp"
-                />
-
-            <LinearLayout
-                android:id="@+id/news_pre"
-                android:layout_width="380dp"
-                android:layout_height="130dp"
-                android:layout_gravity="center"
-                android:background="@drawable/todolist_preview_shape"
-                android:elevation="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/notice_section"
+                app:layout_constraintTop_toBottomOf="@id/notice_section"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="25dp"
                 >
 
-                <TextView
-                    android:id="@+id/news_first"
+                <LinearLayout
+                    android:id="@+id/news_area"
                     android:layout_width="match_parent"
-                    android:layout_height="65dp"
-                    android:text="예시 첫번째 뉴스"
-                    android:textColor="@color/black"
-                    android:textSize="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:drawableLeft="@drawable/notice_dot_resize"
-                    android:gravity="center_vertical"
-                    />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
 
-                <View
-                    android:layout_width="350dp"
-                    android:layout_height="1dp"
-                    android:background="#D1D1D1"
-                    android:layout_gravity="center"
-                    />
+                    <TextView
+                        android:id="@+id/news_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="투데이 뉴스"
+                        android:textSize="18dp"
+                        android:textColor="#171717"
+                        android:layout_marginLeft="16dp"
+                        />
 
-                <TextView
-                    android:id="@+id/news_second"
-                    android:layout_width="match_parent"
-                    android:layout_height="65dp"
-                    android:text="예시 두번째 뉴스"
-                    android:textColor="@color/black"
-                    android:textSize="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:drawableLeft="@drawable/notice_dot_resize"
-                    android:gravity="center_vertical"
-                    />
+                    <LinearLayout
+                        android:id="@+id/news_pre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginTop="32dp"
+                        android:orientation="vertical"
+                        >
 
-            </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/news_lay_st"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            >
+
+                            <ImageView
+                                android:layout_width="100dp"
+                                android:layout_height="56dp"
+                                android:src="@drawable/example"
+                                android:layout_marginBottom="16dp"
+                                android:layout_marginRight="12dp"
+                                />
+
+                            <LinearLayout
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginLeft="12dp"
+                                >
+
+                                <TextView
+                                    android:id="@+id/news_first"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="기사제목1"
+                                    android:textColor="#333333"
+                                    android:textSize="16dp"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
+                                    android:layout_marginBottom="3dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용"
+                                    android:textSize="14dp"
+                                    android:textColor="#666666"
+                                    android:maxLines="2"
+                                    android:ellipsize="end"
+                                    android:layout_marginTop="3dp"
+                                    android:layout_marginBottom="12dp"
+                                    />
+
+                            </LinearLayout>
+
+                            <ImageView
+                                android:id="@+id/bookMark_st"
+                                android:layout_width="14dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/bookmark"
+                                android:layout_marginLeft="17dp"
+                                android:layout_marginTop="3dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#D1D1D1"
+                            android:layout_gravity="center"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/news_lay_nd"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp"
+                            >
+
+                            <ImageView
+                                android:layout_width="100dp"
+                                android:layout_height="56dp"
+                                android:src="@drawable/example"
+                                android:layout_marginBottom="16dp"
+                                android:layout_marginRight="12dp"
+                                />
+
+                            <LinearLayout
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginLeft="12dp"
+                                >
+
+                                <TextView
+                                    android:id="@+id/news_second"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="기사제목2"
+                                    android:textColor="#333333"
+                                    android:textSize="16dp"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
+                                    android:layout_marginBottom="3dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용"
+                                    android:textSize="14dp"
+                                    android:textColor="#666666"
+                                    android:maxLines="2"
+                                    android:ellipsize="end"
+                                    android:layout_marginTop="3dp"
+                                    android:layout_marginBottom="12dp"
+                                    />
+
+                            </LinearLayout>
+
+                            <ImageView
+                                android:id="@+id/bookMark_nd"
+                                android:layout_width="14dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/bookmark"
+                                android:layout_marginLeft="17dp"
+                                android:layout_marginTop="3dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#D1D1D1"
+                            android:layout_gravity="center"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/news_lay_rd"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp"
+                            >
+
+                            <ImageView
+                                android:layout_width="100dp"
+                                android:layout_height="56dp"
+                                android:src="@drawable/example"
+                                android:layout_marginBottom="16dp"
+                                android:layout_marginRight="12dp"
+                                />
+
+                            <LinearLayout
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginLeft="12dp"
+                                >
+
+                                <TextView
+                                    android:id="@+id/news_third"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="기사제목3"
+                                    android:textColor="#333333"
+                                    android:textSize="16dp"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
+                                    android:layout_marginBottom="3dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용"
+                                    android:textSize="14dp"
+                                    android:textColor="#666666"
+                                    android:maxLines="2"
+                                    android:ellipsize="end"
+                                    android:layout_marginTop="3dp"
+                                    android:layout_marginBottom="12dp"
+                                    />
+
+                            </LinearLayout>
+
+                            <ImageView
+                                android:id="@+id/bookMark_rd"
+                                android:layout_width="14dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/bookmark_resize"
+                                android:layout_marginLeft="17dp"
+                                android:layout_marginTop="3dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                />
+
+<!--                            android:background="@drawable/bookmark_custom"-->
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#D1D1D1"
+                            android:layout_gravity="center"
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
