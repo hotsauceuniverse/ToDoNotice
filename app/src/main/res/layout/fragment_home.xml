@@ -565,8 +565,6 @@
                                 android:focusable="true"
                                 />
 
-<!--                            android:background="@drawable/bookmark_custom"-->
-
                         </LinearLayout>
 
                         <View
