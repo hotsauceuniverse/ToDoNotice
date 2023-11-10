@@ -104,9 +104,12 @@ public class NewsActivity extends AppCompatActivity {
                                 NewsData newsData = new NewsData();
                                 newsData.setTitle(obj.getString("title"));
                                 newsData.setUrlToImage(obj.getString("urlToImage"));
-                                newsData.setContent(obj.getString("content"));
+//                                newsData.setDescription(obj.getString("description"));
 
-                                news.add(newsData);
+//                                처음부터 UrlToImage가 null인경우를 배열에서 제외시키는 방법
+                                if (!newsData.getUrlToImage().equals("null")) {
+                                    news.add(newsData);
+                                }
 
                                 Log.d("newsData", "newsData" + newsData);
                             }

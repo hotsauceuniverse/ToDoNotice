@@ -5,6 +5,7 @@
     android:layout_height="250dp"
     android:orientation="vertical"
     android:background="@color/white"
+    android:id="@+id/news_card"
     >
 
     <androidx.cardview.widget.CardView
@@ -30,32 +31,48 @@
                     android:layout_height="match_parent"
                     />
 
-                <TextView
-                    android:id="@+id/title_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:text="example"
-                    android:textSize="25dp"
-                    android:paddingLeft="10dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="#25000000"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    />
+<!--                뉴스 셀에서 본문 영역을 없애고 타이틀만 남겨놓음-->
+<!--                <TextView-->
+<!--                    android:id="@+id/title_tv"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="60dp"-->
+<!--                    android:text="example"-->
+<!--                    android:textSize="25dp"-->
+<!--                    android:paddingLeft="10dp"-->
+<!--                    android:layout_alignParentBottom="true"-->
+<!--                    android:background="#25000000"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:maxLines="1"-->
+<!--                    />-->
 
             </RelativeLayout>
 
+<!--            뉴스 셀에서 본문 영역을 없애고 타이틀만 남겨놓음-->
+<!--            <TextView-->
+<!--                android:id="@+id/contents_tv"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:text="example"-->
+<!--                android:textSize="18dp"-->
+<!--                android:paddingLeft="10dp"-->
+<!--                android:ellipsize="end"-->
+<!--                android:maxLines="2"-->
+<!--                />-->
+
             <TextView
-                android:id="@+id/contents_tv"
+                android:id="@+id/title_tv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="example"
                 android:textSize="18dp"
                 android:paddingLeft="10dp"
                 android:ellipsize="end"
-                android:maxLines="2"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:layout_margin="8dp"
+                android:gravity="center_vertical"
                 />
 
         </LinearLayout>

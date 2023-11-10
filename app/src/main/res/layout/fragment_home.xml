@@ -558,7 +558,7 @@
                                 android:id="@+id/bookMark_rd"
                                 android:layout_width="14dp"
                                 android:layout_height="18dp"
-                                android:src="@drawable/bookmark_resize"
+                                android:src="@drawable/bookmark"
                                 android:layout_marginLeft="17dp"
                                 android:layout_marginTop="3dp"
                                 android:clickable="true"
