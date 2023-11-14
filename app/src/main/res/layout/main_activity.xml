@@ -15,16 +15,22 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            />
+            >
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_nav"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            app:itemIconTint="@color/nav_color"
-            app:itemTextColor="@color/nav_color"
-            app:menu="@menu/menu"
-            android:background="@drawable/rounded"
-            />
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/bottom_nav"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    app:itemIconTint="@color/nav_color"
+                    app:menu="@menu/menu"
+                    android:background="@drawable/rounded"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="45dp"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginRight="23dp"
+                    app:labelVisibilityMode="unlabeled"
+                    />
+
+        </FrameLayout>
 
 </LinearLayout>

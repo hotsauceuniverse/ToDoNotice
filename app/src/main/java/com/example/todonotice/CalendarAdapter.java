@@ -1,8 +1,7 @@
 package com.example.todonotice;
 
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.LocalDate;
@@ -36,6 +36,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
     @Override
     public void onBindViewHolder(@NonNull CalenderViewHolder holder, int position) {
 
+        Drawable dateBackground = ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.date_background);
+
         // 날짜 변수에 담기
         LocalDate day = dayList.get(position);
 
@@ -45,20 +47,10 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
             holder.dayTv.setText(String.valueOf(day.getDayOfMonth()));
 
             // 오늘 날짜 색상 변경
-            if (day.equals(LocalDate.now())) {
-                holder.dayTv.setTextColor(Color.parseColor("#FF3B7D"));
-                holder.dayTv.setTypeface(null, Typeface.BOLD);
-            } else {
-                holder.dayTv.setTextColor(Color.BLACK);
-                holder.dayTv.setTypeface(null, Typeface.NORMAL);
+            if (day.equals(CalendarUtil.selectDate)) {
+                holder.dayTv.setTextColor(Color.parseColor("#ffffff"));
+                holder.parentView.setBackground(dateBackground);
             }
-        }
-
-        // 텍스트 색상 지정 (토요일, 일요일)
-        if ((position + 1) % 7 == 0) {  // 토요일
-            holder.dayTv.setTextColor(Color.parseColor("#0099CC"));
-        } else if (position == 0 || position % 7 == 0) {
-            holder.dayTv.setTextColor(Color.parseColor("#CC0000"));
         }
 
         // 날짜 클릭 이벤트

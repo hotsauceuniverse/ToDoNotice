@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/item_1"
-        android:title="@string/menu_home"
-        android:icon="@drawable/home"
+        android:icon="@drawable/home_off"
+        tools:ignore="MenuTitle"
         />
 
     <item
         android:id="@+id/item_2"
-        android:title="@string/menu_list"
-        android:icon="@drawable/list"
+        android:icon="@drawable/calendar_off"
+        tools:ignore="MenuTitle"
         />
 
     <item
         android:id="@+id/item_3"
-        android:title="@string/menu_notice"
-        android:icon="@drawable/notice"
+        android:icon="@drawable/diary_off"
+        tools:ignore="MenuTitle"
         />
 
     <item
         android:id="@+id/item_4"
-        android:title="@string/menu_profile"
-        android:icon="@drawable/profile"
+        android:icon="@drawable/user_off"
+        tools:ignore="MenuTitle"
         />
 
 </menu>

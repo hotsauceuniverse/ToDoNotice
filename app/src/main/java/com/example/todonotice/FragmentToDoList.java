@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 //  Activity에서 Fragment로 옮길때 변경사항
@@ -26,7 +27,6 @@ import java.util.ArrayList;
 public class FragmentToDoList extends Fragment {
 
     TextView monthYearText; // 년월 텍스트뷰
-    ImageView pre_Btn, next_Btn;
     RecyclerView recyclerView;
 
     @Override
@@ -35,8 +35,6 @@ public class FragmentToDoList extends Fragment {
 
         // 초기화
         monthYearText = rootView.findViewById(R.id.monthYear_tv);
-        pre_Btn = rootView.findViewById(R.id.pre_btn);
-        next_Btn = rootView.findViewById(R.id.next_btn);
         recyclerView = rootView.findViewById(R.id.recyclerView);
 
         // 현재 날짜 (now에서 API level 26 (current minSdk is 21) 올리기)
@@ -45,34 +43,14 @@ public class FragmentToDoList extends Fragment {
         // 화면 설정
         setMonthView();
 
-        // 이전달 버튼 이벤트
-        pre_Btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // -1한 월을 넣어준다 (2월 -> 1월)
-                CalendarUtil.selectDate = CalendarUtil.selectDate.minusMonths(1);
-                Log.d("pre_btn", "pre_btn" + CalendarUtil.selectDate);
-                setMonthView();
-            }
-        });
 
-        // 다음달 버튼 이벤트
-        next_Btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // +1한 월을 넣어준다 (2월 -> 3월)
-                CalendarUtil.selectDate = CalendarUtil.selectDate.plusMonths(1);
-                Log.d("next_btn", "next_btn" + CalendarUtil.selectDate);
-                setMonthView();
-            }
-        });
         return rootView;
     }
 
     // 날짜 타입 설정
     private String yearMonthFormDate(LocalDate date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월");
-        return date.format(formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy", Locale.KOREAN);
+        return date.format(formatter.withLocale(Locale.ENGLISH));
     }
 
     // 화면 설정

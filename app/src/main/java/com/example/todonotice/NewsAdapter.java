@@ -61,12 +61,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         holder.news_Iv.setImageURI(uri);    // 이미지 셋팅
 
 //        NewsActivity.java에서 처음부터 배열에서 제외시키는 방법으로 해결
-//        Log.e("aaa","uri   "+uri);
+//        Log.e("aaa", "uri   " + uri);
 //        if (!uri.toString().equals("null") ) {
-//            Log.e("aaa","uri1   "+uri);
+//            Log.e("aaa","uri1   " + uri);
 //            holder.newsCard.setVisibility(View.VISIBLE);
 //        } else {
-//            Log.e("aaa","uri2   "+uri);
+//            Log.e("aaa", "uri2   " + uri);
+//            Log.e("sss", "newsData" + newsData);
 //            holder.newsCard.setVisibility(View.GONE);
 //        }
 
@@ -83,7 +84,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView title_Tv;
-//        public TextView contents_Tv;
+        //        public TextView contents_Tv;
         public SimpleDraweeView news_Iv;
         public View rootView;
         public LinearLayout newsCard;

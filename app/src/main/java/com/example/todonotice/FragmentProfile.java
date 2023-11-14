@@ -139,8 +139,6 @@ public class FragmentProfile extends Fragment {
             }
         });
 
-
-
         // 카카오 로그인 후 프로필 사진, 닉네임 연동
         profileImageConnect();
 

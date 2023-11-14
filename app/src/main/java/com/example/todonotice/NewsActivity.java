@@ -110,7 +110,6 @@ public class NewsActivity extends AppCompatActivity {
                                 if (!newsData.getUrlToImage().equals("null")) {
                                     news.add(newsData);
                                 }
-
                                 Log.d("newsData", "newsData" + newsData);
                             }
 
