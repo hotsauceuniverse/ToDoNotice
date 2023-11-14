@@ -25,7 +25,7 @@
                     app:menu="@menu/menu"
                     android:background="@drawable/rounded"
                     android:layout_gravity="bottom"
-                    android:layout_marginBottom="45dp"
+                    android:layout_marginBottom="24dp"
                     android:layout_marginLeft="23dp"
                     android:layout_marginRight="23dp"
                     app:labelVisibilityMode="unlabeled"
