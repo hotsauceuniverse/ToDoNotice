@@ -1,11 +1,16 @@
 package com.example.todonotice;
 
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,10 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Objects;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.CalenderViewHolder>{
 
     ArrayList<LocalDate> dayList;
+    Dialog dialog;
 
     public CalendarAdapter(ArrayList<LocalDate> dayList) {
         this.dayList = dayList;
@@ -29,6 +37,10 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         View view = inflater.inflate(R.layout.calendar_cell, parent, false);
+
+        dialog = new Dialog(parent.getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_todolist);
 
         return new CalenderViewHolder(view);
     }
@@ -60,17 +72,56 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
                 // 달력 빈 곳 클릭 했을 때 앱 꺼짐 방지
                 // NullPointerException 처리
                 if (day!= null) {
-                    int iYear = day.getYear(); // 년
-                    int iMonth = day.getMonthValue(); // 월
-                    int iDay = day.getDayOfMonth(); // 일
 
-                    String yearMonthDay = iYear + "년" + iMonth + "월" + iDay + "일";
+                    // 모달창 띄우기
+                    showDialog();
 
-                    Toast.makeText(holder.itemView.getContext(), yearMonthDay, Toast.LENGTH_SHORT).show();
-
-                    // ToDoList Layout 이동 (xml 만들어야함)
+//                    int iYear = day.getYear(); // 년
+//                    int iMonth = day.getMonthValue(); // 월
+//                    int iDay = day.getDayOfMonth(); // 일
+//
+//                    String yearMonthDay = iYear + "년" + iMonth + "월" + iDay + "일";
+//
+//                    Toast.makeText(holder.itemView.getContext(), yearMonthDay, Toast.LENGTH_SHORT).show();
 
                 }
+            }
+        });
+    }
+
+    private void showDialog() {
+//        dialog.show();
+//
+//        final Calendar calendarInstance = Calendar.getInstance();
+//        int hour = calendarInstance.get(Calendar.HOUR_OF_DAY);
+//        int min = calendarInstance.get(Calendar.MINUTE);
+//        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+//            @Override
+//            public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+//                if (timePicker.isShown()) {
+//                    calendarInstance.set(Calendar.HOUR_OF_DAY, hourOfDay);
+//                    calendarInstance.set(Calendar.MINUTE, minute);
+//                }
+//            }
+//        };
+//
+//        TimePickerDialog timePickerDialog = new TimePickerDialog(dialog.getContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar, onTimeSetListener, hour, min, true);
+//        Objects.requireNonNull(timePickerDialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+//        timePickerDialog.show();
+
+        Button noBtn = dialog.findViewById(R.id.no_btn);
+        noBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        Button yesBtn = dialog.findViewById(R.id.yes_btn);
+        yesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
             }
         });
     }
