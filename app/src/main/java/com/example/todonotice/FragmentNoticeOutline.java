@@ -35,11 +35,6 @@ public class FragmentNoticeOutline extends Fragment {
 
         // arrayList 초기화
         arrayList = new ArrayList<>();
-        // 샘플데이터 추가(삭제예정)
-        arrayList.add(new NoticeData(R.drawable.default_profile, R.drawable.ic_like_on, R.drawable.ic_comment_gray, R.drawable.ic_more_gray, "User123", "2023-08-10"));
-        arrayList.add(new NoticeData(R.drawable.default_profile, R.drawable.ic_like_on, R.drawable.ic_comment_gray, R.drawable.ic_more_gray, "User456", "2023-08-11"));
-        arrayList.add(new NoticeData(R.drawable.default_profile, R.drawable.ic_like_on, R.drawable.ic_comment_gray, R.drawable.ic_more_gray, "User789", "2023-08-12"));
-        arrayList.add(new NoticeData(R.drawable.default_profile, R.drawable.ic_like_on, R.drawable.ic_comment_gray, R.drawable.ic_more_gray, "User012", "2023-08-13"));
 
         adapterNotice = new AdapterNotice(arrayList);
         recyclerView.setAdapter(adapterNotice);
