@@ -28,6 +28,7 @@ public class FragmentToDoList extends Fragment {
 
     TextView monthYearText; // 년월 텍스트뷰
     RecyclerView recyclerView;
+    ImageView preBtn, nextBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,6 +37,8 @@ public class FragmentToDoList extends Fragment {
         // 초기화
         monthYearText = rootView.findViewById(R.id.monthYear_tv);
         recyclerView = rootView.findViewById(R.id.recyclerView);
+        preBtn = rootView.findViewById(R.id.pre_btn);
+        nextBtn = rootView.findViewById(R.id.next_btn);
 
         // 현재 날짜 (now에서 API level 26 (current minSdk is 21) 올리기)
         CalendarUtil.selectDate = LocalDate.now();
@@ -43,6 +46,21 @@ public class FragmentToDoList extends Fragment {
         // 화면 설정
         setMonthView();
 
+        preBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CalendarUtil.selectDate = CalendarUtil.selectDate.minusMonths(1);
+                setMonthView();
+            }
+        });
+
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CalendarUtil.selectDate = CalendarUtil.selectDate.plusMonths(1);
+                setMonthView();
+            }
+        });
 
         return rootView;
     }
