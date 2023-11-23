@@ -27,7 +27,7 @@ import java.util.Locale;
 public class FragmentToDoList extends Fragment {
 
     TextView monthYearText; // 년월 텍스트뷰
-    RecyclerView recyclerView;
+    RecyclerView recyclerView, TodoListRecycler;
     ImageView preBtn, nextBtn;
 
     @Override
@@ -39,6 +39,7 @@ public class FragmentToDoList extends Fragment {
         recyclerView = rootView.findViewById(R.id.recyclerView);
         preBtn = rootView.findViewById(R.id.pre_btn);
         nextBtn = rootView.findViewById(R.id.next_btn);
+        TodoListRecycler = rootView.findViewById(R.id.todolist_recycler);
 
         // 현재 날짜 (now에서 API level 26 (current minSdk is 21) 올리기)
         CalendarUtil.selectDate = LocalDate.now();

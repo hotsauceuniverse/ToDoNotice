@@ -2,18 +2,23 @@ package com.example.todonotice;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +31,10 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
 
     ArrayList<LocalDate> dayList;
     Dialog dialog;
+    Button CancelBtn, SaveBtn;
+    EditText HourText, MinuteText, TodoText;
+    RadioButton AmBtn, PmBtn;
+
 
     public CalendarAdapter(ArrayList<LocalDate> dayList) {
         this.dayList = dayList;
@@ -72,56 +81,70 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
                 // 달력 빈 곳 클릭 했을 때 앱 꺼짐 방지
                 // NullPointerException 처리
                 if (day!= null) {
-
                     // 모달창 띄우기
                     showDialog();
-
-//                    int iYear = day.getYear(); // 년
-//                    int iMonth = day.getMonthValue(); // 월
-//                    int iDay = day.getDayOfMonth(); // 일
-//
-//                    String yearMonthDay = iYear + "년" + iMonth + "월" + iDay + "일";
-//
-//                    Toast.makeText(holder.itemView.getContext(), yearMonthDay, Toast.LENGTH_SHORT).show();
-
                 }
             }
         });
     }
 
     private void showDialog() {
-//        dialog.show();
-//
-//        final Calendar calendarInstance = Calendar.getInstance();
-//        int hour = calendarInstance.get(Calendar.HOUR_OF_DAY);
-//        int min = calendarInstance.get(Calendar.MINUTE);
-//        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-//            @Override
-//            public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-//                if (timePicker.isShown()) {
-//                    calendarInstance.set(Calendar.HOUR_OF_DAY, hourOfDay);
-//                    calendarInstance.set(Calendar.MINUTE, minute);
-//                }
-//            }
-//        };
-//
-//        TimePickerDialog timePickerDialog = new TimePickerDialog(dialog.getContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar, onTimeSetListener, hour, min, true);
-//        Objects.requireNonNull(timePickerDialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
-//        timePickerDialog.show();
+        dialog.show();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        Button noBtn = dialog.findViewById(R.id.no_btn);
-        noBtn.setOnClickListener(new View.OnClickListener() {
+        CancelBtn = dialog.findViewById(R.id.cancel_btn);
+        SaveBtn = dialog.findViewById(R.id.save_btn);
+        HourText = dialog.findViewById(R.id.hour_et);
+        MinuteText = dialog.findViewById(R.id.minute_et);
+        AmBtn = dialog.findViewById(R.id.am_rb);
+        PmBtn = dialog.findViewById(R.id.pm_rb);
+        TodoText = dialog.findViewById(R.id.todo_et);
+
+        CancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
             }
         });
 
-        Button yesBtn = dialog.findViewById(R.id.yes_btn);
-        yesBtn.setOnClickListener(new View.OnClickListener() {
+        SaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.dismiss();
+                ConstraintLayout con = (ConstraintLayout) View.inflate(dialog.getContext(), R.layout.todolist_cell, null);
+                RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.todolist_recycler);
+
+                String todoString = TodoText.getText().toString();
+                String hourString = HourText.getText().toString();
+                String minString = MinuteText.getText().toString();
+                String amString = "";
+                String pmString = PmBtn.getText().toString();
+
+//              pmString의 값을 빈 문자열("")로 설정하고 있음
+//              즉, AM이 선택된 경우 PM은 빈 문자열로 초기화됨
+                if (AmBtn.isChecked()) {
+                    amString = AmBtn.getText().toString();
+                    pmString = ""; // AM이 선택된 경우 PM은 빈 문자열로 설정
+                } else {
+                    amString = ""; // PM이 선택된 경우 AM은 빈 문자열로 설정
+                }
+
+//                잘못된 코드 (pm String의 초기화 방식이 다름)
+//                AM이 선택된 경우 pmString의 값을 PmBtn.getContext().toString()으로 설정하고있음
+//                이는 PmBtn의 컨텍스트를 문자열로 변환하여 pmString에 할당하는 것
+//                if (AmBtn.isChecked()) {
+//                    amString = AmBtn.getText().toString();
+//                } else {
+//                    pmString = PmBtn.getContext().toString();
+//                }
+
+                Intent intent01 = new Intent(dialog.getContext(), ToDoListCell.class);
+                intent01.putExtra("todo", todoString);
+                intent01.putExtra("hour", hourString);
+                intent01.putExtra("min", minString);
+                intent01.putExtra("am", amString);
+                intent01.putExtra("pm", pmString);
+
+                dialog.getContext().startActivity(intent01);
             }
         });
     }
