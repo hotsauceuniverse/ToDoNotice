@@ -96,20 +96,12 @@ public class FragmentHome extends Fragment {
             @Override
             public void onClick(View view) {
 
-                // ToDoList toolBar, BottomNavigationBar 변경
-                MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.showToDoListToolbar();
+                // BottomNavigationBar 변경
+                MainActivity mainActivity = (MainActivity) getActivity();;
                 mainActivity.showToDoListBottomNavigation();
 
-                todolistToolbar = mainActivity.findViewById(R.id.todolist_toolbar);
-                mainActivity.setSupportActionBar(todolistToolbar);
-                ActionBar actionBar = mainActivity.getSupportActionBar();
-                if (actionBar != null) {
-                    actionBar.setDisplayHomeAsUpEnabled(true);
-                    actionBar.setTitle("할 일");
-                }
-
                 FragmentToDoList fragmentToDoList = new FragmentToDoList();
+                // Fragment todoList로 교체
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.content_frame, fragmentToDoList);
                 transaction.addToBackStack(null);
@@ -123,16 +115,7 @@ public class FragmentHome extends Fragment {
 
                 // ToDoList toolBar, BottomNavigationBar 변경
                 MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.showToDoListToolbar();
                 mainActivity.showToDoListBottomNavigation();
-
-                todolistToolbar = mainActivity.findViewById(R.id.todolist_toolbar);
-                mainActivity.setSupportActionBar(todolistToolbar);
-                ActionBar actionBar = mainActivity.getSupportActionBar();
-                if (actionBar != null) {
-                    actionBar.setDisplayHomeAsUpEnabled(true);
-                    actionBar.setTitle("할 일");
-                }
 
                 FragmentToDoList fragmentToDoList = new FragmentToDoList();
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
