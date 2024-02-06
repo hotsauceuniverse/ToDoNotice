@@ -60,7 +60,6 @@ public class FragmentHome extends Fragment {
                 }
 
                 FragmentNoticeOutline fragmentNotice = new FragmentNoticeOutline();
-//                FragmentNotice fragmentNotice = new FragmentNotice();
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.content_frame, fragmentNotice);    // R.id.content_frame는 FragmentNotice를 추가할 컨테이너 ID
                 transaction.addToBackStack(null);

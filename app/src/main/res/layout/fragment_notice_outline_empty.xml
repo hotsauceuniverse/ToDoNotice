@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".FragmentNoticeOutline"
+    tools:context=".FragmentNoticeOutlineEmpty"
     >
 
     <androidx.appcompat.widget.Toolbar
@@ -33,43 +33,18 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refresh_layout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/notice_toolbar"
-        >
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/notice_list_recycle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbarFadeDuration="0"
-            android:scrollbarSize="5dp"
-            android:scrollbarThumbVertical="@android:color/darker_gray"
-            android:scrollbars="vertical"
-            tools:listitem="@layout/fragment_notice"
-            />
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <LinearLayout
-        android:id="@+id/write_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="end|bottom"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
+        android:gravity="center"
         >
 
         <ImageView
-            android:id="@+id/write_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/diary_add"
-            android:layout_marginRight="22dp"
-            android:layout_marginBottom="125dp"
-            android:elevation="6dp"
+            android:id="@+id/add_diary_btn"
+            android:layout_width="145dp"
+            android:layout_height="230dp"
+            android:src="@drawable/add_diary_btn"
             />
 
     </LinearLayout>

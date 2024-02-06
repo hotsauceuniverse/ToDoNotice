@@ -65,19 +65,17 @@ public class IntroActivity extends AppCompatActivity implements GoogleApiClient.
 
         Log.d("getKeyHash", "" + getKeyHash(IntroActivity.this));
 
-        // 카카오가 설치되어 있는지 확인 하는 메서드또한 카카오에서 제공 콜백 객체를 이용함
-        Function2<OAuthToken,Throwable,Unit> callback =new Function2<OAuthToken, Throwable, Unit>() {
+        // 카카오가 설치되어 있는지 확인 하는 메서드 또한 카카오에서 제공 콜백 객체를 이용함
+        Function2<OAuthToken,Throwable,Unit> callback = new Function2<OAuthToken, Throwable, Unit>() {
             @Override
             // 콜백 메서드
             public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
-                Log.e(TAG_k,"CallBack Method");
-                // oAuthToken != null 이면 로그인 성공
                 if(oAuthToken != null) {
                     // 토큰이 전달된다면 로그인이 성공한 것이고, 토큰이 전달되지 않으면 로그인 실패
                     updateKakaoLoginUi();
                 } else {
                     // 로그인 실패
-                    Log.e(TAG_k, "invoke: login fail");
+                    Log.d(TAG_k, "로그인 실패");
                 }
                 return null;
             }

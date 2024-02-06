@@ -1,27 +1,39 @@
 package com.example.todonotice;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 public class AdapterNotice extends RecyclerView.Adapter<AdapterNotice.ViewHolder> {
 
-    private ArrayList<NoticeData> arrayList;
+    private ArrayList<WriteData> mWriteData;
+    private Context mContext;
+    private DBHelper mDBHelper;
 
     // Alt + Insert
     // Constructor
     // 생성자에서 데이터 리스트 객체를 전달받음
-    public AdapterNotice(ArrayList<NoticeData> arrayList) {
-        this.arrayList = arrayList;
-        Log.d("arrayList", "arrayList" + arrayList);
+    public AdapterNotice(ArrayList<WriteData> mWriteData, Context mContext) {
+        this.mWriteData = mWriteData;
+        this.mContext = mContext;
+        mDBHelper = new DBHelper(mContext);
+    }
+
+    public void setWriteData(ArrayList<WriteData> writeData) {
+        this.mWriteData = writeData;
+        notifyDataSetChanged();
     }
 
     // Implement Methods
@@ -30,61 +42,74 @@ public class AdapterNotice extends RecyclerView.Adapter<AdapterNotice.ViewHolder
     @Override
     public AdapterNotice.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_notice, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        Log.d("viewHolder", "viewHolder" + viewHolder);
-        return viewHolder;
+        View holder = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_notice, parent, false);
+
+        return new ViewHolder(holder);
     }
 
     // position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시
     @Override
     public void onBindViewHolder(@NonNull AdapterNotice.ViewHolder holder, int position) {
-        holder.profile_img.setImageResource(arrayList.get(position).getProfile_img());
-        holder.user_id_tv.setText(arrayList.get(position).getUser_id_tv());
-        holder.date_tv.setText(arrayList.get(position).getDate_tv());
-        holder.like_iv.setImageResource(arrayList.get(position).getLike_iv());
-        holder.comment_button.setImageResource(arrayList.get(position).getComment_button());
-        holder.more_button.setImageResource(arrayList.get(position).getMore_button());
-
-        holder.itemView.setTag(position);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // 아이템 클릭 시 처리할 로직 작성
-            }
-        });
+        holder.titleTv.setText(mWriteData.get(position).getTitle());
+        holder.contentTv.setText(mWriteData.get(position).getContent());
+        holder.dateTv.setText(mWriteData.get(position).getWriteDate());
     }
 
     // 전체 데이터 갯수 리턴
     @Override
     public int getItemCount() {
-        // 글 추가할 때 리스트 뷰가 추가되는 부분
-        Log.d("arrayList.size", "arrayList.size" + arrayList.size());
-        return arrayList.size();
+        return mWriteData.size();
     }
+
 
     // 아이템 뷰를 저장하는 뷰홀더 클래스
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        AppCompatTextView user_id_tv;
-        AppCompatTextView date_tv;
-        protected ImageView profile_img;
-        protected ImageView like_iv;
-        protected ImageView comment_button;
-        protected ImageView more_button;
-
+        private TextView titleTv;
+        private TextView dateTv;
+        private TextView contentTv;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            user_id_tv = itemView.findViewById(R.id.user_id_tv);
-            date_tv = itemView.findViewById(R.id.date_tv);
-            profile_img = itemView.findViewById(R.id.profile_img);
-            like_iv = itemView.findViewById(R.id.like_iv);
-            comment_button = itemView.findViewById(R.id.comment_button);
-            more_button = itemView.findViewById(R.id.more_button);
 
-            Log.d("itemView", "itemView" + itemView);
+            titleTv = itemView.findViewById(R.id.title_tv);
+            dateTv = itemView.findViewById(R.id.date_tv);
+            contentTv = itemView.findViewById(R.id.content_tv);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int curPos = getAdapterPosition();  // 현재 리스트 클릭한 아이템 위치
+                    WriteData writeData = mWriteData.get(curPos);
+
+                    Log.e("   aaa", "writeData  " + writeData.id);
+                    String[] strChoiceItem = {"수정하기","삭제하기"};
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                    builder.setTitle("어떤 작업을 할까요?");
+                    builder.setItems(strChoiceItem, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int position) {
+                            if (position == 0) {
+                                // edit table
+                                Intent intent = new Intent(mContext, WriteEditActivity.class);
+                                intent.putExtra("title", writeData.getTitle());
+                                intent.putExtra("content", writeData.getContent());
+                                mContext.startActivities(new Intent[]{intent});
+                            } else if (position == 1) {
+                                // delete table
+                                String beforeTime = String.valueOf(writeData.getId());
+                                mDBHelper.DeleteDiary(beforeTime);
+
+                                // delete UI
+                                mWriteData.remove(curPos);
+                                notifyItemRemoved(curPos);
+                                Toast.makeText(mContext, "제거 완료" , Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    builder.show();
+                }
+            });
         }
     }
 }

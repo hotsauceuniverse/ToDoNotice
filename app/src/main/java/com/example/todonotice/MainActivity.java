@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private FragmentHome fragmentHome = new FragmentHome();
     private FragmentToDoList fragmentToDoList = new FragmentToDoList();
-    private FragmentNoticeOutline fragmentNotice = new FragmentNoticeOutline();
+    private FragmentNoticeOutline fragmentNoticeOutline = new FragmentNoticeOutline();
     private FragmentProfile fragmentProfile = new FragmentProfile();
 
     @Override
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case R.id.item_3:
-                    transaction.replace(R.id.content_frame, fragmentNotice).commitAllowingStateLoss();
+                    transaction.replace(R.id.content_frame, fragmentNoticeOutline).commitAllowingStateLoss();
                     break;
 
                 case R.id.item_4:

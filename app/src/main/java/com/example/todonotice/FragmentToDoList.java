@@ -1,7 +1,6 @@
 package com.example.todonotice;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +28,8 @@ public class FragmentToDoList extends Fragment {
     TextView monthYearText; // 년월 텍스트뷰
     RecyclerView recyclerView, TodoListRecycler;
     ImageView preBtn, nextBtn;
+    private ToDoAdapter toDoAdapter;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,7 +40,10 @@ public class FragmentToDoList extends Fragment {
         recyclerView = rootView.findViewById(R.id.recyclerView);
         preBtn = rootView.findViewById(R.id.pre_btn);
         nextBtn = rootView.findViewById(R.id.next_btn);
+
         TodoListRecycler = rootView.findViewById(R.id.todolist_recycler);
+        toDoAdapter = new ToDoAdapter(new ArrayList<>()); // 초기에 빈 리스트로 설정
+        TodoListRecycler.setAdapter(toDoAdapter);
 
         // 현재 날짜 (now에서 API level 26 (current minSdk is 21) 올리기)
         CalendarUtil.selectDate = LocalDate.now();
@@ -62,14 +66,13 @@ public class FragmentToDoList extends Fragment {
                 setMonthView();
             }
         });
-
         return rootView;
     }
 
     // 날짜 타입 설정
     private String yearMonthFormDate(LocalDate date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy", Locale.KOREAN);
-        return date.format(formatter.withLocale(Locale.ENGLISH));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy", Locale.ENGLISH);
+        return date.format(formatter);
     }
 
     // 화면 설정
@@ -136,10 +139,4 @@ public class FragmentToDoList extends Fragment {
         return dayList;
     }
 }
-
-
-
-
-
-
 

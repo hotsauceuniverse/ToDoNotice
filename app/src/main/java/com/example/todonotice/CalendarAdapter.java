@@ -1,11 +1,10 @@
 package com.example.todonotice;
 
 import android.app.Dialog;
-import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -24,8 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Objects;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.CalenderViewHolder>{
 
@@ -34,7 +28,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
     Button CancelBtn, SaveBtn;
     EditText HourText, MinuteText, TodoText;
     RadioButton AmBtn, PmBtn;
-
 
     public CalendarAdapter(ArrayList<LocalDate> dayList) {
         this.dayList = dayList;
@@ -111,7 +104,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
             @Override
             public void onClick(View view) {
                 ConstraintLayout con = (ConstraintLayout) View.inflate(dialog.getContext(), R.layout.todolist_cell, null);
-                RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.todolist_recycler);
+                RecyclerView recyclerView = dialog.findViewById(R.id.todolist_recycler);
 
                 String todoString = TodoText.getText().toString();
                 String hourString = HourText.getText().toString();
@@ -137,14 +130,29 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
 //                    pmString = PmBtn.getContext().toString();
 //                }
 
-                Intent intent01 = new Intent(dialog.getContext(), ToDoListCell.class);
-                intent01.putExtra("todo", todoString);
-                intent01.putExtra("hour", hourString);
-                intent01.putExtra("min", minString);
-                intent01.putExtra("am", amString);
-                intent01.putExtra("pm", pmString);
+//                ==================================================================================
+//                Intent intent01 = new Intent(dialog.getContext(), ToDoListCell.class);
+//                intent01.putExtra("todo", todoString);
+//                intent01.putExtra("hour", hourString);
+//                intent01.putExtra("min", minString);
+//                intent01.putExtra("am", amString);
+//                intent01.putExtra("pm", pmString);
+//
+//                dialog.getContext().startActivity(intent01);
+//
+//				  -> 둘중하나
+//
+//                Intent intent01 = new Intent(dialog.getContext(), ToDoListCell.class);
+//                ToDoItem toDoItem = new ToDoItem(todoString, hourString, minString, amString, pmString);
+//                // 변환하려는 Object를 String.valueOf를 사용하여 String으로 변환후 사용
+//                intent01.putExtra("todoItem", String.valueOf(toDoItem)); // ToDoItem 객체 전달
+//                dialog.getContext().startActivity(intent01);
 
-                dialog.getContext().startActivity(intent01);
+
+                ToDoItem toDoItem = new ToDoItem(todoString, hourString, minString, amString, pmString);
+                Log.d("   aaa", "   aaa" + toDoItem);
+
+                dialog.dismiss();
             }
         });
     }

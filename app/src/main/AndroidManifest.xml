@@ -68,6 +68,11 @@
             android:windowSoftInputMode="adjustResize"
             /> <!-- 키보드가 올라갈 때 액티비티의 크기를 조정 -->
 
+        <activity
+            android:name=".WriteEditActivity"
+            android:windowSoftInputMode="adjustResize"
+            />
+
         <activity android:name=".NewsActivity" />
         <activity android:name=".ToDoListCell" />
 

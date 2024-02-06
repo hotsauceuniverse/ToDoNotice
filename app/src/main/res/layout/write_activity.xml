@@ -24,22 +24,19 @@
             app:layout_constraintTop_toTopOf="parent"
             >
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="글쓰기"
-                android:textColor="@color/black"
-                android:textSize="24dp"
-                android:textStyle="bold"
-                />
-
             <ImageView
                 android:id="@+id/close_btn"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/close_img"
                 android:layout_marginLeft="16dp"
+                />
+
+            <ImageView
+                android:layout_width="65dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center"
+                android:src="@drawable/write_title"
                 />
 
             <TextView
@@ -63,7 +60,7 @@
             android:layout_weight="1"
             android:fillViewport="true"
             app:layout_constraintTop_toBottomOf="@+id/write_toolbar"
-            app:layout_constraintBottom_toTopOf="@id/add_file_area"
+            app:layout_constraintBottom_toBottomOf="parent"
             >
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -80,11 +77,14 @@
 <!--        app:layout_constraintBottom_toBottomOf="parent"-->
 
                 <EditText
-                    android:id="@+id/context_area"
+                    android:id="@+id/title_area"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="생각나는 이야기를 자유롭게 적어보세요. :)"
-                    android:maxLength="10000"
+                    android:hint="오늘 일기의 제목은?"
+                    android:maxLength="25"
+                    android:maxLines="1"
+                    android:textSize="20dp"
+                    android:textColor="#333333"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -93,38 +93,23 @@
                     app:layout_constraintTop_toTopOf="parent"
                     />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/img_recyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        app:layout_constraintTop_toBottomOf="@+id/context_area"
-                        />
+                <EditText
+                    android:id="@+id/context_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="생각나는 이야기를 자유롭게 적어보세요. :)"
+                    android:maxLength="10000"
+                    android:textSize="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:inputType="textMultiLine|textNoSuggestions"
+                    android:backgroundTint="@android:color/transparent"
+                    app:layout_constraintTop_toBottomOf="@+id/title_area"
+                    />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
-
-        <!--첨부파일-->
-        <LinearLayout
-            android:id="@+id/add_file_area"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            >
-
-            <ImageView
-                android:id="@+id/add_file"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/add_image"
-                android:layout_marginLeft="15dp"
-                />
-
-        </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
