@@ -119,6 +119,7 @@ public class NewsActivity extends AppCompatActivity {
                                 public void onClick(View view) {
                                     if (view.getTag() != null) {
                                         int position = (int)view.getTag();
+                                        // 뉴스로 이동 수정해야 함
 //                                        ((NewsAdapter)newsAdapter).getNews(position);
 //                                        Intent intent = new Intent(NewsActivity.this, );
 
