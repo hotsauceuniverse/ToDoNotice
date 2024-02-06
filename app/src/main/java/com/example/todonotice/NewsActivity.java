@@ -76,68 +76,66 @@ public class NewsActivity extends AppCompatActivity {
         String url = "https://newsapi.org/v2/top-headlines?country=kr&apiKey=ce563d897b6c46a6b2e5ee5f32a22b1f";
 
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
 
-                        loadingAnimation.setVisibility(View.INVISIBLE);
+                loadingAnimation.setVisibility(View.INVISIBLE);
 
-                        Log.d("news1", "news1" + response);
+                Log.d("news1", "news1" + response);
 
-                        // JSON의 형태로 직접 가져오기
-                        try {
-                            // JSONString -> JSON
-                            JSONObject jsonObject = new JSONObject(response);
+                // JSON의 형태로 직접 가져오기
+                try {
+                    // JSONString -> JSON
+                    JSONObject jsonObject = new JSONObject(response);
 
-                            // JSON 객체 안의 JSON객체들을 담고있는 JSONArray객체 get
-                            JSONArray arrayArticles = jsonObject.getJSONArray("articles");
+                    // JSON 객체 안의 JSON객체들을 담고있는 JSONArray객체 get
+                    JSONArray arrayArticles = jsonObject.getJSONArray("articles");
 
-                            // response -> NewsData Class 분류
-                            List<NewsData> news = new ArrayList<>();
+                    // response -> NewsData Class 분류
+                    List<NewsData> news = new ArrayList<>();
 
-                            for (int i = 0, j = arrayArticles.length(); i < j; i++) {
-                                JSONObject obj = arrayArticles.getJSONObject(i);
+                    for (int i = 0, j = arrayArticles.length(); i < j; i++) {
+                        JSONObject obj = arrayArticles.getJSONObject(i);
 
-                                Log.d("news2", "news2" + obj.toString());
+                        Log.d("news2", "news2" + obj.toString());
 
-                                NewsData newsData = new NewsData();
-                                newsData.setTitle(obj.getString("title"));
-                                newsData.setUrlToImage(obj.getString("urlToImage"));
+                        NewsData newsData = new NewsData();
+                        newsData.setTitle(obj.getString("title"));
+                        newsData.setUrlToImage(obj.getString("urlToImage"));
 //                                newsData.setDescription(obj.getString("description"));
 
 //                                처음부터 UrlToImage가 null인경우를 배열에서 제외시키는 방법
-                                if (!newsData.getUrlToImage().equals("null")) {
-                                    news.add(newsData);
-                                }
-                                Log.d("newsData", "newsData" + newsData);
-                            }
-
-                            // news_cell의 가장 상위 LinearLayout을 탭 할 때 넘기는 방법 (tag쓰고 position값 가져오기)
-                            newsAdapter = new NewsAdapter(news, NewsActivity.this, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    if (view.getTag() != null) {
-                                        int position = (int)view.getTag();
-                                        // 뉴스로 이동 수정해야 함
-//                                        ((NewsAdapter)newsAdapter).getNews(position);
-//                                        Intent intent = new Intent(NewsActivity.this, );
-
-//                                        startActivity(intent);
-                                    }
-                                }
-                            });
-
-                            // 2. 정보 -> 어뎁터 넘기기
-                            newsRecyclerView.setAdapter(newsAdapter);
-                            Log.d("newsAdapter", "newsAdapter" + newsAdapter);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        if (!newsData.getUrlToImage().equals("null")) {
+                            news.add(newsData);
                         }
+                        Log.d("newsData", "newsData" + newsData);
                     }
 
-                }, new Response.ErrorListener() {
+                    // news_cell의 가장 상위 LinearLayout을 탭 할 때 넘기는 방법 (tag쓰고 position값 가져오기)
+                    newsAdapter = new NewsAdapter(news, NewsActivity.this, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (view.getTag() != null) {
+                                int position = (int)view.getTag();
+                                // 뉴스로 이동 수정해야 함
+//                              ((NewsAdapter)newsAdapter).getNews(position);
+//                              Intent intent = new Intent(NewsActivity.this, );
+//                              startActivity(intent);
+                            }
+                        }
+                    });
+
+                    // 2. 정보 -> 어뎁터 넘기기
+                    newsRecyclerView.setAdapter(newsAdapter);
+                    Log.d("newsAdapter", "newsAdapter" + newsAdapter);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
