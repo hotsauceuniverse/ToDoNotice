@@ -70,7 +70,9 @@ public class FragmentNoticeOutline extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), WriteActivity.class);
-                startActivityForResult(intent, REQUEST_CODE_FOR_INTENT);
+                // 새 액티비티를 열어줌과 동시에 결과 값을 전달해야함
+                // REQUEST_CODE_FOR_INTENT을 통해 내가 보낸 요청이 맞는지 판단
+                startActivityForResult(intent, REQUEST_CODE_FOR_INTENT);    
             }
         });
     }
