@@ -115,15 +115,15 @@ public class FragmentToDoList extends Fragment {
         // 첫 주에 공백을 추가하는 대신, 1일이 일요일로 시작하는 경우
         // 마지막 주에서 남은 날짜를 추가하기
         if (dayOfWeek == 7) {   // 1일이 일요일로 시작하는 경우
-            int remainingDays = lastDay;    // 초기화
+            int day = lastDay;    // 초기화 (남아있는 일 수를 알기위해)
             for (int i = 1; i <= lastDay; i++) {
                 dayList.add(firstDay.plusDays(i - 1));
-                remainingDays--;
+//                day--;
             }
             // 추가되지 않은 나머지 날짜에 대한 공백을 dayList에 추가하기
-            while (remainingDays > 0) {
+            while (day > 0) {
                 dayList.add(null);
-                remainingDays--;
+//                day--;
             }
         } else {
             // 그 외의 경우에는 이전과 같이 첫 주에 공백을 추가하기
