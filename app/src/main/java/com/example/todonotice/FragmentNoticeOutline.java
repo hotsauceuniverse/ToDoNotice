@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class FragmentNoticeOutline extends Fragment {
 
     public static final int REQUEST_CODE_FOR_INTENT = 100;
+    public static final int EDIT_OK = 101;
     private RecyclerView recyclerView;
     private ArrayList<WriteData> writeData;
     private DBHelper mDBHelper;
@@ -104,8 +105,10 @@ public class FragmentNoticeOutline extends Fragment {
             Log.d("ok", "ok" + resultCode);
             if (requestCode == REQUEST_CODE_FOR_INTENT) {
                 loadRecentDB();
+            } else if (requestCode == EDIT_OK) {
+                loadRecentDB();
             }
-        } else {
+         } else {
             Toast.makeText(getContext(),"수신 실패",Toast.LENGTH_SHORT).show();
             Log.d("fail", "fail" + resultCode);
         }

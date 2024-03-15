@@ -114,7 +114,6 @@ public class WriteEditActivity extends AppCompatActivity {
                     Log.d("222", "222   " + editContent);
                     String editCurrentTime = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
                     Log.d("333", "333   " + editCurrentTime);
-
                     
                     // 수정하기가 업데이트 안됨
                     // 업데이트 부분 수정필요
@@ -123,6 +122,10 @@ public class WriteEditActivity extends AppCompatActivity {
                         Log.d("444", "444   " + editBeforeTime);
 
                         mDBHelper.UpdateDiary(editTitle, editContent, editCurrentTime, editBeforeTime);
+
+                        Intent intent = new Intent();
+                        setResult(RESULT_OK, intent);
+
                     } else {
                         Log.e("555", "555");
                     }

@@ -83,7 +83,7 @@ public class AdapterNotice extends RecyclerView.Adapter<AdapterNotice.ViewHolder
                     WriteData writeData = mWriteData.get(curPos);
 
                     Log.e("   aaa", "writeData  " + writeData.id);
-                    String[] strChoiceItem = {"수정하기","삭제하기"};
+                    String[] strChoiceItem = {"수정하기", "삭제하기"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                     builder.setTitle("어떤 작업을 할까요?");
                     builder.setItems(strChoiceItem, new DialogInterface.OnClickListener() {
