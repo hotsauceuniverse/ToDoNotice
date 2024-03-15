@@ -123,9 +123,6 @@ public class WriteEditActivity extends AppCompatActivity {
 
                         mDBHelper.UpdateDiary(editTitle, editContent, editCurrentTime, editBeforeTime);
 
-                        Intent intent = new Intent();
-                        setResult(RESULT_OK, intent);
-
                     } else {
                         Log.e("555", "555");
                     }
