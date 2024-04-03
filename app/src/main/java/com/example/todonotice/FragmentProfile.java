@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.UserManager;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -56,6 +55,7 @@ public class FragmentProfile extends Fragment {
     private TextView logOut;
     private TextView deleteAccount;
     String originNickname ="";  // 기존 닉네임 저장
+    private Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -179,6 +179,12 @@ public class FragmentProfile extends Fragment {
         }
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
     // 카카오 로그인 후 프로필 사진, 닉네임 연동
     private void profileImageConnect() {
         UserApiClient.getInstance().me(new Function2<User, Throwable, Unit>() {
@@ -187,7 +193,10 @@ public class FragmentProfile extends Fragment {
                 // 프로필 이미지 설정
                 String profileImageUrl = user.getKakaoAccount().getProfile().getThumbnailImageUrl();
                 if(profileImageUrl != null && !profileImageUrl.isEmpty()) {
-                    Glide.with(requireContext())
+                    // java.lang.IllegalStateException: Fragment not attached to a context 에러 발생
+                    // onAttach 사용해서 context 사용
+                    // profileImageConnect() 메서드 내부에서 Glide.with(requireContext()) 대신에 Glide.with(context) 사용
+                    Glide.with(context)
                             .load(profileImageUrl)
                             .placeholder(R.drawable.default_profile)    // 기본이미지 설정
                             .into(profileImageView);
