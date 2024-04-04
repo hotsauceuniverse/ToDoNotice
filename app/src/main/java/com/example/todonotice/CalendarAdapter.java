@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -103,8 +102,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         SaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ConstraintLayout con = (ConstraintLayout) View.inflate(dialog.getContext(), R.layout.todolist_cell, null);
-                RecyclerView recyclerView = dialog.findViewById(R.id.todolist_recycler);
 
                 String todoString = TodoText.getText().toString();
                 String hourString = HourText.getText().toString();
@@ -120,35 +117,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
                 } else {
                     amString = ""; // PM이 선택된 경우 AM은 빈 문자열로 설정
                 }
-
-//                잘못된 코드 (pm String의 초기화 방식이 다름)
-//                AM이 선택된 경우 pmString의 값을 PmBtn.getContext().toString()으로 설정하고있음
-//                이는 PmBtn의 컨텍스트를 문자열로 변환하여 pmString에 할당하는 것
-//                if (AmBtn.isChecked()) {
-//                    amString = AmBtn.getText().toString();
-//                } else {
-//                    pmString = PmBtn.getContext().toString();
-//                }
-
-//                ==================================================================================
-//                Intent intent01 = new Intent(dialog.getContext(), ToDoListCell.class);
-//                intent01.putExtra("todo", todoString);
-//                intent01.putExtra("hour", hourString);
-//                intent01.putExtra("min", minString);
-//                intent01.putExtra("am", amString);
-//                intent01.putExtra("pm", pmString);
-//
-//                dialog.getContext().startActivity(intent01);
-//
-//				  -> 둘중하나
-//
-//                Intent intent01 = new Intent(dialog.getContext(), ToDoListCell.class);
-//                ToDoItem toDoItem = new ToDoItem(todoString, hourString, minString, amString, pmString);
-//                // 변환하려는 Object를 String.valueOf를 사용하여 String으로 변환후 사용
-//                intent01.putExtra("todoItem", String.valueOf(toDoItem)); // ToDoItem 객체 전달
-//                dialog.getContext().startActivity(intent01);
-
-
                 ToDoItem toDoItem = new ToDoItem(todoString, hourString, minString, amString, pmString);
                 Log.d("   aaa", "   aaa" + toDoItem);
 
