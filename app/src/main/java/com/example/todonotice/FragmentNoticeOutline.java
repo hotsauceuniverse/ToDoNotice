@@ -54,7 +54,6 @@ public class FragmentNoticeOutline extends Fragment {
     private void setInit() {
         // onCreateView에 있는 내용 가져옴
         recyclerView = rootView.findViewById(R.id.notice_list_recycle);
-        writeData = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(mAdapter);  // 다른 탭 이동 후 다시 진입 시, 화면 미노출되서 adapter 다시 연결
