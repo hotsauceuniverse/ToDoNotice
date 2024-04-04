@@ -118,12 +118,12 @@ public class FragmentToDoList extends Fragment {
             int day = lastDay;    // 초기화 (남아있는 일 수를 알기위해)
             for (int i = 1; i <= lastDay; i++) {
                 dayList.add(firstDay.plusDays(i - 1));
-//                day--;
+                day--;
             }
             // 추가되지 않은 나머지 날짜에 대한 공백을 dayList에 추가하기
             while (day > 0) {
                 dayList.add(null);
-//                day--;
+                day--;
             }
         } else {
             // 그 외의 경우에는 이전과 같이 첫 주에 공백을 추가하기
