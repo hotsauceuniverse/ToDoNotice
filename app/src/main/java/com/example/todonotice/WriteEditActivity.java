@@ -9,12 +9,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class WriteEditActivity extends AppCompatActivity {
@@ -98,6 +98,7 @@ public class WriteEditActivity extends AppCompatActivity {
         // 내용 가져오기
         Intent intent = getIntent();
         writeData = new WriteData();
+        writeData.setId(intent.getIntExtra("id", -1));
         writeData.setTitle(intent.getStringExtra("title"));
         writeData.setContent(intent.getStringExtra("content"));
         title_area.setText(writeData.getTitle());
@@ -114,17 +115,19 @@ public class WriteEditActivity extends AppCompatActivity {
                     Log.d("222", "222   " + editContent);
                     String editCurrentTime = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
                     Log.d("333", "333   " + editCurrentTime);
-                    
-                    // 수정하기가 업데이트 안됨
-                    // 업데이트 부분 수정필요
-                    if (writeData != null) {
-                        String editBeforeTime = writeData.getWriteDate();
-                        Log.d("444", "444   " + editBeforeTime);
 
-                        mDBHelper.UpdateDiary(editTitle, editContent, editCurrentTime, editBeforeTime);
+                    // 수정할 데이터의 id 가져오기
+                    int id = writeData.getId();
+                    Log.d("editID   ", "editID   " + id);
 
-                    } else {
-                        Log.e("555", "555");
+                    // 수정하기
+                    if (id != -1) {
+                        mDBHelper.UpdateDiary(id, editTitle, editContent, editCurrentTime);
+
+                        // UI 업데이트 기능 처리 필요
+//                        writeData.setTitle(editTitle);
+//                        writeData.setContent(editContent);
+
                     }
                 } catch (NullPointerException e) {
                     e.printStackTrace();

@@ -57,6 +57,7 @@ public class FragmentNoticeOutline extends Fragment {
         writeData = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(mAdapter);  // 다른 탭 이동 후 다시 진입 시, 화면 미노출되서 adapter 다시 연결
 
         // arrayList 초기화
         writeData = new ArrayList<>();
@@ -105,7 +106,7 @@ public class FragmentNoticeOutline extends Fragment {
             if (requestCode == REQUEST_CODE_FOR_INTENT) {
                 loadRecentDB();
             }
-         } else {
+        } else {
             Toast.makeText(getContext(),"수신 실패",Toast.LENGTH_SHORT).show();
             Log.d("fail", "fail" + resultCode);
         }

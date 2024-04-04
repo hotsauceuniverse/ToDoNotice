@@ -49,7 +49,11 @@
             android:scrollbarThumbVertical="@android:color/darker_gray"
             android:scrollbars="vertical"
             tools:listitem="@layout/fragment_notice"
+            android:paddingBottom="100dp"
+            android:clipToPadding="false"
             />
+
+        <!-- RecyclerView 마지막 아이템 여백 : android:clipToPadding="false" -->
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

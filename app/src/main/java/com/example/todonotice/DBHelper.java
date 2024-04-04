@@ -1,5 +1,6 @@
 package com.example.todonotice;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -62,9 +63,19 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     // UPDATE (일기 목록 수정)
-    public void UpdateDiary(String _title, String _content, String _writeDate, String _beforeDate) {
+//    public void UpdateDiary(String _title, String _content, String _writeDate, String _beforeDate) {
+//        SQLiteDatabase db = getWritableDatabase();
+//        db.execSQL("UPDATE DIARYLIST_TEXT_SEQ SET title = '" + _title + "', content = '" + _content + "', writeDate = '" + _writeDate + "' WHERE writeDate = '" + _beforeDate + "'");   // 기준값 id
+//    }
+
+    // UPDATE (일기 목록 수정)
+    public void UpdateDiary(int id, String _title, String _content, String _writeDate) {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("UPDATE DIARYLIST_TEXT_SEQ SET title = '" + _title + "', content = '" + _content + "', writeDate = '" + _writeDate + "' WHERE writeDate = '" + _beforeDate + "'");   // 기준값 id
+        ContentValues values = new ContentValues();
+        values.put("title", _title);
+        values.put("content", _content);
+        values.put("writeDate", _writeDate);
+        db.update("DIARYLIST_TEXT_SEQ", values, "id = ?", new String[]{String.valueOf(id)});
     }
 
     // DELETE (일기 목록 수정)
