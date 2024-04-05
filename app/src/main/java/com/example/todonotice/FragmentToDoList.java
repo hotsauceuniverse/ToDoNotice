@@ -28,22 +28,17 @@ public class FragmentToDoList extends Fragment {
     TextView monthYearText; // 년월 텍스트뷰
     RecyclerView recyclerView, TodoListRecycler;
     ImageView preBtn, nextBtn;
-    private ToDoAdapter toDoAdapter;
-
+    private View rootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_todolist, container, false);
+        rootView = inflater.inflate(R.layout.fragment_todolist, container, false);
 
         // 초기화
         monthYearText = rootView.findViewById(R.id.monthYear_tv);
         recyclerView = rootView.findViewById(R.id.recyclerView);
         preBtn = rootView.findViewById(R.id.pre_btn);
         nextBtn = rootView.findViewById(R.id.next_btn);
-
-        TodoListRecycler = rootView.findViewById(R.id.todolist_recycler);
-        toDoAdapter = new ToDoAdapter(new ArrayList<>()); // 초기에 빈 리스트로 설정
-        TodoListRecycler.setAdapter(toDoAdapter);
 
         // 현재 날짜 (now에서 API level 26 (current minSdk is 21) 올리기)
         CalendarUtil.selectDate = LocalDate.now();
@@ -66,6 +61,7 @@ public class FragmentToDoList extends Fragment {
                 setMonthView();
             }
         });
+
         return rootView;
     }
 
@@ -139,4 +135,3 @@ public class FragmentToDoList extends Fragment {
         return dayList;
     }
 }
-

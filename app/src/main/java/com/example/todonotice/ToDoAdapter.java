@@ -1,5 +1,6 @@
 package com.example.todonotice;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,18 @@ import java.util.ArrayList;
 public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder> {
 
     private ArrayList<ToDoItem> todoList;
+    private Context mContext;
+    private DBHelper2 mDBHelper2;
 
-    public ToDoAdapter(ArrayList<ToDoItem> todoList) {
+    public ToDoAdapter(ArrayList<ToDoItem> todoList, Context mContext) {
         this.todoList = todoList;
+        this.mContext = mContext;
+        mDBHelper2 = new DBHelper2(mContext);
+    }
+
+    public void setTodoData(ArrayList<ToDoItem> toDoItem) {
+        this.todoList = todoList;
+        notifyDataSetChanged();
     }
 
     @NonNull

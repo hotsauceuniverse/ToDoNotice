@@ -117,7 +117,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
                 } else {
                     amString = ""; // PM이 선택된 경우 AM은 빈 문자열로 설정
                 }
-                ToDoItem toDoItem = new ToDoItem(todoString, hourString, minString, amString, pmString);
+                ToDoItem toDoItem = new ToDoItem();
                 Log.d("   aaa", "   aaa" + toDoItem);
 
                 dialog.dismiss();
@@ -131,8 +131,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
     }
 
     class CalenderViewHolder extends RecyclerView.ViewHolder {
-        TextView dayTv;
 
+        TextView dayTv;
         View parentView;
 
         public CalenderViewHolder(@NonNull View itemView) {
