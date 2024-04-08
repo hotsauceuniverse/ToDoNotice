@@ -43,9 +43,9 @@ public class FragmentToDoList extends Fragment {
         nextBtn = rootView.findViewById(R.id.next_btn);
 
         // TodoListRecyclerview 초기화
-        todoListRecyclerview = rootView.findViewById(R.id.todolist_recycler);
-        todoListRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
-        todoListRecyclerview.setAdapter(adapter);
+//        todoListRecyclerview = rootView.findViewById(R.id.todolist_recycler);
+//        todoListRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
+//        todoListRecyclerview.setAdapter(adapter);
 
         // 현재 날짜 (now에서 API level 26 (current minSdk is 21) 올리기)
         CalendarUtil.selectDate = LocalDate.now();
@@ -69,7 +69,7 @@ public class FragmentToDoList extends Fragment {
             }
         });
 
-        loadTodoList();
+//        loadTodoList();
 
         return rootView;
     }
@@ -144,18 +144,18 @@ public class FragmentToDoList extends Fragment {
         return dayList;
     }
 
-    public void loadTodoList() {
-        // 초기화
-        toDoItems = new ArrayList<>();
-        mDBHelper2 = new DBHelper2(getActivity());
-        toDoItems = mDBHelper2.getTodoListData();
-
-        if (adapter == null) {
-            ArrayList<LocalDate> dayList = daysInMonthArray(CalendarUtil.selectDate);
-            adapter = new CalendarAdapter(dayList);
-            todoListRecyclerview.setHasFixedSize(true);
-            todoListRecyclerview.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-        }
-    }
+//    public void loadTodoList() {
+//        // 초기화
+//        toDoItems = new ArrayList<>();
+//        mDBHelper2 = new DBHelper2(getActivity());
+//        toDoItems = mDBHelper2.getTodoListData();
+//
+//        if (adapter == null) {
+//            ArrayList<LocalDate> dayList = daysInMonthArray(CalendarUtil.selectDate);
+//            adapter = new CalendarAdapter(dayList);
+//            todoListRecyclerview.setHasFixedSize(true);
+//            todoListRecyclerview.setAdapter(adapter);
+//            adapter.notifyDataSetChanged();
+//        }
+//    }
 }
