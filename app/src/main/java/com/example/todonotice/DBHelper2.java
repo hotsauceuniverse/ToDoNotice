@@ -60,11 +60,25 @@ public class DBHelper2 extends SQLiteOpenHelper {
         return toDoItem;
     }
 
+//    // INSERT (할 일 목록 추가)
+//    public void InsertToDoList(String _todo, String _hour, String _min, String _am, String _pm) {
+//        SQLiteDatabase db = getWritableDatabase();
+//        db.execSQL("INSERT INTO TODOLIST_TEXT_SEQ (todo, hour, min, am, pm) VALUES ('" + _todo + "', '" + _hour + "', '" + _min + "', '" + _am + "', '" + _pm + "');");
+//    }
+
     // INSERT (할 일 목록 추가)
     public void InsertToDoList(String _todo, String _hour, String _min, String _am, String _pm) {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("INSERT INTO TODOLIST_TEXT_SEQ (todo, hour, min, am, pm) VALUES ('" + _todo + "', '" + _hour + "', '" + _min + "', '" + _am + "', '" + _pm + "');");
+        ContentValues values = new ContentValues();
+        values.put("todo", _todo);
+        values.put("hour", _hour);
+        values.put("min", _min);
+        values.put("am", _am);
+        values.put("pm", _pm);
+        values.put("toDoItem", ""); // 'toDoItem' 열의 값을 빈 문자열로 설정
+        db.insert("TODOLIST_TEXT_SEQ", null, values);
     }
+
 
     // UPDATE (할 일 목록 수정)
     public void UpdateToDoList(String _todo, String _hour, String _min, String _am, String _pm, String _writeDate, String _beforeDate) {

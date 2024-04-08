@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.LocalDate;
@@ -17,18 +18,19 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 
-
 //  Activity에서 Fragment로 옮길때 변경사항
 //  1. onCreate() 메서드를 onCreateView()로 변경하여 프래그먼트 뷰를 생성하고 반환
 //  2. findViewById() 호출을 rootView.findById()로 변경 ( rootView는 onCreateView() 메서드에서 반환한 뷰 )
 
-
 public class FragmentToDoList extends Fragment {
 
     TextView monthYearText; // 년월 텍스트뷰
-    RecyclerView recyclerView, TodoListRecycler;
+    RecyclerView recyclerView, todoListRecyclerview;
+    private ArrayList<ToDoItem> toDoItems;
+    private CalendarAdapter adapter;
     ImageView preBtn, nextBtn;
     private View rootView;
+    private DBHelper2 mDBHelper2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,6 +41,11 @@ public class FragmentToDoList extends Fragment {
         recyclerView = rootView.findViewById(R.id.recyclerView);
         preBtn = rootView.findViewById(R.id.pre_btn);
         nextBtn = rootView.findViewById(R.id.next_btn);
+
+        // TodoListRecyclerview 초기화
+        todoListRecyclerview = rootView.findViewById(R.id.todolist_recycler);
+        todoListRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
+        todoListRecyclerview.setAdapter(adapter);
 
         // 현재 날짜 (now에서 API level 26 (current minSdk is 21) 올리기)
         CalendarUtil.selectDate = LocalDate.now();
@@ -62,6 +69,8 @@ public class FragmentToDoList extends Fragment {
             }
         });
 
+        loadTodoList();
+
         return rootView;
     }
 
@@ -80,7 +89,7 @@ public class FragmentToDoList extends Fragment {
         ArrayList<LocalDate> dayList = daysInMonthArray(CalendarUtil.selectDate);
 
         // 어뎁터 데이터 적용
-        CalendarAdapter adapter = new CalendarAdapter(dayList);
+        adapter = new CalendarAdapter(dayList);
 
         // 레이아웃 설정(열 7개)
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 7);
@@ -133,5 +142,20 @@ public class FragmentToDoList extends Fragment {
             }
         }
         return dayList;
+    }
+
+    public void loadTodoList() {
+        // 초기화
+        toDoItems = new ArrayList<>();
+        mDBHelper2 = new DBHelper2(getActivity());
+        toDoItems = mDBHelper2.getTodoListData();
+
+        if (adapter == null) {
+            ArrayList<LocalDate> dayList = daysInMonthArray(CalendarUtil.selectDate);
+            adapter = new CalendarAdapter(dayList);
+            todoListRecyclerview.setHasFixedSize(true);
+            todoListRecyclerview.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
     }
 }
