@@ -1,12 +1,17 @@
 package com.example.todonotice;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,6 +31,8 @@ public class FragmentToDoList extends Fragment {
 
     TextView monthYearText; // 년월 텍스트뷰
     RecyclerView recyclerView, todoListRecyclerview;
+    private LinearLayoutManager linearLayoutManager;
+    public static final int REQUEST_TODOLIST_FOR_INTENT = 101;
     private ArrayList<ToDoItem> toDoItems;
     private CalendarAdapter adapter;
     ImageView preBtn, nextBtn;
@@ -41,11 +48,6 @@ public class FragmentToDoList extends Fragment {
         recyclerView = rootView.findViewById(R.id.recyclerView);
         preBtn = rootView.findViewById(R.id.pre_btn);
         nextBtn = rootView.findViewById(R.id.next_btn);
-
-        // TodoListRecyclerview 초기화
-//        todoListRecyclerview = rootView.findViewById(R.id.todolist_recycler);
-//        todoListRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
-//        todoListRecyclerview.setAdapter(adapter);
 
         // 현재 날짜 (now에서 API level 26 (current minSdk is 21) 올리기)
         CalendarUtil.selectDate = LocalDate.now();
@@ -69,7 +71,7 @@ public class FragmentToDoList extends Fragment {
             }
         });
 
-//        loadTodoList();
+        setInit();
 
         return rootView;
     }
@@ -144,18 +146,46 @@ public class FragmentToDoList extends Fragment {
         return dayList;
     }
 
-//    public void loadTodoList() {
-//        // 초기화
-//        toDoItems = new ArrayList<>();
-//        mDBHelper2 = new DBHelper2(getActivity());
-//        toDoItems = mDBHelper2.getTodoListData();
-//
-//        if (adapter == null) {
-//            ArrayList<LocalDate> dayList = daysInMonthArray(CalendarUtil.selectDate);
-//            adapter = new CalendarAdapter(dayList);
-//            todoListRecyclerview.setHasFixedSize(true);
-//            todoListRecyclerview.setAdapter(adapter);
-//            adapter.notifyDataSetChanged();
-//        }
-//    }
+    private void setInit() {
+        // TodoListRecyclerview 초기화
+        todoListRecyclerview = rootView.findViewById(R.id.todolist_recycler);
+        todoListRecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        todoListRecyclerview.setLayoutManager(linearLayoutManager);
+        todoListRecyclerview.setAdapter(adapter);
+
+        toDoItems = new ArrayList<>();
+        loadTodoList();
+        recyclerView.smoothScrollToPosition(0);
+    }
+
+    public void loadTodoList() {
+        // 초기화
+        toDoItems = new ArrayList<>();
+        mDBHelper2 = new DBHelper2(getActivity());
+        toDoItems = mDBHelper2.getTodoListData();
+
+        if (adapter == null) {
+            ArrayList<LocalDate> dayList = daysInMonthArray(CalendarUtil.selectDate);
+            adapter = new CalendarAdapter(dayList);
+            todoListRecyclerview.setHasFixedSize(true);
+            todoListRecyclerview.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        } else {
+            adapter.setTodoData(toDoItems);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_TODOLIST_FOR_INTENT) {
+                loadTodoList();
+            }
+        } else {
+            Toast.makeText(getContext(),"수신 실패",Toast.LENGTH_SHORT).show();
+        }
+    }
 }

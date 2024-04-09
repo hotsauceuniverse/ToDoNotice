@@ -75,6 +75,7 @@
 
         <activity android:name=".NewsActivity" />
         <activity android:name=".ToDoListCell" />
+        <activity android:name=".CalendarTodoList"/>
 
     </application>
 

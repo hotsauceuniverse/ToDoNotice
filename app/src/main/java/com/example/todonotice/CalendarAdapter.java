@@ -1,17 +1,12 @@
 package com.example.todonotice;
 
-import android.app.Dialog;
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -23,15 +18,16 @@ import java.util.ArrayList;
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.CalenderViewHolder> {
 
     ArrayList<LocalDate> dayList;
-    Dialog dialog;
-    Button CancelBtn, SaveBtn;
-    EditText HourText, MinuteText, TodoText;
-    RadioButton AmBtn, PmBtn;
-    private DBHelper2 mDBHelper2;
+    public static final int REQUEST_TODOLIST_FOR_INTENT = 101;
     private ArrayList<ToDoItem> toDoItems;
 
     public CalendarAdapter(ArrayList<LocalDate> dayList) {
         this.dayList = dayList;
+    }
+
+    public void setTodoData(ArrayList<ToDoItem> toDoItems) {
+        this.toDoItems = toDoItems;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -88,85 +84,12 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
                         // 달력 빈 곳 클릭 했을 때 앱 꺼짐 방지
                         // NullPointerException 처리
                         if (day!= null) {
-                            // 모달창 띄우기
-                            showDialog();
+                            Intent intent = new Intent(itemView.getContext(), CalendarTodoList.class);
+                            ((Activity) itemView.getContext()).startActivityForResult(intent, REQUEST_TODOLIST_FOR_INTENT);
                         }
                     }
                 });
             }
-        }
-
-        private void showDialog() {
-            dialog = new Dialog(itemView.getContext());
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.dialog_todolist);
-
-            dialog.show();
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-            CancelBtn = dialog.findViewById(R.id.cancel_btn);
-            SaveBtn = dialog.findViewById(R.id.save_btn);
-            HourText = dialog.findViewById(R.id.hour_et);
-            MinuteText = dialog.findViewById(R.id.minute_et);
-            AmBtn = dialog.findViewById(R.id.am_rb);
-            PmBtn = dialog.findViewById(R.id.pm_rb);
-            TodoText = dialog.findViewById(R.id.todo_et);
-
-            CancelBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-            });
-
-            SaveBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    String todoString = TodoText.getText().toString();
-                    String hourString = HourText.getText().toString();
-                    String minString = MinuteText.getText().toString();
-                    String amString = "";
-                    String pmString = PmBtn.getText().toString();
-
-                    // pmString의 값을 빈 문자열("")로 설정하고 있음
-                    // 즉, AM이 선택된 경우 PM은 빈 문자열로 초기화됨
-                    if (AmBtn.isChecked()) {
-                        amString = AmBtn.getText().toString();
-                        pmString = ""; // AM이 선택된 경우 PM은 빈 문자열로 설정
-                    } else {
-                        amString = ""; // PM이 선택된 경우 AM은 빈 문자열로 설정
-                    }
-
-                    mDBHelper2 = new DBHelper2(itemView.getContext());
-                    mDBHelper2.InsertToDoList(todoString, hourString, minString, amString, pmString);
-
-                    ToDoItem toDoItem = new ToDoItem();
-                    toDoItem.setTodo(todoString);
-                    Log.d("todo   ", "todo   " + todoString);
-
-                    toDoItem.setHour(hourString);
-                    Log.d("hour   ", "hour   " + hourString);
-
-                    toDoItem.setMin(minString);
-                    Log.d("min   ", "min   " + minString);
-
-                    toDoItem.setAm(amString);
-                    Log.d("am   ", "am   " + amString);
-
-                    toDoItem.setPm(pmString);
-                    Log.d("pm   ", "pm   " + pmString);
-
-                    if (toDoItems != null) {
-                        toDoItems.add(toDoItem);
-                        notifyDataSetChanged();
-                    } else {
-                        Log.e("fail", "실패");
-                    }
-
-                    dialog.dismiss();
-                }
-            });
         }
     }
 }

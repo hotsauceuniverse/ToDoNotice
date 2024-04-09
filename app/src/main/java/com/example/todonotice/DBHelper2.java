@@ -67,14 +67,15 @@ public class DBHelper2 extends SQLiteOpenHelper {
 //    }
 
     // INSERT (할 일 목록 추가)
-    public void InsertToDoList(String _todo, String _hour, String _min, String _am, String _pm) {
+    public void InsertToDoList(String _todo, String _hour, String _min, String _day) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("todo", _todo);
         values.put("hour", _hour);
         values.put("min", _min);
-        values.put("am", _am);
-        values.put("pm", _pm);
+//        values.put("am", _am);
+//        values.put("pm", _pm);
+        values.put("day", _day);
         values.put("toDoItem", ""); // 'toDoItem' 열의 값을 빈 문자열로 설정
         db.insert("TODOLIST_TEXT_SEQ", null, values);
     }
