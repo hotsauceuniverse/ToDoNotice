@@ -6,8 +6,8 @@ public class ToDoItem {
     private String todo;
     private String hour;
     private String min;
-    private String am;
-    private String pm;
+    private String place;
+    private String memo;
 
     public ToDoItem() {
     }
@@ -24,12 +24,12 @@ public class ToDoItem {
         return min;
     }
 
-    public String getAm() {
-        return am;
+    public String getPlace() {
+        return place;
     }
 
-    public String getPm() {
-        return pm;
+    public String getMemo() {
+        return memo;
     }
 
     public int getId() {
@@ -48,12 +48,12 @@ public class ToDoItem {
         this.min = min;
     }
 
-    public void setAm(String am) {
-        this.am = am;
+    public void setPlace(String place) {
+        this.place = place;
     }
 
-    public void setPm(String pm) {
-        this.pm = pm;
+    public void setMemo(String memo) {
+        this.memo = memo;
     }
 
     public void setId(int id) {

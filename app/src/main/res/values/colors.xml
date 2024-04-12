@@ -11,4 +11,5 @@
     <color name="iphone_blue">#0DB1E2</color>
     <color name="iphone_pink">#CE3B6C</color>
     <color name="android_top_bar">#D1D1D1</color>
+    <color name="todolist_box">#EAEAEA</color>
 </resources>

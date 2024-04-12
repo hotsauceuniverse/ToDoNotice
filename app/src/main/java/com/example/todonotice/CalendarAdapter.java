@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.CalenderViewHolder> {
 
     ArrayList<LocalDate> dayList;
-    public static final int REQUEST_TODOLIST_FOR_INTENT = 101;
+//    public static final int REQUEST_TODOLIST_FOR_INTENT = 101;
     private ArrayList<ToDoItem> toDoItems;
 
     public CalendarAdapter(ArrayList<LocalDate> dayList) {
@@ -81,11 +82,13 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        Log.d("date   ", "date   " + day);
                         // 달력 빈 곳 클릭 했을 때 앱 꺼짐 방지
                         // NullPointerException 처리
                         if (day!= null) {
                             Intent intent = new Intent(itemView.getContext(), CalendarTodoList.class);
-                            ((Activity) itemView.getContext()).startActivityForResult(intent, REQUEST_TODOLIST_FOR_INTENT);
+                            ((Activity) itemView.getContext()).startActivity(intent);
+//                            ((Activity) itemView.getContext()).startActivityForResult(intent, REQUEST_TODOLIST_FOR_INTENT);
                         }
                     }
                 });

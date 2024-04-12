@@ -4,9 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
     }
 
     public void setTodoData(ArrayList<ToDoItem> toDoItem) {
-        this.todoList = todoList;
+        this.todoList = toDoItem;
         notifyDataSetChanged();
     }
 
@@ -38,8 +40,16 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
     @Override
     public void onBindViewHolder(@NonNull ToDoAdapter.ToDoViewHolder holder, int position) {
         ToDoItem toDoItem = todoList.get(position);
-        if (toDoItem != null) {
+//        if (toDoItem != null) {
+//            holder.onBind(toDoItem);
+//        }
+
+        if (position % 2 == 1 && toDoItem != null) {
             holder.onBind(toDoItem);
+            holder.todoBox.setBackgroundColor(ContextCompat.getColor(mContext, R.color.todolist_box));
+        } else if (position % 2 != 1 && toDoItem != null) {
+            holder.onBind(toDoItem);
+            holder.todoBox.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
         }
     }
 
@@ -56,25 +66,23 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
     public class ToDoViewHolder extends RecyclerView.ViewHolder {
 
         private TextView TodoTextView;
-        private TextView TodoTimeView;
+        private TextView hourTv;
+        private TextView minTv;
+        private LinearLayout todoBox;
 
         public ToDoViewHolder(@NonNull View itemView) {
             super(itemView);
 
             TodoTextView = itemView.findViewById(R.id.todo_tv);
-            TodoTimeView = itemView.findViewById(R.id.time_tv);
+            hourTv = itemView.findViewById(R.id.hour_tv);
+            minTv = itemView.findViewById(R.id.min_tv);
+            todoBox = itemView.findViewById(R.id.todo_box);
         }
 
         public void onBind(ToDoItem item) {
             TodoTextView.setText(item.getTodo());
-            String textTime = item.getHour() + ":" + item.getMin();
-
-            if (!item.getAm().equals("")) {
-                textTime = textTime + " " + item.getAm();
-            } else {
-                textTime = textTime + " " + item.getPm();
-            }
-            TodoTextView.setText(textTime);
+            hourTv.setText(item.getHour());
+            minTv.setText(item.getMin());
         }
     }
 }

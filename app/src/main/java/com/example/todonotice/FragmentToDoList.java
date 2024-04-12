@@ -1,17 +1,12 @@
 package com.example.todonotice;
 
-import static android.app.Activity.RESULT_OK;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,12 +24,12 @@ import java.util.Locale;
 
 public class FragmentToDoList extends Fragment {
 
+    private LinearLayoutManager linearLayoutManager;
     TextView monthYearText; // 년월 텍스트뷰
     RecyclerView recyclerView, todoListRecyclerview;
-    private LinearLayoutManager linearLayoutManager;
-    public static final int REQUEST_TODOLIST_FOR_INTENT = 101;
     private ArrayList<ToDoItem> toDoItems;
     private CalendarAdapter adapter;
+    private ToDoAdapter toDoAdapter;
     ImageView preBtn, nextBtn;
     private View rootView;
     private DBHelper2 mDBHelper2;
@@ -149,43 +144,29 @@ public class FragmentToDoList extends Fragment {
     private void setInit() {
         // TodoListRecyclerview 초기화
         todoListRecyclerview = rootView.findViewById(R.id.todolist_recycler);
-        todoListRecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        linearLayoutManager = new LinearLayoutManager(getActivity());
         todoListRecyclerview.setLayoutManager(linearLayoutManager);
-        todoListRecyclerview.setAdapter(adapter);
+        todoListRecyclerview.setAdapter(toDoAdapter);
 
         toDoItems = new ArrayList<>();
+
         loadTodoList();
         recyclerView.smoothScrollToPosition(0);
     }
 
     public void loadTodoList() {
-        // 초기화
-        toDoItems = new ArrayList<>();
+        // DB로부터 todo 항목 가져오기
         mDBHelper2 = new DBHelper2(getActivity());
         toDoItems = mDBHelper2.getTodoListData();
 
-        if (adapter == null) {
-            ArrayList<LocalDate> dayList = daysInMonthArray(CalendarUtil.selectDate);
-            adapter = new CalendarAdapter(dayList);
+        if (toDoAdapter == null) {
+            toDoAdapter = new ToDoAdapter(toDoItems, getActivity());
             todoListRecyclerview.setHasFixedSize(true);
-            todoListRecyclerview.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+            todoListRecyclerview.setAdapter(toDoAdapter);
+            toDoAdapter.notifyDataSetChanged();
         } else {
-            adapter.setTodoData(toDoItems);
-            adapter.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_TODOLIST_FOR_INTENT) {
-                loadTodoList();
-            }
-        } else {
-            Toast.makeText(getContext(),"수신 실패",Toast.LENGTH_SHORT).show();
+            toDoAdapter.setTodoData(toDoItems);
+            toDoAdapter.notifyDataSetChanged();
         }
     }
 }
