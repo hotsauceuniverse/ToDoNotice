@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "343671362707",
+    "project_id": "todonotice-72a1c",
+    "storage_bucket": "todonotice-72a1c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:343671362707:android:b57612ecbd292d3831a966",
+        "android_client_info": {
+          "package_name": "com.example.todonotice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "343671362707-0i6vg2d7uadqp4qqnur24pbh92tfct9d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.todonotice",
+            "certificate_hash": "8c9513d1362a07ad838d4cbbcfcaa06a83090cf0"
+          }
+        },
+        {
+          "client_id": "343671362707-673405u6e9sdkvmafn28fnok1381u3dn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4-YELqH1XtwzeEpzq1dXwxcqctXV6ByQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "343671362707-5e30nksjo9uin595q6nbnv0e623pn9rr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
