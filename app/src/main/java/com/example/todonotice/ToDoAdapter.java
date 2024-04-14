@@ -1,11 +1,13 @@
 package com.example.todonotice;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -40,9 +42,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
     @Override
     public void onBindViewHolder(@NonNull ToDoAdapter.ToDoViewHolder holder, int position) {
         ToDoItem toDoItem = todoList.get(position);
-//        if (toDoItem != null) {
-//            holder.onBind(toDoItem);
-//        }
 
         if (position % 2 == 1 && toDoItem != null) {
             holder.onBind(toDoItem);
@@ -51,6 +50,14 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
             holder.onBind(toDoItem);
             holder.todoBox.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 리스트 선택 기능
+                Toast.makeText(mContext, "제거 완료" , Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
