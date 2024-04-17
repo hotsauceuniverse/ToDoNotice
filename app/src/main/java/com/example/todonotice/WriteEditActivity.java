@@ -30,9 +30,9 @@ public class WriteEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.write_edit_activity);
 
-        title_area = (EditText) findViewById(R.id.title_area);
-        context_area = (EditText) findViewById(R.id.context_area);
-        edit_btn = (TextView) findViewById(R.id.edit_btn);
+        title_area = findViewById(R.id.title_area);
+        context_area = findViewById(R.id.context_area);
+        edit_btn = findViewById(R.id.edit_btn);
 
         // 글쓰기 창 닫기
         close_btn = (ImageView) findViewById(R.id.close_btn);
@@ -42,59 +42,12 @@ public class WriteEditActivity extends AppCompatActivity {
                 finish();
             }
         });
-        // EditText에 입력이 변경 될 때 리스너 설정
-        editContext();
-
-        mDBHelper = new DBHelper(this);
         updateDiary();
-    }
-
-    public void editContext() {
-        context_area.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                updateEditButton();
-            }
-        });
-    }
-
-    void updateEditButton() {
-        boolean isTextNotEmpty = context_area.getText().length() > 0;
-        boolean isTitleNotEmpty = title_area.getText().length() > 0;
-
-        Log.e("isTitleNotEmpty", "isTitleNotEmpty" + isTitleNotEmpty);
-
-        if (isTitleNotEmpty && !isTextNotEmpty) {
-            // Case 1: isTitleNotEmpty만 작성되어 있음
-            edit_btn.setEnabled(true);
-            edit_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar));
-        } else if (isTitleNotEmpty && isTextNotEmpty) {
-            // Case 2: isTitleNotEmpty과 isTextNotEmpty이 작성되어 있음
-            edit_btn.setEnabled(true);
-            edit_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.iphone_pink));
-        } else if (isTextNotEmpty && !isTitleNotEmpty) {
-            // Case 3: isTextNotEmpty만 작성되어 있음
-            edit_btn.setEnabled(true);
-            edit_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar));
-        } else {
-            // 기타 경우
-            edit_btn.setEnabled(false);
-            edit_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar));
-        }
     }
 
     public void updateDiary() {
         // 내용 가져오기
+        mDBHelper = new DBHelper(this);
         Intent intent = getIntent();
         writeData = new WriteData();
         writeData.setId(intent.getIntExtra("id", -1));
@@ -131,9 +84,57 @@ public class WriteEditActivity extends AppCompatActivity {
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
+                // EditText에 입력이 변경 될 때 리스너 설정
+                editContext();
                 finish();
             }
         });
+    }
+
+    public void editContext() {
+        context_area.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                updateEditButton();
+            }
+        });
+    }
+
+    void updateEditButton() {
+        boolean isTextNotEmpty = context_area.getText().length() > 0;
+        boolean isTitleNotEmpty = title_area.getText().length() > 0;
+
+        Log.e("isTitleNotEmpty", "isTitleNotEmpty" + isTitleNotEmpty);
+
+        // 다시 수정 필요
+        // 버튼 비활성화 막기
+        if (isTitleNotEmpty && !isTextNotEmpty) {
+            // Case 1: isTitleNotEmpty만 작성되어 있음
+            edit_btn.setEnabled(true);
+            edit_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar));
+        } else if (isTitleNotEmpty && isTextNotEmpty) {
+            // Case 2: isTitleNotEmpty과 isTextNotEmpty이 작성되어 있음
+            edit_btn.setEnabled(true);
+            edit_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.iphone_pink));
+        } else if (isTextNotEmpty && !isTitleNotEmpty) {
+            // Case 3: isTextNotEmpty만 작성되어 있음
+            edit_btn.setEnabled(true);
+            edit_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar));
+        } else {
+            // 기타 경우
+            edit_btn.setEnabled(false);
+            edit_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar));
+        }
     }
 }
 

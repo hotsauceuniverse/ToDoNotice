@@ -1,13 +1,10 @@
 package com.example.todonotice;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,10 +33,6 @@ public class FragmentHome extends Fragment {
         news_pre_1 = rootView.findViewById(R.id.news_lay_st);
         news_pre_2 = rootView.findViewById(R.id.news_lay_nd);
         news_pre_3 = rootView.findViewById(R.id.news_lay_rd);
-
-        ImageView BookMark_st = rootView.findViewById(R.id.bookMark_st);
-        ImageView BookMark_nd = rootView.findViewById(R.id.bookMark_nd);
-        ImageView BookMark_rd = rootView.findViewById(R.id.bookMark_rd);
 
         notice_pre_1.setOnClickListener(new View.OnClickListener() {
 
@@ -149,53 +142,6 @@ public class FragmentHome extends Fragment {
                 startActivity(intent);
             }
         });
-
-        if (BookMark_st != null) {
-            BookMark_st.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (isBookmarked) {
-                        // 이미 활성화되어 있으면 비활성화 상태로 변경
-                        BookMark_st.setImageResource(R.drawable.bookmark);
-                        BookMark_st.setBackgroundColor(Color.TRANSPARENT); // 배경색을 투명으로 설정
-                    } else {
-                        // 비활성화 상태면 활성화 상태로 변경
-                        BookMark_st.setImageResource(R.drawable.bookmark_active); // 활성화 이미지 받기
-                    }
-                    isBookmarked = !isBookmarked;
-                }
-            });
-        }
-
-        if (BookMark_nd != null) {
-            BookMark_nd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (isBookmarked) {
-                        BookMark_nd.setImageResource(R.drawable.bookmark);
-                        BookMark_nd.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        BookMark_nd.setImageResource(R.drawable.bookmark_active);
-                    }
-                    isBookmarked = !isBookmarked;
-                }
-            });
-        }
-
-        if (BookMark_rd != null) {
-            BookMark_rd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (isBookmarked) {
-                        BookMark_rd.setImageResource(R.drawable.bookmark);
-                        BookMark_rd.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        BookMark_rd.setImageResource(R.drawable.bookmark_active);
-                    }
-                    isBookmarked = !isBookmarked;
-                }
-            });
-        }
         return rootView;
     }
 }

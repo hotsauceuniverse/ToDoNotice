@@ -160,7 +160,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/date_tv"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginLeft="26dp"
@@ -170,12 +170,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/todolist_recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginLeft="26dp"
         android:layout_marginRight="26dp"
         android:clipToPadding="false"
+        android:paddingBottom="100dp"
+        tools:listitem="@layout/todolist_cell"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,9 +25,9 @@ import androidx.core.content.ContextCompat;
 public class CalendarTodoList extends AppCompatActivity {
 
     private ToDoItem toDoItems;
-    private TextView timeSaveBtn;
     private Intent timeIntent;
     private DBHelper2 mDBHelper2;
+    TextView timeSaveBtn;
     EditText TodoText;
     EditText HourText;
     EditText MinuteText;
@@ -90,12 +90,6 @@ public class CalendarTodoList extends AppCompatActivity {
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker timePicker, int hour, int min) {
-                int setHourValue = hour;
-                Log.d("hour   ", "hour   " + hour);
-
-                int setMinValue = min;
-                Log.d("min   ", "min   " + min);
-
                 timeSaveBtn = dialog.findViewById(R.id.save_btn);
                 timeSaveBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -117,7 +111,6 @@ public class CalendarTodoList extends AppCompatActivity {
                 });
             }
         });
-
         dialog.show();
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -179,6 +172,7 @@ public class CalendarTodoList extends AppCompatActivity {
     }
 
     // 다시 수정 필요
+    // 버튼 비활성화 막기
     private void updateSaveButton() {
         boolean isTitleNotEmpty = TodoText.getText().length() > 0;
         boolean isHourNotEmpty = HourText.getText().length() > 0;

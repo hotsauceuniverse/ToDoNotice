@@ -43,7 +43,7 @@ public class WriteActivity extends AppCompatActivity {
 
         mDBHelper = new DBHelper(this);
         // 업로드 버튼 활성화
-        upload_btn = (TextView) findViewById(R.id.upload_btn);
+        upload_btn = findViewById(R.id.upload_btn);
         upload_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,11 +61,11 @@ public class WriteActivity extends AppCompatActivity {
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
+                // EditText에 입력이 변경 될 때 리스너 설정
+                editContext();
                 finish();
             }
         });
-        // EditText에 입력이 변경 될 때 리스너 설정
-        editContext();
     }
 
     public void editContext() {
@@ -88,25 +88,31 @@ public class WriteActivity extends AppCompatActivity {
     }
 
     void updateUploadButton() {
-        boolean isTextNotEmpty = context_area.getText().length() > 0;
         boolean isTitleNotEmpty = title_area.getText().length() > 0;
+        boolean isTextNotEmpty = context_area.getText().length() > 0;
 
         Log.e("isTitleNotEmpty", "isTitleNotEmpty" + isTitleNotEmpty);
 
+        // 다시 수정 필요
+        // 버튼 비활성화 막기
         if (isTitleNotEmpty && !isTextNotEmpty) {
             // Case 1: isTitleNotEmpty만 작성되어 있음
-            upload_btn.setEnabled(true);
+            upload_btn.setClickable(false);
+            upload_btn.setEnabled(false);
             upload_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar));
         } else if (isTitleNotEmpty && isTextNotEmpty) {
             // Case 2: isTitleNotEmpty과 isTextNotEmpty이 작성되어 있음
+            upload_btn.setClickable(true);
             upload_btn.setEnabled(true);
             upload_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.iphone_pink));
         } else if (isTextNotEmpty && !isTitleNotEmpty) {
             // Case 3: isTextNotEmpty만 작성되어 있음
-            upload_btn.setEnabled(true);
+            upload_btn.setClickable(false);
+            upload_btn.setEnabled(false);
             upload_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar));
         } else {
             // 기타 경우
+            upload_btn.setClickable(false);
             upload_btn.setEnabled(false);
             upload_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar));
         }

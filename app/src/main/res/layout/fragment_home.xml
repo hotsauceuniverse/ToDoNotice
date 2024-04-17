@@ -387,7 +387,7 @@
                                 />
 
                             <LinearLayout
-                                android:layout_width="200dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:layout_marginLeft="12dp"
@@ -419,17 +419,6 @@
 
                             </LinearLayout>
 
-                            <ImageView
-                                android:id="@+id/bookMark_st"
-                                android:layout_width="14dp"
-                                android:layout_height="18dp"
-                                android:src="@drawable/bookmark"
-                                android:layout_marginLeft="17dp"
-                                android:layout_marginTop="3dp"
-                                android:clickable="true"
-                                android:focusable="true"
-                                />
-
                         </LinearLayout>
 
                         <View
@@ -456,7 +445,7 @@
                                 />
 
                             <LinearLayout
-                                android:layout_width="200dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:layout_marginLeft="12dp"
@@ -488,17 +477,6 @@
 
                             </LinearLayout>
 
-                            <ImageView
-                                android:id="@+id/bookMark_nd"
-                                android:layout_width="14dp"
-                                android:layout_height="18dp"
-                                android:src="@drawable/bookmark"
-                                android:layout_marginLeft="17dp"
-                                android:layout_marginTop="3dp"
-                                android:clickable="true"
-                                android:focusable="true"
-                                />
-
                         </LinearLayout>
 
                         <View
@@ -525,7 +503,7 @@
                                 />
 
                             <LinearLayout
-                                android:layout_width="200dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:layout_marginLeft="12dp"
@@ -556,17 +534,6 @@
                                     />
 
                             </LinearLayout>
-
-                            <ImageView
-                                android:id="@+id/bookMark_rd"
-                                android:layout_width="14dp"
-                                android:layout_height="18dp"
-                                android:src="@drawable/bookmark"
-                                android:layout_marginLeft="17dp"
-                                android:layout_marginTop="3dp"
-                                android:clickable="true"
-                                android:focusable="true"
-                                />
 
                         </LinearLayout>
 
