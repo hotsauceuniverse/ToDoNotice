@@ -6,6 +6,7 @@ public class NewsData implements Serializable {
     private String title;
     private String urlToImage;
     private String description;
+    private String url;
 
 
     public String getTitle() {
@@ -20,6 +21,10 @@ public class NewsData implements Serializable {
         return urlToImage;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
     public void setUrlToImage(String urlToImage) {
         this.urlToImage = urlToImage;
     }
@@ -30,5 +35,9 @@ public class NewsData implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

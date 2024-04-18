@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -70,6 +69,9 @@ public class IntroActivity extends AppCompatActivity implements GoogleApiClient.
             @Override
             // 콜백 메서드
             public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
+
+                Log.e("Asdwww",oAuthToken + "  invoke throwable   " + throwable);
+
                 if(oAuthToken != null) {
                     // 토큰이 전달된다면 로그인이 성공한 것이고, 토큰이 전달되지 않으면 로그인 실패
                     updateKakaoLoginUi();
@@ -89,11 +91,11 @@ public class IntroActivity extends AppCompatActivity implements GoogleApiClient.
                 // 해당 기기에 카카오톡이 설치되어 있는지 확인
                 if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(IntroActivity.this)) {
                     UserApiClient.getInstance().loginWithKakaoTalk(IntroActivity.this, callback);
-                    Toast.makeText(getApplicationContext(), "성공", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "성공", Toast.LENGTH_SHORT).show();
                 } else {
                     // 카카오톡이 설치 되어 있지 않다면
                     UserApiClient.getInstance().loginWithKakaoTalk(IntroActivity.this, callback);
-                    Toast.makeText(getApplicationContext(), "실패", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "실패", Toast.LENGTH_SHORT).show();
                 }
             }
         });

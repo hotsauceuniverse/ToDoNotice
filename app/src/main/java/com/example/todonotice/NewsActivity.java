@@ -37,7 +37,6 @@ public class NewsActivity extends AppCompatActivity {
     RequestQueue queue;
     LottieAnimationView loadingAnimation;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +73,7 @@ public class NewsActivity extends AppCompatActivity {
     public void getNews() {
 
         String url = "https://newsapi.org/v2/top-headlines?country=kr&apiKey=ce563d897b6c46a6b2e5ee5f32a22b1f";
-
+                      
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -102,11 +101,16 @@ public class NewsActivity extends AppCompatActivity {
 
                         NewsData newsData = new NewsData();
                         newsData.setTitle(obj.getString("title"));
-                        newsData.setUrlToImage(obj.getString("urlToImage"));
-//                      newsData.setDescription(obj.getString("description"));
+                        Log.d("title   ", "title   " + obj.get("title"));
 
-//                      처음부터 UrlToImage가 null인경우를 배열에서 제외시키는 방법
-                        if (!newsData.getUrlToImage().equals("null")) {
+                        newsData.setUrlToImage(obj.getString("urlToImage"));
+                        Log.d("urlToImage   ", "urlToImage   " + obj.get("urlToImage"));
+
+                        newsData.setUrl(obj.getString("url"));
+                        Log.d("url   ", "url   " + obj.get("url"));
+
+//                      처음부터 UrlToImage가 null인경우와 http://로 시작하는 기사를 배열에서 제외시키는 방법
+                        if (!newsData.getUrlToImage().equals("null") && !newsData.getUrlToImage().startsWith("http://")) {
                             news.add(newsData);
                         }
                         Log.d("newsData", "newsData" + newsData);
@@ -118,10 +122,15 @@ public class NewsActivity extends AppCompatActivity {
                         public void onClick(View view) {
                             if (view.getTag() != null) {
                                 int position = (int)view.getTag();
-                                // 뉴스로 이동 수정해야 함
-//                              ((NewsAdapter)newsAdapter).getNews(position);
-//                              Intent intent = new Intent(NewsActivity.this, );
-//                              startActivity(intent);
+                                Log.d("position   ", "position   " + position);
+
+                                // 뉴스 웹 뷰로 이동
+                                if (news != null && position < news.size()) {
+                                    ((NewsAdapter)newsAdapter).getNews(position);
+                                    Intent intent = new Intent(NewsActivity.this, NewsWebView.class);
+                                    intent.putExtra("URL", news.get(position).getUrl());
+                                    startActivity(intent);
+                                }
                             }
                         }
                     });

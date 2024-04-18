@@ -5,6 +5,7 @@
     <!--    https://kenial.tistory.com/838 참고 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
     <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
@@ -27,7 +28,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ToDoNotice"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        >
         <activity
             android:name=".IntroActivity"
             android:exported="true">
@@ -43,7 +45,8 @@
 
         <!-- kakao 연결 -->
         <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -77,6 +80,7 @@
         <activity android:name=".ToDoListCell" />
         <activity android:name=".CalendarTodoList"/>
         <activity android:name=".CalendarTodoListEdit"/>
+        <activity android:name=".NewsWebView"/>
 
     </application>
 
