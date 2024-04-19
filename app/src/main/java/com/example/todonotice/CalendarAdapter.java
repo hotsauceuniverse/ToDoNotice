@@ -1,6 +1,5 @@
 package com.example.todonotice;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -19,8 +18,9 @@ import java.util.ArrayList;
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.CalenderViewHolder> {
 
     ArrayList<LocalDate> dayList;
-//    public static final int REQUEST_TODOLIST_FOR_INTENT = 101;
     private ArrayList<ToDoItem> toDoItems;
+    private CalenderViewHolder selectedItemHolder = null;
+    private LocalDate day;
 
     public CalendarAdapter(ArrayList<LocalDate> dayList) {
         this.dayList = dayList;
@@ -44,6 +44,33 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
     @Override
     public void onBindViewHolder(@NonNull CalenderViewHolder holder, int position) {
         holder.Bind(dayList.get(position));
+        Drawable dateBackground = ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.date_background);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int calCurPos = holder.getAdapterPosition();
+                Log.d("calCurPos", "calCurPos" + calCurPos);
+
+                if (selectedItemHolder != null) {
+                    // 이전에 선택한 값 null
+                    selectedItemHolder.parentView.setBackground(null);
+                }
+
+                if (calCurPos == holder.getAdapterPosition()) {
+                    holder.parentView.setBackground(dateBackground);
+                    // 새로 클릭한 itemView selectedItemHolder에 저장
+                    selectedItemHolder = holder;
+                    selectedItemHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(holder.itemView.getContext(), CalendarTodoList.class);
+                            (holder.itemView.getContext()).startActivity(intent);
+                        }
+                    });
+                }
+            }
+        });
     }
 
     @Override
@@ -64,34 +91,15 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         }
 
         public void Bind(LocalDate day) {
-            Drawable dateBackground = ContextCompat.getDrawable(itemView.getContext(), R.drawable.date_background);
-
             // 날짜 변수에 담기
             if (day == null) {
                 dayTv.setText("");
             } else {
                 dayTv.setText(String.valueOf(day.getDayOfMonth()));
-
                 // 오늘 날짜 색상 변경
                 if (day.equals(CalendarUtil.selectDate)) {
-                    dayTv.setTextColor(Color.parseColor("#ffffff"));
-                    parentView.setBackground(dateBackground);
-
+                    dayTv.setTextColor(Color.parseColor("#1473E6"));
                 }
-                // 날짜 클릭 이벤트
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.d("date   ", "date   " + day);
-                        // 달력 빈 곳 클릭 했을 때 앱 꺼짐 방지
-                        // NullPointerException 처리
-                        if (day!= null) {
-                            Intent intent = new Intent(itemView.getContext(), CalendarTodoList.class);
-                            ((Activity) itemView.getContext()).startActivity(intent);
-//                            ((Activity) itemView.getContext()).startActivityForResult(intent, REQUEST_TODOLIST_FOR_INTENT);
-                        }
-                    }
-                });
             }
         }
     }

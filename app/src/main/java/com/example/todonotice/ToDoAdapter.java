@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -65,6 +64,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (i == 0) {
+                            // Data Base open id값 기준
                             Cursor cursor = db.rawQuery("SELECT * FROM TODOLIST_TEXT_SEQ WHERE id = ?", new String[]{String.valueOf(item.getId())});
                             if (cursor != null && cursor.moveToFirst()) {
                                 // 열 인덱스 가져오기
