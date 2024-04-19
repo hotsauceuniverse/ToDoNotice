@@ -1,8 +1,11 @@
 package com.example.todonotice;
 
 import android.annotation.TargetApi;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
@@ -12,9 +15,13 @@ import android.webkit.WebViewClient;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.airbnb.lottie.LottieAnimationView;
+
 public class NewsWebView extends AppCompatActivity {
 
     WebView newsWebView;
+    LottieAnimationView loadingAnimation;
+    View webViewDim;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,6 +29,8 @@ public class NewsWebView extends AppCompatActivity {
         setContentView(R.layout.news_webview);
 
         newsWebView = findViewById(R.id.news_webView);
+        loadingAnimation = findViewById(R.id.loading_animation);
+        webViewDim = findViewById(R.id.view_dim);
 
         String url = getIntent().getStringExtra("URL");
 
@@ -33,6 +42,33 @@ public class NewsWebView extends AppCompatActivity {
         newsWebView.getSettings().setDomStorageEnabled(true);   // "조선일보" 웹뷰 안뜨는 상황에서 추가한 코드, 로컬저장소 허용 여부
 
         newsWebView.setWebViewClient(new WebViewClient() {
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                loadingAnimation.setVisibility(View.VISIBLE);
+                webViewDim.setVisibility(View.VISIBLE);
+                newsWebView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        return true;
+                    }
+                });
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                loadingAnimation.setVisibility(View.INVISIBLE);
+                webViewDim.setVisibility(View.INVISIBLE);
+                newsWebView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        return false;
+                    }
+                });
+            }
+
             @SuppressWarnings("deprecation")
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {

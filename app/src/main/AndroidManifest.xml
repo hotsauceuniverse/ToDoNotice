@@ -29,7 +29,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ToDoNotice"
         tools:targetApi="31"
+        android:usesCleartextTraffic="true"
         >
+        <!-- net::ERR_CLEARTEXT_NOT_PERMITTTED -> android:usesCleartextTraffic="true" 추가 (WebView) -->
+
         <activity
             android:name=".IntroActivity"
             android:exported="true">

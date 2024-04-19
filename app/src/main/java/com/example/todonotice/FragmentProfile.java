@@ -141,22 +141,7 @@ public class FragmentProfile extends Fragment {
 
         // 카카오 로그인 후 프로필 사진, 닉네임 연동
         profileImageConnect();
-
-        // IntroActivity Google key값 전달
-        Intent intent = getActivity().getIntent();
-        String googleName = intent.getStringExtra("userName");
-        String googleImg = intent.getStringExtra("userPhoto");
-
-        // 사진, 닉네임 뷰 세팅
-        nicknameEditText.setText(googleName);
-        Glide.with(this).load(googleImg).into(profileImageView);
-
         return rootView;
-    }
-
-    // 구글 로그인 후 프로필 사진, 닉네임 연동
-    private void googleAccountConnect() {
-
     }
 
     private void updateButtonColor() {

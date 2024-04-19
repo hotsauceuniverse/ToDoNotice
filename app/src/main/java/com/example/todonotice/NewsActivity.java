@@ -23,10 +23,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class NewsActivity extends AppCompatActivity {
 
@@ -109,8 +112,8 @@ public class NewsActivity extends AppCompatActivity {
                         newsData.setUrl(obj.getString("url"));
                         Log.d("url   ", "url   " + obj.get("url"));
 
-//                      처음부터 UrlToImage가 null인경우와 http://로 시작하는 기사를 배열에서 제외시키는 방법
-                        if (!newsData.getUrlToImage().equals("null") && !newsData.getUrlToImage().startsWith("http://")) {
+                        // 처음부터 UrlToImage가 null인 경우와 http://로 시작하는 경우와 특정경로로 시작하는 기사를 배열에서 제외
+                        if (!newsData.getUrlToImage().equals("null") && !newsData.getUrlToImage().startsWith("http://") && !newsData.getUrlToImage().startsWith("/")) {
                             news.add(newsData);
                         }
                         Log.d("newsData", "newsData" + newsData);
