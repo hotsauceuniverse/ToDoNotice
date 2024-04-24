@@ -122,6 +122,11 @@ public class CalendarTodoList extends AppCompatActivity {
         todoSaveBtn = findViewById(R.id.todo_save_btn);
         mDBHelper2 = new DBHelper2(this);
         toDoItems = new ToDoItem();
+
+        Intent intent = getIntent();
+        String selectedDate = intent.getStringExtra("selected");
+        Log.d("selectedDateStr   ", "selectedDateStr   " + selectedDate);
+
         todoSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,17 +137,9 @@ public class CalendarTodoList extends AppCompatActivity {
                 String placeString = PlaceText.getText().toString();
                 String memoString = MemoText.getText().toString();
 
-                mDBHelper2.InsertToDoList(todoString, hourString, minString, placeString, memoString);
+                mDBHelper2.InsertToDoList(todoString, hourString, minString, placeString, memoString, selectedDate);
 
-                Intent intent = new Intent();
-                intent.putExtra("todo", todoString);
-                Log.d("todo   ", "todo   " + todoString);
 
-                intent.putExtra("hour", hourString);
-                Log.d("hour   ", "hour   " + hourString);
-
-                intent.putExtra("min", minString);
-                Log.d("min   ", "min   " + minString);
 
                 setResult(RESULT_OK, intent);
                 finish();

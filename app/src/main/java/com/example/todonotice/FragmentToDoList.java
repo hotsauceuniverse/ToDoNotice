@@ -1,5 +1,6 @@
 package com.example.todonotice;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.view.menu.MenuView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +18,7 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Locale;
 
 //  Activity에서 Fragment로 옮길때 변경사항
@@ -28,6 +31,7 @@ public class FragmentToDoList extends Fragment {
     TextView monthYearText; // 년월 텍스트뷰
     RecyclerView recyclerView, todoListRecyclerview;
     private ArrayList<ToDoItem> toDoItems;
+    private ArrayList<LocalDate> dayList;
     private CalendarAdapter adapter;
     private ToDoAdapter toDoAdapter;
     ImageView preBtn, nextBtn;
@@ -83,10 +87,10 @@ public class FragmentToDoList extends Fragment {
         monthYearText.setText(yearMonthFormDate(CalendarUtil.selectDate));
 
         // 해당 월 날짜 가져오기
-        ArrayList<LocalDate> dayList = daysInMonthArray(CalendarUtil.selectDate);
+        dayList = daysInMonthArray(CalendarUtil.selectDate);
 
         // 어뎁터 데이터 적용
-        adapter = new CalendarAdapter(dayList);
+        adapter = new CalendarAdapter(dayList, getActivity());
 
         // 레이아웃 설정(열 7개)
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 7);

@@ -1,6 +1,9 @@
 package com.example.todonotice;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -9,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,59 +22,97 @@ import java.util.ArrayList;
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.CalenderViewHolder> {
 
     ArrayList<LocalDate> dayList;
-    private ArrayList<ToDoItem> toDoItems;
     private CalenderViewHolder selectedItemHolder = null;
-    private LocalDate day;
+    private DBHelper2 mDBHelper2;
+    private Context mContext;
 
-    public CalendarAdapter(ArrayList<LocalDate> dayList) {
+    public CalendarAdapter(ArrayList<LocalDate> dayList, Context context) {
         this.dayList = dayList;
-    }
-
-    public void setTodoData(ArrayList<ToDoItem> toDoItems) {
-        this.toDoItems = toDoItems;
-        notifyDataSetChanged();
+        this.mContext = context;
+        this.mDBHelper2 = new DBHelper2(mContext);
     }
 
     @NonNull
     @Override
     public CalenderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-
         View view = inflater.inflate(R.layout.calendar_cell, parent, false);
-
         return new CalenderViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CalenderViewHolder holder, int position) {
         holder.Bind(dayList.get(position));
+        Log.d("day   ", "day   " + dayList.get(position));
+
+        int calCurPos = holder.getAdapterPosition();
+        Log.d("calCurPos   ", "calCurPos   " + calCurPos);
+        Log.d("position   ", "position   " + dayList.get(calCurPos));
+
         Drawable dateBackground = ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.date_background);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // 달력 빈곳(null) 클릭 불가
+                if (dayList.get(calCurPos) != null) {
+                    if (selectedItemHolder != null) {
+                        // 이전에 선택한 값 null
+                        selectedItemHolder.parentView.setBackground(null);
+                    }
 
-                int calCurPos = holder.getAdapterPosition();
-                Log.d("calCurPos", "calCurPos" + calCurPos);
-
-                if (selectedItemHolder != null) {
-                    // 이전에 선택한 값 null
-                    selectedItemHolder.parentView.setBackground(null);
-                }
-
-                if (calCurPos == holder.getAdapterPosition()) {
-                    holder.parentView.setBackground(dateBackground);
-                    // 새로 클릭한 itemView selectedItemHolder에 저장
-                    selectedItemHolder = holder;
-                    selectedItemHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(holder.itemView.getContext(), CalendarTodoList.class);
-                            (holder.itemView.getContext()).startActivity(intent);
-                        }
-                    });
+                    if (calCurPos == holder.getAdapterPosition()) {
+                        holder.parentView.setBackground(dateBackground);
+                        // 새로 클릭한 itemView selectedItemHolder에 저장
+                        selectedItemHolder = holder;
+                        selectedItemHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                // 선택한 날짜 넘겨줘야 함
+                                Intent intent = new Intent(holder.itemView.getContext(), CalendarTodoList.class);
+                                intent.putExtra("selected", dayList.get(calCurPos).toString());
+                                Log.d("asdwww   ", "asdwww   " + dayList.get(calCurPos).toString());
+                                (holder.itemView.getContext()).startActivity(intent);
+                            }
+                        });
+                    }
                 }
             }
         });
+
+        // 달력 점 찍기
+        // DB에서 해당 날짜에 할 일이 있는지 확인
+        LocalDate currentDate = dayList.get(position);
+        // 현재 날짜에 해당하는 데이터가 있는지 확인
+        boolean hasData = checkDate(currentDate);
+
+        // 데이터가 있는 경우, 점을 표시
+        if (hasData) {
+            holder.scheduleDot.setVisibility(View.VISIBLE);
+        } else {
+            holder.scheduleDot.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    // 해당 날짜에 데이터가 있는지 확인
+    private boolean checkDate(LocalDate currentData) {
+        // currentDate가 null이면 데이터가 없는 것
+        if (currentData == null) {
+            return false;
+        }
+
+        boolean hasData = false;
+        SQLiteDatabase db = mDBHelper2.getReadableDatabase();
+
+        // 해당 날짜에 대한 정보 DB에서 검색
+        String select = "SELECT * FROM TODOLIST_TEXT_SEQ WHERE writeDate = ?";
+        Cursor cursor = db.rawQuery(select, new String[]{currentData.toString()});
+
+        // 검색 결과가 있으면 데이터를 표시
+        if (cursor != null) {
+            hasData = cursor.getCount() > 0;
+            cursor.close();
+        }
+        return hasData;
     }
 
     @Override
@@ -82,12 +124,14 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
 
         TextView dayTv;
         View parentView;
+        View scheduleDot;
 
         public CalenderViewHolder(@NonNull View itemView) {
             super(itemView);
 
             dayTv = itemView.findViewById(R.id.date_tv);
             parentView = itemView.findViewById(R.id.parentView);
+            scheduleDot = itemView.findViewById(R.id.dot);
         }
 
         public void Bind(LocalDate day) {

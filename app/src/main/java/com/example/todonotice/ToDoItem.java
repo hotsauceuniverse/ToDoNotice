@@ -8,6 +8,7 @@ public class ToDoItem {
     private String min;
     private String place;
     private String memo;
+    private String writeDate;
 
     public ToDoItem() {
     }
@@ -36,6 +37,10 @@ public class ToDoItem {
         return id;
     }
 
+    public String getWriteDate() {
+        return writeDate;
+    }
+
     public void setTodo(String todo) {
         this.todo = todo;
     }
@@ -58,5 +63,9 @@ public class ToDoItem {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setWriteDate(String writeDate) {
+        this.writeDate = writeDate;
     }
 }

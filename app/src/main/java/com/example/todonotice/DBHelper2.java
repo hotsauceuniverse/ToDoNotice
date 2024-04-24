@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class DBHelper2 extends SQLiteOpenHelper {
@@ -22,7 +23,7 @@ public class DBHelper2 extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // 데이터 베이스가 생성 될 때 호출
-        db.execSQL("CREATE TABLE IF NOT EXISTS TODOLIST_TEXT_SEQ (id INTEGER PRIMARY KEY AUTOINCREMENT, todo TEXT NOT NULL, hour TEXT NOT NULL, min TEXT NOT NULL, place TEXT, memo TEXT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS TODOLIST_TEXT_SEQ (id INTEGER PRIMARY KEY AUTOINCREMENT, todo TEXT NOT NULL, hour TEXT NOT NULL, min TEXT NOT NULL, place TEXT, memo TEXT, writeDate TEXT)");
     }
 
     @Override
@@ -45,6 +46,7 @@ public class DBHelper2 extends SQLiteOpenHelper {
                 String min = cursor.getString(cursor.getColumnIndexOrThrow("min"));
                 String place = cursor.getString(cursor.getColumnIndexOrThrow("place"));
                 String memo = cursor.getString(cursor.getColumnIndexOrThrow("memo"));
+                String writeDate = cursor.getString(cursor.getColumnIndexOrThrow("writeDate"));
 
                 ToDoItem data = new ToDoItem();
                 data.setId(id);
@@ -53,6 +55,7 @@ public class DBHelper2 extends SQLiteOpenHelper {
                 data.setMin(min);
                 data.setPlace(place);
                 data.setMemo(memo);
+                data.setWriteDate(writeDate);
                 toDoItem.add(data);
             }
         }
@@ -60,17 +63,21 @@ public class DBHelper2 extends SQLiteOpenHelper {
         return toDoItem;
     }
 
-    // INSERT (할 일 목록 추가)
-    public void InsertToDoList(String _todo, String _hour, String _min, String _place, String _memo) {
+    public void InsertToDoList(String _todo, String _hour, String _min, String _place, String _memo, String _writeDate) {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("INSERT INTO TODOLIST_TEXT_SEQ (todo, hour, min, place, memo) VALUES ('" + _todo + "', '" + _hour + "', '" + _min + "', '" + _place + "', '" + _memo + "');");
-    }
 
-    // UPDATE (할 일 목록 수정)
-//    public void UpdateToDoList(String _todo, String _hour, String _min, String _am, String _pm, String _writeDate, String _beforeDate) {
-//        SQLiteDatabase db = getWritableDatabase();
-//        db.execSQL("UPDATE TODOLIST_TEXT_SEQ SET title = '" + _todo + "', content = '" + _hour + "', min = '" + _min + "', am = '" + _am + "', pm = '" + _pm + "', writeDate = '" + _writeDate + "' WHERE writeDate = '" + _beforeDate + "'");   // 기준값 id
-//    }
+        // ContentValues를 사용하여 데이터 삽입
+        ContentValues values = new ContentValues();
+        values.put("todo", _todo);
+        values.put("hour", _hour);
+        values.put("min", _min);
+        values.put("place", _place);
+        values.put("memo", _memo);
+        values.put("writeDate", _writeDate); // 사용자가 지정한 날짜 추가
+
+        // 데이터베이스에 삽입
+        db.insert("TODOLIST_TEXT_SEQ", null, values);
+    }
 
     // UPDATE (할 일 목록 수정)
     public void UpdateToDoList(int id, String _todo, String _hour, String _min, String _place, String _memo) {

@@ -52,7 +52,6 @@ public class FragmentNoticeOutline extends Fragment {
     }
 
     private void setInit() {
-        // onCreateView에 있는 내용 가져옴
         recyclerView = rootView.findViewById(R.id.notice_list_recycle);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
