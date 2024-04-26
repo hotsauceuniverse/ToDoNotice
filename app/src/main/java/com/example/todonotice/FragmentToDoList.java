@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.view.menu.MenuView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,7 +17,6 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Locale;
 
 //  Activity에서 Fragment로 옮길때 변경사항
@@ -37,6 +35,7 @@ public class FragmentToDoList extends Fragment {
     ImageView preBtn, nextBtn;
     private View rootView;
     private DBHelper2 mDBHelper2;
+    public static Context mContext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,7 +70,7 @@ public class FragmentToDoList extends Fragment {
         });
 
         setInit();
-
+        mContext = getActivity();
         return rootView;
     }
 
@@ -168,7 +167,7 @@ public class FragmentToDoList extends Fragment {
             todoListRecyclerview.setHasFixedSize(true);
             todoListRecyclerview.setAdapter(toDoAdapter);
             toDoAdapter.notifyDataSetChanged();
-        } else {
+         } else {
             toDoAdapter.setTodoData(toDoItems);
             toDoAdapter.notifyDataSetChanged();
         }

@@ -18,8 +18,6 @@ public class FragmentHome extends Fragment {
     private Toolbar noticeToolbar, todolistToolbar;
     private LinearLayout news_pre_1, news_pre_2, news_pre_3;
 
-    private boolean isBookmarked = false;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
