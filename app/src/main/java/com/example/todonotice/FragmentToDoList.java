@@ -1,6 +1,5 @@
 package com.example.todonotice;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +34,6 @@ public class FragmentToDoList extends Fragment {
     ImageView preBtn, nextBtn;
     private View rootView;
     private DBHelper2 mDBHelper2;
-    public static Context mContext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,7 +68,8 @@ public class FragmentToDoList extends Fragment {
         });
 
         setInit();
-        mContext = getActivity();
+        // 최초 진입 시, 해당 리스트 안보이게 설정
+        hideTodoList();
         return rootView;
     }
 
@@ -89,7 +88,7 @@ public class FragmentToDoList extends Fragment {
         dayList = daysInMonthArray(CalendarUtil.selectDate);
 
         // 어뎁터 데이터 적용
-        adapter = new CalendarAdapter(dayList, getActivity());
+        adapter = new CalendarAdapter(dayList, this);
 
         // 레이아웃 설정(열 7개)
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 7);
@@ -153,23 +152,29 @@ public class FragmentToDoList extends Fragment {
 
         toDoItems = new ArrayList<>();
 
-        loadTodoList();
+        loadTodoList(CalendarUtil.selectDate);
         recyclerView.smoothScrollToPosition(0);
     }
 
-    public void loadTodoList() {
-        // DB로부터 todo 항목 가져오기
+    public void loadTodoList(LocalDate selectedDate) {
+        // DB로부터 해당 날짜의 todo 항목 가져오기
         mDBHelper2 = new DBHelper2(getActivity());
-        toDoItems = mDBHelper2.getTodoListData();
+        toDoItems = mDBHelper2.getTodoListData(selectedDate);
 
+        // 데이터가 있으면 RecyclerView 보이기
+        todoListRecyclerview.setVisibility(View.VISIBLE);
         if (toDoAdapter == null) {
             toDoAdapter = new ToDoAdapter(toDoItems, getActivity());
             todoListRecyclerview.setHasFixedSize(true);
             todoListRecyclerview.setAdapter(toDoAdapter);
-            toDoAdapter.notifyDataSetChanged();
-         } else {
+        } else {
             toDoAdapter.setTodoData(toDoItems);
             toDoAdapter.notifyDataSetChanged();
         }
+    }
+
+    public void hideTodoList() {
+        // 데이터가 없으면 RecyclerView 가리기
+        todoListRecyclerview.setVisibility(View.GONE);
     }
 }

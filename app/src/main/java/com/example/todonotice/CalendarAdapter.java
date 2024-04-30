@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,10 +24,13 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
     private CalenderViewHolder selectedItemHolder = null;
     private DBHelper2 mDBHelper2;
     private Context mContext;
+    private FragmentToDoList fragmentToDoList;
 
-    public CalendarAdapter(ArrayList<LocalDate> dayList, Context context) {
+
+    public CalendarAdapter(ArrayList<LocalDate> dayList, FragmentToDoList fragmentToDoList) {
         this.dayList = dayList;
-        this.mContext = context;
+        this.fragmentToDoList = fragmentToDoList;
+        this.mContext = fragmentToDoList.getContext();
         this.mDBHelper2 = new DBHelper2(mContext);
     }
 
@@ -49,6 +51,19 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         Log.d("calCurPos   ", "calCurPos   " + calCurPos);
         Log.d("position   ", "position   " + dayList.get(calCurPos));
 
+        // 달력 점 찍기
+        // DB에서 해당 날짜에 할 일이 있는지 확인
+        LocalDate currentDate = dayList.get(position);
+        // 현재 날짜에 해당하는 데이터가 있는지 확인
+        boolean hasData = checkDate(currentDate);
+
+        // 데이터가 있는 경우, 점을 표시
+        if (hasData) {
+            holder.scheduleDot.setVisibility(View.VISIBLE);
+        } else {
+            holder.scheduleDot.setVisibility(View.INVISIBLE);
+        }
+
         Drawable dateBackground = ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.date_background);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +71,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
                 // 달력 빈곳(null) 클릭 불가
                 if (dayList.get(calCurPos) != null) {
                     if (selectedItemHolder != null) {
-                        // 이전에 선택한 값 null
+                        // 이전에 선택한 배경값 null
                         selectedItemHolder.parentView.setBackground(null);
                     }
 
@@ -64,6 +79,17 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
                         holder.parentView.setBackground(dateBackground);
                         // 새로 클릭한 itemView selectedItemHolder에 저장
                         selectedItemHolder = holder;
+
+                        // FragmentToDoList 메서드 호출해서, 선택한 날짜에 데이터 유무 확인
+                        LocalDate selectDate = dayList.get(calCurPos);
+                        boolean data = checkDate(selectDate);
+
+                        if (data) {
+                            fragmentToDoList.loadTodoList(selectDate);
+                        } else {
+                            fragmentToDoList.hideTodoList();
+                        }
+
                         selectedItemHolder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -78,19 +104,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
                 }
             }
         });
-
-        // 달력 점 찍기
-        // DB에서 해당 날짜에 할 일이 있는지 확인
-        LocalDate currentDate = dayList.get(position);
-        // 현재 날짜에 해당하는 데이터가 있는지 확인
-        boolean hasData = checkDate(currentDate);
-
-        // 데이터가 있는 경우, 점을 표시
-        if (hasData) {
-            holder.scheduleDot.setVisibility(View.VISIBLE);
-        } else {
-            holder.scheduleDot.setVisibility(View.INVISIBLE);
-        }
     }
 
     // 해당 날짜에 데이터가 있는지 확인

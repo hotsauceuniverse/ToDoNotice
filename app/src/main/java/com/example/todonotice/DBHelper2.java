@@ -32,14 +32,18 @@ public class DBHelper2 extends SQLiteOpenHelper {
     }
 
     // SELECT (할 일 목록 조회)
-    public ArrayList<ToDoItem> getTodoListData() {
-        ArrayList<ToDoItem> toDoItem = new ArrayList<>();
+    public ArrayList<ToDoItem> getTodoListData(LocalDate selectedDate) {
+        ArrayList<ToDoItem> todoList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
 
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM TODOLIST_TEXT_SEQ ORDER BY id DESC", null);
-        if (cursor.getCount() != 0) {
-            // 조회한 데이터가 있을 때 내부 수행
-            while (cursor.moveToNext()) {
+        // 선택한 날짜에 해당하는 todo 항목 가져오기
+        String selectQuery = "SELECT * FROM TODOLIST_TEXT_SEQ WHERE writeDate = ?";
+        Cursor cursor = db.rawQuery(selectQuery, new String[]{selectedDate.toString()});
+
+        // 가져온 데이터를 ArrayList에 추가
+        if (cursor.moveToFirst()) {
+            do {
+                // 데이터 항목 가져오기
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 String todo = cursor.getString(cursor.getColumnIndexOrThrow("todo"));
                 String hour = cursor.getString(cursor.getColumnIndexOrThrow("hour"));
@@ -48,19 +52,24 @@ public class DBHelper2 extends SQLiteOpenHelper {
                 String memo = cursor.getString(cursor.getColumnIndexOrThrow("memo"));
                 String writeDate = cursor.getString(cursor.getColumnIndexOrThrow("writeDate"));
 
-                ToDoItem data = new ToDoItem();
-                data.setId(id);
-                data.setTodo(todo);
-                data.setHour(hour);
-                data.setMin(min);
-                data.setPlace(place);
-                data.setMemo(memo);
-                data.setWriteDate(writeDate);
-                toDoItem.add(data);
-            }
+                // ToDoItem 객체 생성 및 추가
+                ToDoItem item = new ToDoItem();
+                item.setId(id);
+                item.setTodo(todo);
+                item.setHour(hour);
+                item.setMin(min);
+                item.setPlace(place);
+                item.setMemo(memo);
+                item.setWriteDate(writeDate);
+                todoList.add(item);
+            } while (cursor.moveToNext());
         }
+
+        // 리소스 해제
         cursor.close();
-        return toDoItem;
+        db.close();
+
+        return todoList;
     }
 
     public void InsertToDoList(String _todo, String _hour, String _min, String _place, String _memo, String _writeDate) {
