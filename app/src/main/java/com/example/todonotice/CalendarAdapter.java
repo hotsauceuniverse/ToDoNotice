@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.CalenderViewHolder> {
 
     ArrayList<LocalDate> dayList;
-    private CalenderViewHolder selectedItemHolder = null;
+    private CalenderViewHolder selectedItemHolder;
     private DBHelper2 mDBHelper2;
     private Context mContext;
     private FragmentToDoList fragmentToDoList;
@@ -71,8 +71,10 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
                 // 달력 빈곳(null) 클릭 불가
                 if (dayList.get(calCurPos) != null) {
                     if (selectedItemHolder != null) {
-                        // 이전에 선택한 배경값 null
+                        // 이전에 선택한 날짜 배경값 null
                         selectedItemHolder.parentView.setBackground(null);
+                        // 이전에 선택한 날짜(포지션 값) 변경
+                        notifyItemChanged(selectedItemHolder.getAdapterPosition());
                     }
 
                     if (calCurPos == holder.getAdapterPosition()) {
