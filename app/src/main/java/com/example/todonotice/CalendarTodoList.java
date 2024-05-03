@@ -54,11 +54,12 @@ public class CalendarTodoList extends AppCompatActivity {
             }
         });
         InsertTodo();
+        editTodo();
+        todoSaveBtn.setClickable(false);    // 최초 진입 시, 버튼 클릭 안되게 설정
         timePicker();
     }
 
     public void timePicker() {
-
         // 최초 키패드 올라오지 않게
         HourText.setFocusable(false);
         HourText.setFocusableInTouchMode(false);
@@ -143,10 +144,8 @@ public class CalendarTodoList extends AppCompatActivity {
                 finish();
             }
         });
-        editTodo();
     }
 
-    // 다시 수정 필요
     private void editTodo() {
         TodoText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -164,37 +163,78 @@ public class CalendarTodoList extends AppCompatActivity {
                 updateSaveButton();
             }
         });
+
+        HourText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                updateSaveButton();
+            }
+        });
+
+        MinuteText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                updateSaveButton();
+            }
+        });
+
+        PlaceText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                updateSaveButton();
+            }
+        });
     }
 
-    // 다시 수정 필요
-    // 버튼 비활성화 막기
     private void updateSaveButton() {
         boolean isTitleNotEmpty = TodoText.getText().length() > 0;
         boolean isHourNotEmpty = HourText.getText().length() > 0;
         boolean isMinNotEmpty = MinuteText.getText().length() > 0;
+        boolean isPlaceNotEmpty = PlaceText.getText().length() > 0;
 
-        if (isTitleNotEmpty && !isHourNotEmpty && !isMinNotEmpty) {
-            // Case 1. title만 작성되어 있음
-            int gray = ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar);
-            Drawable shapeDrawableOff = getResources().getDrawable(R.drawable.profile_edit_button_off);
-            todoSaveBtn.setBackgroundColor(gray);
-            todoSaveBtn.setBackground(shapeDrawableOff);
-        } else if (isHourNotEmpty && isMinNotEmpty && !isTitleNotEmpty) {
-            // Case 2. Time만 작성되어 있음
-            int gray = ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar);
-            Drawable shapeDrawableOff = getResources().getDrawable(R.drawable.profile_edit_button_off);
-            todoSaveBtn.setBackgroundColor(gray);
-            todoSaveBtn.setBackground(shapeDrawableOff);
-        } else if (isTitleNotEmpty && isHourNotEmpty && isMinNotEmpty) {
-            // Case 3. 전부 작성되어 있음
-            int iphone_pink = ContextCompat.getColor(getApplicationContext(), R.color.iphone_pink);
-            Drawable shapeDrawableOn = getResources().getDrawable(R.drawable.profile_edit_button_on);
+        int gray = ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar);
+        int iphone_pink = ContextCompat.getColor(getApplicationContext(), R.color.iphone_pink);
+        Drawable shapeDrawableOff = getResources().getDrawable(R.drawable.profile_edit_button_off);
+        Drawable shapeDrawableOn = getResources().getDrawable(R.drawable.profile_edit_button_on);
+        
+        if (isTitleNotEmpty && isHourNotEmpty && isMinNotEmpty && isPlaceNotEmpty) {
+            // Case 1. 전부 작성되어 있음
+            todoSaveBtn.setClickable(true);
             todoSaveBtn.setBackgroundColor(iphone_pink);
             todoSaveBtn.setBackground(shapeDrawableOn);
         } else {
-            // 기타 경우
-            int gray = ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar);
-            Drawable shapeDrawableOff = getResources().getDrawable(R.drawable.profile_edit_button_off);
+            // Case 2. 그 외 경우
+            todoSaveBtn.setClickable(false);
             todoSaveBtn.setBackgroundColor(gray);
             todoSaveBtn.setBackground(shapeDrawableOff);
         }

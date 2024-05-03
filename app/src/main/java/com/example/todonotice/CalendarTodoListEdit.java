@@ -4,7 +4,12 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +21,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 public class CalendarTodoListEdit extends AppCompatActivity {
 
@@ -49,8 +55,9 @@ public class CalendarTodoListEdit extends AppCompatActivity {
                 finish();
             }
         });
-
         updateTodoList();
+        editTodo();
+        todoEditBtn.setClickable(false);    // 최초 진입 시, 버튼 클릭 안되게 설정
         EditTimePicker();
     }
 
@@ -157,6 +164,115 @@ public class CalendarTodoListEdit extends AppCompatActivity {
         editDialog.getWindow().setGravity(Gravity.BOTTOM);
     }
     
-    // 버튼 색상 변경 추가하기
+    private void editTodo() {
+        todoTitleEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                editSaveButton();
+            }
+        });
+
+        hourEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                editSaveButton();
+            }
+        });
+
+        minuteEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                editSaveButton();
+            }
+        });
+
+        todoPlaceEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                editSaveButton();
+            }
+        });
+    }
+
+    private void editSaveButton() {
+        String currentTitle = "";
+        String currentHour = "";
+        String currentMin = "";
+        String currentPlace = "";
+
+        String isTitleEdit = todoTitleEdit.getText().toString();
+        Log.d("isTitleEdit   ", "isTitleEdit   " + isTitleEdit);
+
+        String isHourEdit = hourEdit.getText().toString();
+        Log.d("isHourEdit   ", "isHourEdit   " + isHourEdit);
+
+        String isMinEdit = minuteEdit.getText().toString();
+        Log.d("isMinEdit   ", "isMinEdit   " + isMinEdit);
+
+        String isPlaceEdit = todoPlaceEdit.getText().toString();
+        Log.d("isPlaceEdit   ", "isPlaceEdit   " + isPlaceEdit);
+
+        int gray = ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar);
+        int iphone_pink = ContextCompat.getColor(getApplicationContext(), R.color.iphone_pink);
+        Drawable shapeDrawableOff = getResources().getDrawable(R.drawable.profile_edit_button_off);
+        Drawable shapeDrawableOn = getResources().getDrawable(R.drawable.profile_edit_button_on);
+
+        if (!TextUtils.isEmpty(isTitleEdit) &&
+                !TextUtils.isEmpty(isHourEdit) &&
+                !TextUtils.isEmpty(isMinEdit) &&
+                !TextUtils.isEmpty(isPlaceEdit) &&
+                !isTitleEdit.equals(currentTitle) &&
+                !isHourEdit.equals(currentHour) &&
+                !isMinEdit.equals(currentMin) &&
+                !isPlaceEdit.equals(currentPlace)) {
+            todoEditBtn.setClickable(true);
+            todoEditBtn.setBackgroundColor(iphone_pink);
+            todoEditBtn.setBackground(shapeDrawableOn);
+        } else {
+            todoEditBtn.setClickable(false);
+            todoEditBtn.setBackgroundColor(gray);
+            todoEditBtn.setBackground(shapeDrawableOff);
+        }
+    }
 }
 

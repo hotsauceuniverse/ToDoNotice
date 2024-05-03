@@ -147,7 +147,7 @@ public class FragmentProfile extends Fragment {
     private void updateButtonColor() {
         String currentNickname = nicknameEditText.getText().toString().trim();
 
-        Log.e("asdww","TextUtils.isEmpty(currentNickname)   "+TextUtils.isEmpty(currentNickname));
+        Log.e("asdww   ", "TextUtils.isEmpty(currentNickname)   " + TextUtils.isEmpty(currentNickname));
 
         // 프로필 사진 & 닉네임 변경 될 때 = 핑크색
         // 초기 프로필 사진 & 초기 닉네임 일 때 = 회색

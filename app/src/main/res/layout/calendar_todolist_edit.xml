@@ -61,6 +61,7 @@
                     android:background="@null"
                     android:maxLines="1"
                     android:maxLength="18"
+                    android:singleLine="true"
                     />
 
             </LinearLayout>
@@ -162,6 +163,7 @@
                     android:background="@null"
                     android:maxLines="1"
                     android:maxLength="22"
+                    android:singleLine="true"
                     />
 
             </LinearLayout>
