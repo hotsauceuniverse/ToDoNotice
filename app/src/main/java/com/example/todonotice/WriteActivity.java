@@ -61,14 +61,30 @@ public class WriteActivity extends AppCompatActivity {
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
-                // EditText에 입력이 변경 될 때 리스너 설정
-                editContext();
                 finish();
             }
         });
+        editContext();  // EditText에 입력이 변경 될 때 리스너 설정
+        upload_btn.setClickable(false);    // 최초 진입 시, 버튼 클릭 안되게 설정
     }
 
     public void editContext() {
+        title_area.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                updateUploadButton();
+            }
+        });
         context_area.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -93,28 +109,15 @@ public class WriteActivity extends AppCompatActivity {
 
         Log.e("isTitleNotEmpty", "isTitleNotEmpty" + isTitleNotEmpty);
 
-        // 다시 수정 필요
-        // 버튼 비활성화 막기
-        if (isTitleNotEmpty && !isTextNotEmpty) {
-            // Case 1: isTitleNotEmpty만 작성되어 있음
-            upload_btn.setClickable(false);
-            upload_btn.setEnabled(false);
-            upload_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar));
-        } else if (isTitleNotEmpty && isTextNotEmpty) {
-            // Case 2: isTitleNotEmpty과 isTextNotEmpty이 작성되어 있음
+        int gray = ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar);
+        int iphone_pink = ContextCompat.getColor(getApplicationContext(), R.color.iphone_pink);
+
+        if (isTitleNotEmpty && isTextNotEmpty) {
             upload_btn.setClickable(true);
-            upload_btn.setEnabled(true);
-            upload_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.iphone_pink));
-        } else if (isTextNotEmpty && !isTitleNotEmpty) {
-            // Case 3: isTextNotEmpty만 작성되어 있음
-            upload_btn.setClickable(false);
-            upload_btn.setEnabled(false);
-            upload_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar));
+            upload_btn.setTextColor(iphone_pink);
         } else {
-            // 기타 경우
             upload_btn.setClickable(false);
-            upload_btn.setEnabled(false);
-            upload_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar));
+            upload_btn.setTextColor(gray);
         }
     }
 }

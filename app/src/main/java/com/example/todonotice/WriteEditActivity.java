@@ -3,6 +3,7 @@ package com.example.todonotice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -43,6 +44,8 @@ public class WriteEditActivity extends AppCompatActivity {
             }
         });
         updateDiary();
+        editContext();  // EditText에 입력이 변경 될 때 리스너 설정
+        edit_btn.setClickable(false);    // 최초 진입 시, 버튼 클릭 안되게 설정
     }
 
     public void updateDiary() {
@@ -77,21 +80,33 @@ public class WriteEditActivity extends AppCompatActivity {
                         mDBHelper.UpdateDiary(id, editTitle, editContent, editCurrentTime);
 
                         // UI 업데이트 기능 처리 필요
-//                        writeData.setTitle(editTitle);
-//                        writeData.setContent(editContent);
-
                     }
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
-                // EditText에 입력이 변경 될 때 리스너 설정
-                editContext();
                 finish();
             }
         });
     }
 
     public void editContext() {
+        title_area.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                updateEditButton();
+            }
+        });
+
         context_area.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -111,29 +126,27 @@ public class WriteEditActivity extends AppCompatActivity {
     }
 
     void updateEditButton() {
-        boolean isTextNotEmpty = context_area.getText().length() > 0;
-        boolean isTitleNotEmpty = title_area.getText().length() > 0;
+        String currentTitle = "";
+        String currentText = "";
 
-        Log.e("isTitleNotEmpty", "isTitleNotEmpty" + isTitleNotEmpty);
+        String isTitleNotEmpty = title_area.getText().toString();
+        Log.e("isTitleNotEmpty   ", "isTitleNotEmpty   " + isTitleNotEmpty);
 
-        // 다시 수정 필요
-        // 버튼 비활성화 막기
-        if (isTitleNotEmpty && !isTextNotEmpty) {
-            // Case 1: isTitleNotEmpty만 작성되어 있음
-            edit_btn.setEnabled(true);
-            edit_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar));
-        } else if (isTitleNotEmpty && isTextNotEmpty) {
-            // Case 2: isTitleNotEmpty과 isTextNotEmpty이 작성되어 있음
-            edit_btn.setEnabled(true);
-            edit_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.iphone_pink));
-        } else if (isTextNotEmpty && !isTitleNotEmpty) {
-            // Case 3: isTextNotEmpty만 작성되어 있음
-            edit_btn.setEnabled(true);
-            edit_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar));
+        String isTextNotEmpty = context_area.getText().toString();
+        Log.e("isTextNotEmpty   ", "isTextNotEmpty   " + isTextNotEmpty);
+
+        int gray = ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar);
+        int iphone_pink = ContextCompat.getColor(getApplicationContext(), R.color.iphone_pink);
+
+        if (!TextUtils.isEmpty(isTitleNotEmpty) &&
+            !TextUtils.isEmpty(isTextNotEmpty) &&
+            !isTitleNotEmpty.equals(currentTitle) &&
+            !isTextNotEmpty.equals(currentText)) {
+            edit_btn.setClickable(true);
+            edit_btn.setTextColor(iphone_pink);
         } else {
-            // 기타 경우
-            edit_btn.setEnabled(false);
-            edit_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.android_top_bar));
+            edit_btn.setClickable(false);
+            edit_btn.setTextColor(gray);
         }
     }
 }
