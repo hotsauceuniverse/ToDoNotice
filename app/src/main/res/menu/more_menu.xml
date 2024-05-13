@@ -4,18 +4,13 @@
     >
 
     <item
-        android:id="@+id/copy_text"
-        android:title="복사"
-        />
-
-    <item
         android:id="@+id/edit_text"
-        android:title="수정"
+        android:title="수정하기"
         />
 
     <item
         android:id="@+id/delete_text"
-        android:title="삭제"
+        android:title="삭제하기"
         />
 
 </menu>

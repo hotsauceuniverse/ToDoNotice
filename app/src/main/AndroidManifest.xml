@@ -79,6 +79,7 @@
             android:windowSoftInputMode="adjustResize"
             />
 
+        <activity android:name=".NoticeViewActivity" />
         <activity android:name=".NewsActivity" />
         <activity android:name=".ToDoListCell" />
         <activity android:name=".CalendarTodoList"/>

@@ -1,15 +1,11 @@
 package com.example.todonotice;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -60,39 +56,13 @@ public class AdapterNotice extends RecyclerView.Adapter<AdapterNotice.ViewHolder
                 int curPos = holder.getAdapterPosition();  // 현재 리스트 클릭한 아이템 위치
                 WriteData writeData = mWriteData.get(curPos);
 
-                Log.e("   aaa", "writeData  " + writeData.id);
-                String[] strChoiceItem = {"수정하기", "삭제하기"};
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setTitle("어떤 작업을 할까요?");
-                builder.setItems(strChoiceItem, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int position) {
-                        if (position == 0) {
-                            // edit table
-                            Intent intent = new Intent(mContext, WriteEditActivity.class);
-                            intent.putExtra("id", writeData.getId());
-                            Log.d("id   ", "id   " + writeData.getId());
+                Intent intent = new Intent(mContext, NoticeViewActivity.class);
 
-                            intent.putExtra("title", writeData.getTitle());
-                            Log.d("title   ", "title   " + writeData.getTitle());
+                intent.putExtra("id", writeData.getId());
+                intent.putExtra("title", writeData.getTitle());
+                intent.putExtra("content", writeData.getContent());
 
-                            intent.putExtra("content", writeData.getContent());
-                            Log.d("content   ", "content   " + writeData.getContent());
-
-                            mContext.startActivities(new Intent[]{intent});
-                        } else if (position == 1) {
-                            // delete table
-                            String beforeTime = String.valueOf(writeData.getId());
-                            mDBHelper.DeleteDiary(beforeTime);
-
-                            // delete UI
-                            mWriteData.remove(curPos);
-                            notifyItemRemoved(curPos);
-                            Toast.makeText(mContext, "제거 완료" , Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-                builder.show();
+                mContext.startActivities(new Intent[]{intent});
             }
         });
     }
