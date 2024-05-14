@@ -56,6 +56,7 @@ public class NoticeViewActivity extends AppCompatActivity {
                         Log.d("content   ", "content   " + writeData.getContent());
 
                         startActivity(intent);
+                        finish();
                         break;
 
                     case R.id.delete_text:

@@ -78,12 +78,10 @@
                 android:orientation="vertical"
                 >
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="몇시에 만날까?"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/time"
                     />
 
                 <LinearLayout
@@ -136,7 +134,7 @@
             <LinearLayout
                 android:id="@+id/todo_place"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="80dp"
                 app:layout_constraintTop_toBottomOf="@+id/todo_time"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="20dp"
@@ -145,19 +143,18 @@
                 android:orientation="vertical"
                 >
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="어디서 만날까?"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/gps"
                     />
 
                 <EditText
                     android:id="@+id/todo_place_et"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="약속 장소를 적어주세요!"
+                    android:layout_marginTop="10dp"
+                    android:hint="어디서 만날까?"
                     android:textSize="17dp"
                     android:textColor="@color/black"
                     android:background="@null"
@@ -177,12 +174,10 @@
                 android:orientation="vertical"
                 >
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:text="메모"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/memo"
                     />
 
                 <EditText

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class AdapterNotice extends RecyclerView.Adapter<AdapterNotice.ViewHolder> {
+public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder> {
 
     private ArrayList<WriteData> mWriteData;
     private Context mContext;
@@ -21,7 +21,7 @@ public class AdapterNotice extends RecyclerView.Adapter<AdapterNotice.ViewHolder
     // Alt + Insert
     // Constructor
     // 생성자에서 데이터 리스트 객체를 전달받음
-    public AdapterNotice(ArrayList<WriteData> mWriteData, Context mContext) {
+    public NoticeAdapter(ArrayList<WriteData> mWriteData, Context mContext) {
         this.mWriteData = mWriteData;
         this.mContext = mContext;
         mDBHelper = new DBHelper(mContext);
@@ -36,7 +36,7 @@ public class AdapterNotice extends RecyclerView.Adapter<AdapterNotice.ViewHolder
     // 아이템 뷰를 위한 뷰홀더 객체 생성 후 리턴
     @NonNull
     @Override
-    public AdapterNotice.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public NoticeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View holder = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_notice, parent, false);
 
@@ -45,7 +45,7 @@ public class AdapterNotice extends RecyclerView.Adapter<AdapterNotice.ViewHolder
 
     // position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시
     @Override
-    public void onBindViewHolder(@NonNull AdapterNotice.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull NoticeAdapter.ViewHolder holder, int position) {
         holder.titleTv.setText(mWriteData.get(position).getTitle());
         holder.contentTv.setText(mWriteData.get(position).getContent());
         holder.dateTv.setText(mWriteData.get(position).getWriteDate());
@@ -53,7 +53,8 @@ public class AdapterNotice extends RecyclerView.Adapter<AdapterNotice.ViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int curPos = holder.getAdapterPosition();  // 현재 리스트 클릭한 아이템 위치
+                // 현재 리스트 클릭한 아이템 위치
+                int curPos = holder.getAdapterPosition();
                 WriteData writeData = mWriteData.get(curPos);
 
                 Intent intent = new Intent(mContext, NoticeViewActivity.class);

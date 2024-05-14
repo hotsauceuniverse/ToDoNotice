@@ -26,7 +26,7 @@ public class FragmentNoticeOutline extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<WriteData> writeData;
     private DBHelper mDBHelper;
-    private AdapterNotice mAdapter;
+    private NoticeAdapter mAdapter;
     private LinearLayoutManager linearLayoutManager;
     ImageView write_button;
     private View rootView; // Fragment의 rootView를 저장하는 변수
@@ -83,7 +83,7 @@ public class FragmentNoticeOutline extends Fragment {
 
         if (mAdapter == null) {
             // Adapter가 null인 경우 새로운 Adapter를 생성하고 리사이클러뷰에 설정
-            mAdapter = new AdapterNotice(writeData, getActivity());
+            mAdapter = new NoticeAdapter(writeData, getActivity());
             recyclerView.setHasFixedSize(true);
             recyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
