@@ -1,6 +1,8 @@
 package com.example.todonotice;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,27 +17,65 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class FragmentHome extends Fragment {
 
-    private Toolbar noticeToolbar, todolistToolbar;
+    private Toolbar noticeToolbar;
     private LinearLayout news_pre_1, news_pre_2, news_pre_3;
+    private DBHelper mDBHelper;
+    private DBHelper2 mDBHelper2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        LinearLayout notice_pre_1 = rootView.findViewById(R.id.sub_con_1);
-        LinearLayout notice_pre_2 = rootView.findViewById(R.id.sub_con_2);
-
         TextView todolist_pre_1 = rootView.findViewById(R.id.action_1_btn);
         TextView todolist_pre_2 = rootView.findViewById(R.id.action_2_btn);
+
+        LinearLayout notice_pre_1 = rootView.findViewById(R.id.sub_con_1);
+        LinearLayout notice_pre_2 = rootView.findViewById(R.id.sub_con_2);
 
         news_pre_1 = rootView.findViewById(R.id.news_lay_st);
         news_pre_2 = rootView.findViewById(R.id.news_lay_nd);
         news_pre_3 = rootView.findViewById(R.id.news_lay_rd);
 
+        todolist_pre_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // BottomNavigationBar 변경
+                MainActivity mainActivity = (MainActivity) getActivity();;
+                mainActivity.showToDoListBottomNavigation();
+
+                FragmentToDoList fragmentToDoList = new FragmentToDoList();
+                // Fragment todoList로 교체
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.content_frame, fragmentToDoList);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        todolist_pre_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // ToDoList toolBar, BottomNavigationBar 변경
+                MainActivity mainActivity = (MainActivity) getActivity();
+                mainActivity.showToDoListBottomNavigation();
+
+                FragmentToDoList fragmentToDoList = new FragmentToDoList();
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.content_frame, fragmentToDoList);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
         notice_pre_1.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+
+                SQLiteDatabase db = mDBHelper.getReadableDatabase();
+                Cursor cursor = db.rawQuery("SELECT * FROM DIARYLIST_TEXT_SEQ", null);
 
                 // Notice toolBar, BottomNavigationBar 변경
                 MainActivity mainActivity = (MainActivity) getActivity();
@@ -78,39 +118,6 @@ public class FragmentHome extends Fragment {
                 FragmentNoticeOutline fragmentNotice = new FragmentNoticeOutline();
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.content_frame, fragmentNotice);
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
-        });
-
-        todolist_pre_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                // BottomNavigationBar 변경
-                MainActivity mainActivity = (MainActivity) getActivity();;
-                mainActivity.showToDoListBottomNavigation();
-
-                FragmentToDoList fragmentToDoList = new FragmentToDoList();
-                // Fragment todoList로 교체
-                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.content_frame, fragmentToDoList);
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
-        });
-
-        todolist_pre_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                // ToDoList toolBar, BottomNavigationBar 변경
-                MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.showToDoListBottomNavigation();
-
-                FragmentToDoList fragmentToDoList = new FragmentToDoList();
-                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.content_frame, fragmentToDoList);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
