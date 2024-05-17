@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,8 @@ public class FragmentHome extends Fragment {
         news_pre_1 = rootView.findViewById(R.id.news_lay_st);
         news_pre_2 = rootView.findViewById(R.id.news_lay_nd);
         news_pre_3 = rootView.findViewById(R.id.news_lay_rd);
+
+        DBSearch();
 
         todolist_pre_1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,9 +76,6 @@ public class FragmentHome extends Fragment {
 
             @Override
             public void onClick(View view) {
-
-                SQLiteDatabase db = mDBHelper.getReadableDatabase();
-                Cursor cursor = db.rawQuery("SELECT * FROM DIARYLIST_TEXT_SEQ", null);
 
                 // Notice toolBar, BottomNavigationBar 변경
                 MainActivity mainActivity = (MainActivity) getActivity();
@@ -148,5 +148,22 @@ public class FragmentHome extends Fragment {
             }
         });
         return rootView;
+    }
+
+    // 데이터 조회 수정필요
+    public void DBSearch() {
+        mDBHelper = new DBHelper(getContext());
+        SQLiteDatabase db = mDBHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM DIARYLIST_TEXT_SEQ ORDER BY writeDate LIMIT 1", null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int title = cursor.getColumnIndex("title");
+            int content = cursor.getColumnIndex("content");
+
+            String viewTitle = cursor.getString(title);
+            String viewContent = cursor.getString(content);
+
+            Log.d("viewTitle   ", "viewTitle   " + viewTitle);
+            Log.d("viewContent   ", "viewContent   " + viewContent);
+        }
     }
 }
