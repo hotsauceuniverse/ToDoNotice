@@ -16,10 +16,22 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import org.w3c.dom.Text;
+
 public class FragmentHome extends Fragment {
 
-    private Toolbar noticeToolbar;
-    private LinearLayout news_pre_1, news_pre_2, news_pre_3;
+    Toolbar noticeToolbar;
+    LinearLayout news_pre_1;
+    LinearLayout news_pre_2;
+    LinearLayout news_pre_3;
+    LinearLayout notice_pre_1;
+    LinearLayout notice_pre_2;
+    TextView subTv1;
+    TextView subTv2;
+    TextView contentTv1;
+    TextView contentTv2;
+    TextView todolist_pre_1;
+    TextView todolist_pre_2;
     private DBHelper mDBHelper;
     private DBHelper2 mDBHelper2;
 
@@ -27,18 +39,54 @@ public class FragmentHome extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        TextView todolist_pre_1 = rootView.findViewById(R.id.action_1_btn);
-        TextView todolist_pre_2 = rootView.findViewById(R.id.action_2_btn);
-
-        LinearLayout notice_pre_1 = rootView.findViewById(R.id.sub_con_1);
-        LinearLayout notice_pre_2 = rootView.findViewById(R.id.sub_con_2);
-
+        todolist_pre_1 = rootView.findViewById(R.id.action_1_btn);
+        todolist_pre_2 = rootView.findViewById(R.id.action_2_btn);
+        subTv1 = rootView.findViewById(R.id.sub_tv_1);
+        subTv2 = rootView.findViewById(R.id.sub_tv_2);
+        contentTv1 = rootView.findViewById(R.id.content_tv_1);
+        contentTv2 = rootView.findViewById(R.id.content_tv_2);
+        notice_pre_1 = rootView.findViewById(R.id.sub_con_1);
+        notice_pre_2 = rootView.findViewById(R.id.sub_con_2);
         news_pre_1 = rootView.findViewById(R.id.news_lay_st);
         news_pre_2 = rootView.findViewById(R.id.news_lay_nd);
         news_pre_3 = rootView.findViewById(R.id.news_lay_rd);
 
         DBSearch();
+        todolistClickEvent();
+        noticeClickEvent();
+        newsClickEvent();
 
+        return rootView;
+    }
+
+    // 데이터 조회 수정필요
+    public void DBSearch() {
+        mDBHelper = new DBHelper(getContext());
+        SQLiteDatabase db = mDBHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT title, content FROM DIARYLIST_TEXT_SEQ ORDER BY id DESC LIMIT 2", null);
+        Log.d("cursor   ", "cursor   " + cursor);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            int count = cursor.getCount();
+            int titleIndex = cursor.getColumnIndex("title");
+            int contentIndex = cursor.getColumnIndex("content");
+
+            if (titleIndex >= 0 && contentIndex >= 0) {
+                for (int i = 0; i < count; i++) {
+                    String title = cursor.getString(titleIndex);
+                    String content = cursor.getString(contentIndex);
+
+                    Log.d("DB   ", "title :   " + title + "   content :   " + content);
+
+                    cursor.moveToNext();
+                }
+            } else {
+                Log.d("fail   ", "fail   ");
+            }
+        }
+    }
+
+    public void todolistClickEvent() {
         todolist_pre_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,7 +119,9 @@ public class FragmentHome extends Fragment {
                 transaction.commit();
             }
         });
+    }
 
+    public void noticeClickEvent() {
         notice_pre_1.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -122,7 +172,9 @@ public class FragmentHome extends Fragment {
                 transaction.commit();
             }
         });
+    }
 
+    public void newsClickEvent() {
         // 뉴스 레이아웃으로 이동 (fragment -> activity)
         news_pre_1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,23 +199,5 @@ public class FragmentHome extends Fragment {
                 startActivity(intent);
             }
         });
-        return rootView;
-    }
-
-    // 데이터 조회 수정필요
-    public void DBSearch() {
-        mDBHelper = new DBHelper(getContext());
-        SQLiteDatabase db = mDBHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM DIARYLIST_TEXT_SEQ ORDER BY writeDate LIMIT 1", null);
-        if (cursor != null && cursor.moveToFirst()) {
-            int title = cursor.getColumnIndex("title");
-            int content = cursor.getColumnIndex("content");
-
-            String viewTitle = cursor.getString(title);
-            String viewContent = cursor.getString(content);
-
-            Log.d("viewTitle   ", "viewTitle   " + viewTitle);
-            Log.d("viewContent   ", "viewContent   " + viewContent);
-        }
     }
 }

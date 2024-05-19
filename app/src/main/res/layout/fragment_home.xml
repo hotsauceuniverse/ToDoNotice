@@ -259,6 +259,7 @@
                             >
 
                             <TextView
+                                android:id="@+id/content_tv_1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:maxLines="2"
@@ -305,6 +306,7 @@
                             >
 
                             <TextView
+                                android:id="@+id/content_tv_2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:maxLines="2"
