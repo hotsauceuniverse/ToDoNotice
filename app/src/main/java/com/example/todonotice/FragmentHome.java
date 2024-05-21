@@ -211,59 +211,6 @@ public class FragmentHome extends Fragment {
         }
     }
 
-//    public void newsApiSearch() {
-//        String url = "https://newsapi.org/v2/top-headlines?country=kr&apiKey=ce563d897b6c46a6b2e5ee5f32a22b1f";
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                try {
-//                    JSONObject jsonObject = new JSONObject(response);
-//                    JSONArray array = jsonObject.getJSONArray("articles");
-//                    List<NewsData> news = new ArrayList<>();
-//                    for (int i = 0, j = 3; i < j; i++) {
-//                        JSONObject obj = array.getJSONObject(i);
-//                        NewsData newsData = new NewsData();
-//                        newsData.setTitle(obj.getString("title"));
-//                        newsData.setUrlToImage(obj.optString("urlToImage"));
-//                        newsData.setDescription(obj.getString("description"));
-//
-//
-//                        if (!newsData.getUrlToImage().equals("null") &&
-//                                !newsData.getUrlToImage().startsWith("http://") &&
-//                                !newsData.getUrlToImage().startsWith("/")) {
-//                            news.add(newsData);
-//                        }
-//
-//                        newsFirst.setText(newsData.getTitle());
-//                        newsDesFirst.setText(newsData.getDescription());
-//                        newsImgFirst.setImageURI(uri);
-//                        newsSecond.setText(newsData.getTitle());
-//                        newsDesSecond.setText(newsData.getDescription());
-//                        newsImgSecond.setImageURI(uri);
-//                        newsThird.setText(newsData.getTitle());
-//                        newsDesThird.setText(newsData.getDescription());
-//                        newsImgThird.setImageURI(uri);
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.d("error   ", "error   ");
-//            }
-//        }){
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                HashMap<String, String> headers = new HashMap<>();
-//                headers.put("User-Agent", "Mozilla/5.0");
-//                return headers;
-//            }
-//        };
-//        queue.add(stringRequest);
-//    }
-
     public void newsApiSearch() {
         String url = "https://newsapi.org/v2/top-headlines?country=kr&apiKey=ce563d897b6c46a6b2e5ee5f32a22b1f";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
