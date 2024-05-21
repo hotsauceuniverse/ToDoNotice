@@ -228,8 +228,7 @@ public class FragmentHome extends Fragment {
                         String imageUrl = obj.optString("urlToImage", null);
                         String description = obj.getString("description");
 
-                        if (imageUrl != null && !imageUrl.equals("null") &&
-                                !imageUrl.startsWith("http://") && !imageUrl.startsWith("/")) {
+                        if (imageUrl != null && !imageUrl.equals("null") && !imageUrl.startsWith("http://") && !imageUrl.startsWith("/")) {
                             count++;
                             if (isAdded()) {
                                 switch (count) {
