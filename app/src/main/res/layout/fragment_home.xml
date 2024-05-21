@@ -92,7 +92,7 @@
 
                         <TextView
                             android:id="@+id/todolist_first"
-                            android:layout_width="220dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="20dp"
                             android:text="오늘 내가 해야 할 일 첫번째!"
                             android:textColor="#333333"
@@ -148,7 +148,7 @@
 
                         <TextView
                             android:id="@+id/todolist_second"
-                            android:layout_width="220dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="20dp"
                             android:text="오늘 내가 해야 할 일 두번째!"
                             android:textColor="#333333"
@@ -381,9 +381,10 @@
                             >
 
                             <ImageView
+                                android:id="@+id/news_img_first"
                                 android:layout_width="100dp"
                                 android:layout_height="56dp"
-                                android:src="@drawable/example"
+
                                 android:layout_marginBottom="16dp"
                                 android:layout_marginRight="12dp"
                                 />
@@ -399,7 +400,7 @@
                                     android:id="@+id/news_first"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="기사제목1"
+
                                     android:textColor="#333333"
                                     android:textSize="16dp"
                                     android:maxLines="1"
@@ -408,9 +409,10 @@
                                     />
 
                                 <TextView
+                                    android:id="@+id/news_des_first"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용"
+
                                     android:textSize="14dp"
                                     android:textColor="#666666"
                                     android:maxLines="2"
@@ -439,9 +441,10 @@
                             >
 
                             <ImageView
+                                android:id="@+id/news_img_second"
                                 android:layout_width="100dp"
                                 android:layout_height="56dp"
-                                android:src="@drawable/example"
+
                                 android:layout_marginBottom="16dp"
                                 android:layout_marginRight="12dp"
                                 />
@@ -457,7 +460,7 @@
                                     android:id="@+id/news_second"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="기사제목2"
+
                                     android:textColor="#333333"
                                     android:textSize="16dp"
                                     android:maxLines="1"
@@ -466,9 +469,10 @@
                                     />
 
                                 <TextView
+                                    android:id="@+id/news_des_second"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용"
+
                                     android:textSize="14dp"
                                     android:textColor="#666666"
                                     android:maxLines="2"
@@ -497,9 +501,10 @@
                             >
 
                             <ImageView
+                                android:id="@+id/news_img_third"
                                 android:layout_width="100dp"
                                 android:layout_height="56dp"
-                                android:src="@drawable/example"
+
                                 android:layout_marginBottom="16dp"
                                 android:layout_marginRight="12dp"
                                 />
@@ -515,7 +520,7 @@
                                     android:id="@+id/news_third"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="기사제목3"
+
                                     android:textColor="#333333"
                                     android:textSize="16dp"
                                     android:maxLines="1"
@@ -524,9 +529,10 @@
                                     />
 
                                 <TextView
+                                    android:id="@+id/news_des_third"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용"
+
                                     android:textSize="14dp"
                                     android:textColor="#666666"
                                     android:maxLines="2"

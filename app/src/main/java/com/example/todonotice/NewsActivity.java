@@ -113,7 +113,9 @@ public class NewsActivity extends AppCompatActivity {
                         Log.d("url   ", "url   " + obj.get("url"));
 
                         // 처음부터 UrlToImage가 null인 경우와 http://로 시작하는 경우와 특정경로로 시작하는 기사를 배열에서 제외
-                        if (!newsData.getUrlToImage().equals("null") && !newsData.getUrlToImage().startsWith("http://") && !newsData.getUrlToImage().startsWith("/")) {
+                        if (!newsData.getUrlToImage().equals("null") &&
+                                !newsData.getUrlToImage().startsWith("http://") &&
+                                !newsData.getUrlToImage().startsWith("/")) {
                             news.add(newsData);
                         }
                         Log.d("newsData", "newsData" + newsData);
