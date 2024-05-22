@@ -37,7 +37,6 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.functions.Function2;
 
-
 // Fragment와 Activity에서 버튼이벤트를 발생시키는것은 조금 다르다. (Fragment는 android:onClick)를 사용x)
 // 프래그먼트에서는 OnClickListener를 상속받아서 구현해줘야함.
 // onClick메소드를 오버라이드 해줘야함.
@@ -56,6 +55,8 @@ public class FragmentProfile extends Fragment {
     private TextView deleteAccount;
     String originNickname ="";  // 기존 닉네임 저장
     private Context context;
+    private DBHelper mDBHelper;
+    private DBHelper2 mDBHelper2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -81,38 +82,30 @@ public class FragmentProfile extends Fragment {
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // UserApiClient.getInstance().logout 메서드 내에서 예외 처리
-                UserApiClient.getInstance().logout(new Function1<Throwable, Unit>() {
-                    @Override
-                    public Unit invoke(Throwable throwable) {
-                        if (throwable == null) {
-                            // 로그아웃에 성공한 경우
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setMessage("로그아웃 할까요?");
-                            builder.setPositiveButton("네!", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    Intent intent = new Intent(getActivity(), IntroActivity.class);
-                                    startActivity(intent);
-                                }
-                            });
-
-                            builder.setNegativeButton("아니요!", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    // 프로필 화면만 유지하면 됨
-                                }
-                            });
-
-                            builder.show();
-                        } else {
-                            // 로그아웃에 실패한 경우
-                            Toast.makeText(getActivity(), "로그아웃에 실패했습니다.", Toast.LENGTH_SHORT).show();
-                        }
-                        // UserApiClient.getInstance().logout 메서드가 성공하면 throwable 파라미터는 null
-                        return null;
-                    }
-                });
+                new AlertDialog.Builder(getActivity())
+                        .setMessage("로그아웃 할까요?")
+                        .setPositiveButton("네!", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                UserApiClient.getInstance().logout(new Function1<Throwable, Unit>() {
+                                    @Override
+                                    public Unit invoke(Throwable throwable) {
+                                        if (throwable == null) {
+                                            Intent intent = new Intent(getActivity(), IntroActivity.class);
+                                            startActivity(intent);
+                                        }
+                                        return null;
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("아니요!", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // 프로필 화면만 유지하면 됨
+                            }
+                        })
+                        .show();
             }
         });
 
@@ -126,7 +119,24 @@ public class FragmentProfile extends Fragment {
                         .setPositiveButton("네!", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-
+                                // 회원 탈퇴 시, 데이터 전체 삭제
+                                // getActivity : `getActivity` 메서드의 반환 값은 프래그먼트 객체와 관련있는 현재 액티비티에 대한 참조를 반환
+                                // getContext : `getContext` 메서드는 현재 객체와 관련된 컨텍스트를 반환
+                                mDBHelper = new DBHelper(getActivity());
+                                mDBHelper2 = new DBHelper2(getActivity());
+                                mDBHelper.DeleteAllDiaries();
+                                mDBHelper2.DeleteAllToDoList();
+                                UserApiClient.getInstance().unlink(new Function1<Throwable, Unit>() {
+                                    @Override
+                                    public Unit invoke(Throwable throwable) {
+                                        if (throwable == null) {
+                                            Intent intent = new Intent(getActivity(), IntroActivity.class);
+                                            startActivity(intent);
+                                            getActivity().finish();
+                                        }
+                                        return null;
+                                    }
+                                });
                             }
                         })
                         .setNegativeButton("아니요!", new DialogInterface.OnClickListener() {
@@ -175,9 +185,10 @@ public class FragmentProfile extends Fragment {
         UserApiClient.getInstance().me(new Function2<User, Throwable, Unit>() {
             @Override
             public Unit invoke(User user, Throwable throwable) {
+                if (user != null && user.getKakaoAccount() != null && user.getKakaoAccount().getProfile() != null) {
                 // 프로필 이미지 설정
                 String profileImageUrl = user.getKakaoAccount().getProfile().getThumbnailImageUrl();
-                if(profileImageUrl != null && !profileImageUrl.isEmpty()) {
+                if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
                     // java.lang.IllegalStateException: Fragment not attached to a context 에러 발생
                     // onAttach 사용해서 context 사용
                     // profileImageConnect() 메서드 내부에서 Glide.with(requireContext()) 대신에 Glide.with(context) 사용
@@ -208,6 +219,9 @@ public class FragmentProfile extends Fragment {
                         updateButtonColor();
                     }
                 });
+            } else{
+                Log.d("fail   ", "fail   ");
+            }
                 return null;
             }
         });

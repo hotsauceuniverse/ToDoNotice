@@ -83,4 +83,10 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM DIARYLIST_TEXT_SEQ WHERE id = '" + _beforeDate + "'");
     }
+
+    // 회원 탈퇴 시, 데이터 전체 삭제
+    public void DeleteAllDiaries() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("DIARYLIST_TEXT_SEQ", null, null);
+    }
 }

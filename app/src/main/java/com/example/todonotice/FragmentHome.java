@@ -51,13 +51,10 @@ public class FragmentHome extends Fragment {
     TextView todolistFirst;
     TextView todolistSecond;
     TextView newsFirst;
-    TextView newsDesFirst;
     ImageView newsImgFirst;
     TextView newsSecond;
-    TextView newsDesSecond;
     ImageView newsImgSecond;
     TextView newsThird;
-    TextView newsDesThird;
     ImageView newsImgThird;
     private DBHelper mDBHelper;
     private DBHelper2 mDBHelper2;
@@ -81,13 +78,10 @@ public class FragmentHome extends Fragment {
         news_pre_2 = rootView.findViewById(R.id.news_lay_nd);
         news_pre_3 = rootView.findViewById(R.id.news_lay_rd);
         newsFirst = rootView.findViewById(R.id.news_first);
-        newsDesFirst = rootView.findViewById(R.id.news_des_first);
         newsImgFirst = rootView.findViewById(R.id.news_img_first);
         newsSecond = rootView.findViewById(R.id.news_second);
-        newsDesSecond = rootView.findViewById(R.id.news_des_second);
         newsImgSecond = rootView.findViewById(R.id.news_img_second);
         newsThird = rootView.findViewById(R.id.news_third);
-        newsDesThird = rootView.findViewById(R.id.news_des_third);
         newsImgThird = rootView.findViewById(R.id.news_img_third);
 
         queue = Volley.newRequestQueue(getContext());
@@ -226,7 +220,6 @@ public class FragmentHome extends Fragment {
                         JSONObject obj = array.getJSONObject(i);
                         String title = obj.getString("title");
                         String imageUrl = obj.optString("urlToImage", null);
-                        String description = obj.getString("description");
 
                         if (imageUrl != null && !imageUrl.equals("null") && !imageUrl.startsWith("http://") && !imageUrl.startsWith("/")) {
                             count++;
@@ -234,17 +227,14 @@ public class FragmentHome extends Fragment {
                                 switch (count) {
                                     case 1:
                                         newsFirst.setText(title);
-                                        newsDesFirst.setText(description);
                                         Glide.with(getContext()).load(imageUrl).into(newsImgFirst);
                                         break;
                                     case 2:
                                         newsSecond.setText(title);
-                                        newsDesSecond.setText(description);
                                         Glide.with(getContext()).load(imageUrl).into(newsImgSecond);
                                         break;
                                     case 3:
                                         newsThird.setText(title);
-                                        newsDesThird.setText(description);
                                         Glide.with(getContext()).load(imageUrl).into(newsImgThird);
                                         break;
                                 }

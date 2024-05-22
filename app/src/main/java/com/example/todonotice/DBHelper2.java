@@ -105,4 +105,10 @@ public class DBHelper2 extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM TODOLIST_TEXT_SEQ WHERE id = '" + _beforeDate + "'");
     }
+
+    // 회원 탈퇴 시, 데이터 전체 삭제
+    public void DeleteAllToDoList() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("TODOLIST_TEXT_SEQ", null, null);
+    }
 }
