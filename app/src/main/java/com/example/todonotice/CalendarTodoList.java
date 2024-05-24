@@ -140,6 +140,7 @@ public class CalendarTodoList extends AppCompatActivity {
 
                 mDBHelper2.InsertToDoList(todoString, hourString, minString, placeString, memoString, selectedDate);
 
+                Intent intent = new Intent();
                 setResult(RESULT_OK, intent);
                 finish();
             }

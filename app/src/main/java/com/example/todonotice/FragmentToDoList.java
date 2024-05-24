@@ -1,12 +1,17 @@
 package com.example.todonotice;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,6 +39,7 @@ public class FragmentToDoList extends Fragment {
     ImageView preBtn, nextBtn;
     private View rootView;
     private DBHelper2 mDBHelper2;
+    public static final int REQUEST_CODE_FOR_INTENT = 101;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -176,5 +182,20 @@ public class FragmentToDoList extends Fragment {
     public void hideTodoList() {
         // 데이터가 없으면 RecyclerView 가리기
         todoListRecyclerview.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            Log.d("ok", "ok" + resultCode);
+            if (requestCode == REQUEST_CODE_FOR_INTENT) {
+                loadTodoList(CalendarUtil.selectDate);
+                setMonthView();
+            } else {
+                Log.d("fail", "fail" + resultCode);
+            }
+        }
     }
 }

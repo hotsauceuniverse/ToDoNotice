@@ -17,7 +17,6 @@ public class ToDoListViewActivity extends AppCompatActivity {
 
     private DBHelper2 mDBHelper2;
     private ToDoItem toDoItem;
-    private ArrayList<ToDoItem> mTodoItem;
     ImageView moreBtn;
     TextView todoTitleView;
     TextView hourView;

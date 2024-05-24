@@ -1,5 +1,6 @@
 package com.example.todonotice;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.CalenderViewHolder> {
 
+    public static final int REQUEST_CODE_FOR_INTENT = 101;
     ArrayList<LocalDate> dayList;
     private CalenderViewHolder selectedItemHolder;
     private DBHelper2 mDBHelper2;
@@ -99,7 +101,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
                                 Intent intent = new Intent(holder.itemView.getContext(), CalendarTodoList.class);
                                 intent.putExtra("selected", dayList.get(calCurPos).toString());
                                 Log.d("asdwww   ", "asdwww   " + dayList.get(calCurPos).toString());
-                                (holder.itemView.getContext()).startActivity(intent);
+                                fragmentToDoList.startActivityForResult(intent, REQUEST_CODE_FOR_INTENT);
                             }
                         });
                     }
