@@ -167,6 +167,8 @@ public class FragmentToDoList extends Fragment {
         mDBHelper2 = new DBHelper2(getActivity());
         toDoItems = mDBHelper2.getTodoListData(selectedDate);
 
+        Log.d("loadTodoList   ", "loadTodoList   :    " + toDoItems.toString());
+
         // 데이터가 있으면 RecyclerView 보이기
         todoListRecyclerview.setVisibility(View.VISIBLE);
         if (toDoAdapter == null) {
@@ -187,14 +189,16 @@ public class FragmentToDoList extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("resultCode   ", "resultCode   " + resultCode);
 
         if (resultCode == RESULT_OK) {
             Log.d("ok", "ok" + resultCode);
             if (requestCode == REQUEST_CODE_FOR_INTENT) {
+                Log.d("onActivityResult   ", "onActivityResult   ");
                 loadTodoList(CalendarUtil.selectDate);
                 setMonthView();
             } else {
-                Log.d("fail", "fail" + resultCode);
+                Log.d("fail   ", "fail   " + resultCode);
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.example.todonotice;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -27,7 +26,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
     private DBHelper2 mDBHelper2;
     private Context mContext;
     private FragmentToDoList fragmentToDoList;
-
+    private LocalDate today = LocalDate.now();  // 오늘 날짜 저장
 
     public CalendarAdapter(ArrayList<LocalDate> dayList, FragmentToDoList fragmentToDoList) {
         this.dayList = dayList;
@@ -158,8 +157,12 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
             } else {
                 dayTv.setText(String.valueOf(day.getDayOfMonth()));
                 // 오늘 날짜 색상 변경
-                if (day.equals(CalendarUtil.selectDate)) {
+                // 오늘 날짜가 아닌 날 + 오늘 날짜 + 오늘 날짜가 아닌 날 클릭 시, 후자 오늘 날짜가 아닌 날에 텍스트 컬러 안되게 처리
+                if (day.equals(today)) {
                     dayTv.setTextColor(Color.parseColor("#1473E6"));
+                    Log.d("dayTv   ", "dayTv   " + day.equals(CalendarUtil.selectDate));
+                } else {
+                    dayTv.setTextColor(Color.BLACK);
                 }
             }
         }
