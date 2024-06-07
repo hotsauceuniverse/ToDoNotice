@@ -29,6 +29,7 @@ import java.util.Locale;
 
 public class FragmentToDoList extends Fragment {
 
+    public static final int REQUEST_CODE_FOR_INTENT = 101;
     private LinearLayoutManager linearLayoutManager;
     TextView monthYearText; // 년월 텍스트뷰
     RecyclerView recyclerView, todoListRecyclerview;
@@ -39,7 +40,7 @@ public class FragmentToDoList extends Fragment {
     ImageView preBtn, nextBtn;
     private View rootView;
     private DBHelper2 mDBHelper2;
-    public static final int REQUEST_CODE_FOR_INTENT = 101;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -172,7 +173,7 @@ public class FragmentToDoList extends Fragment {
         // 데이터가 있으면 RecyclerView 보이기
         todoListRecyclerview.setVisibility(View.VISIBLE);
         if (toDoAdapter == null) {
-            toDoAdapter = new ToDoAdapter(toDoItems, getActivity());
+            toDoAdapter = new ToDoAdapter(toDoItems, getContext());
             todoListRecyclerview.setHasFixedSize(true);
             todoListRecyclerview.setAdapter(toDoAdapter);
         } else {
@@ -191,8 +192,7 @@ public class FragmentToDoList extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("resultCode   ", "resultCode   " + resultCode);
 
-        if (resultCode == RESULT_OK) {
-            Log.d("ok", "ok" + resultCode);
+        if (resultCode == RESULT_OK && data != null) {
             if (requestCode == REQUEST_CODE_FOR_INTENT) {
                 Log.d("onActivityResult   ", "onActivityResult   ");
                 loadTodoList(CalendarUtil.selectDate);

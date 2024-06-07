@@ -92,7 +92,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
                     intent.putExtra("todoMemo", todoMemo);
                     Log.d("memo   ", "memo   " + todoMemo);
 
-                    mContext.startActivities(new Intent[]{intent});
+                    mContext.startActivity(intent);
                 }
             }
         });
@@ -101,11 +101,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
     @Override
     public int getItemCount() {
         return todoList.size();
-    }
-
-    public void addItem(ToDoItem toDoItem) {
-        todoList.add(toDoItem);
-        notifyItemInserted(todoList.size() - 1);
     }
 
     public class ToDoViewHolder extends RecyclerView.ViewHolder {

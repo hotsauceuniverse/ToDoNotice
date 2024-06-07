@@ -93,11 +93,9 @@ public class CalendarTodoListEdit extends AppCompatActivity {
 
                     if (id != -1) {
                         mDBHelper2.UpdateToDoList(id, editTodo, editHour, editMin, editPlace, editMemo);
-
-                        // UI 업데이트 기능 처리 필요
-                        // 다시 수정 필요
-                        Intent editIntent = new Intent();
-                        setResult(RESULT_OK, editIntent);
+                        // FragmentToDoList의 UI 업데이트 기능 처리 필요, DB에는 바로 업데이트 됨
+                        Intent resultIntent = new Intent();
+                        setResult(RESULT_OK, resultIntent);
                         finish();
                     }
                 } catch (NullPointerException e) {
