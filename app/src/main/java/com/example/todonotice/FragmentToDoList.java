@@ -41,7 +41,6 @@ public class FragmentToDoList extends Fragment {
     private View rootView;
     private DBHelper2 mDBHelper2;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_todolist, container, false);
@@ -173,7 +172,7 @@ public class FragmentToDoList extends Fragment {
         // 데이터가 있으면 RecyclerView 보이기
         todoListRecyclerview.setVisibility(View.VISIBLE);
         if (toDoAdapter == null) {
-            toDoAdapter = new ToDoAdapter(toDoItems, getContext());
+            toDoAdapter = new ToDoAdapter(toDoItems, getContext(), this);
             todoListRecyclerview.setHasFixedSize(true);
             todoListRecyclerview.setAdapter(toDoAdapter);
         } else {
@@ -192,7 +191,7 @@ public class FragmentToDoList extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("resultCode   ", "resultCode   " + resultCode);
 
-        if (resultCode == RESULT_OK && data != null) {
+        if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_FOR_INTENT) {
                 Log.d("onActivityResult   ", "onActivityResult   ");
                 loadTodoList(CalendarUtil.selectDate);
@@ -200,6 +199,8 @@ public class FragmentToDoList extends Fragment {
             } else {
                 Log.d("fail   ", "fail   " + resultCode);
             }
+        } else {
+            Log.d("fail   ", "fail   ");
         }
     }
 }

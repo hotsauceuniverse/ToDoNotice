@@ -9,12 +9,12 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList;
 
 public class ToDoListViewActivity extends AppCompatActivity {
 
+    public static final int REQUEST_CODE_FOR_INTENT = 101;
     private DBHelper2 mDBHelper2;
     private ToDoItem toDoItem;
     ImageView moreBtn;
@@ -71,8 +71,8 @@ public class ToDoListViewActivity extends AppCompatActivity {
                         intent.putExtra("todoMemo", toDoItem.getMemo());
                         Log.d("memo   ", "memo   " + toDoItem.getMemo());
 
-                        startActivity(intent);
-                        finish();
+                        // 수정된 데이터 넘겨주기
+                        startActivityForResult(intent, REQUEST_CODE_FOR_INTENT);
                         break;
 
                     case R.id.delete_text:
@@ -85,6 +85,16 @@ public class ToDoListViewActivity extends AppCompatActivity {
             }
         });
         popupMenu.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 2번 받아야 데이터가 수정이 됨
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_FOR_INTENT) {
+            setResult(RESULT_OK);
+            finish();
+        }
     }
 
     public void todolistView() {

@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,10 +20,13 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
     private ArrayList<ToDoItem> todoList;
     private Context mContext;
     private DBHelper2 mDBHelper2;
+    private FragmentToDoList fragmentToDoList;
+    public static final int REQUEST_CODE_FOR_INTENT = 101;
 
-    public ToDoAdapter(ArrayList<ToDoItem> todoList, Context mContext) {
+    public ToDoAdapter(ArrayList<ToDoItem> todoList, Context mContext, FragmentToDoList fragment) {
         this.todoList = todoList;
         this.mContext = mContext;
+        this.fragmentToDoList = fragment;
         mDBHelper2 = new DBHelper2(mContext);
     }
 
@@ -92,7 +94,8 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
                     intent.putExtra("todoMemo", todoMemo);
                     Log.d("memo   ", "memo   " + todoMemo);
 
-                    mContext.startActivity(intent);
+                    // 수정된 데이터 넘겨주기
+                    fragmentToDoList.startActivityForResult(intent, REQUEST_CODE_FOR_INTENT);
                 }
             }
         });
@@ -108,7 +111,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
         private TextView TodoTextView;
         private TextView hourTv;
         private TextView minTv;
-        private LinearLayout todoBox;
 
         public ToDoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -116,7 +118,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
             TodoTextView = itemView.findViewById(R.id.todo_tv);
             hourTv = itemView.findViewById(R.id.hour_tv);
             minTv = itemView.findViewById(R.id.min_tv);
-            todoBox = itemView.findViewById(R.id.todo_box);
         }
 
         public void onBind(ToDoItem item) {

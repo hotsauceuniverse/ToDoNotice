@@ -81,26 +81,22 @@ public class CalendarTodoListEdit extends AppCompatActivity {
         todoEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    // Update DataBase
-                    String editTodo = todoTitleEdit.getText().toString();
-                    String editHour = hourEdit.getText().toString();
-                    String editMin = minuteEdit.getText().toString();
-                    String editPlace = todoPlaceEdit.getText().toString();
-                    String editMemo = todoMemoEdit.getText().toString();
 
-                    int id = toDoItem.getId();
+                // Update DataBase
+                String editTodo = todoTitleEdit.getText().toString();
+                String editHour = hourEdit.getText().toString();
+                String editMin = minuteEdit.getText().toString();
+                String editPlace = todoPlaceEdit.getText().toString();
+                String editMemo = todoMemoEdit.getText().toString();
 
-                    if (id != -1) {
-                        mDBHelper2.UpdateToDoList(id, editTodo, editHour, editMin, editPlace, editMemo);
-                        // FragmentToDoList의 UI 업데이트 기능 처리 필요, DB에는 바로 업데이트 됨
-                        Intent resultIntent = new Intent();
-                        setResult(RESULT_OK, resultIntent);
-                        finish();
-                    }
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
+                int id = toDoItem.getId();
+
+                mDBHelper2.UpdateToDoList(id, editTodo, editHour, editMin, editPlace, editMemo);
+
+                // 수정된 데이터 FragmentToDoList UI 반영
+                Intent resultIntent = new Intent();
+                setResult(RESULT_OK, resultIntent);
+                finish();
             }
         });
     }
