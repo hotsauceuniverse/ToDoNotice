@@ -106,7 +106,6 @@ public class CalendarTodoList extends AppCompatActivity {
                             HourText.setText(String.valueOf(hour));
                             MinuteText.setText(String.valueOf(min));
                         }
-
                         dialog.dismiss();
                     }
                 });

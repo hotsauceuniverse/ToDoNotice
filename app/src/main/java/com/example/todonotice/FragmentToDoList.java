@@ -21,6 +21,9 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 
 //  Activity에서 Fragment로 옮길때 변경사항
@@ -168,6 +171,21 @@ public class FragmentToDoList extends Fragment {
         toDoItems = mDBHelper2.getTodoListData(selectedDate);
 
         Log.d("loadTodoList   ", "loadTodoList   :    " + toDoItems.toString());
+
+        // 할 일 목록 시간 순서대로 저장
+        // https://stackoverflow.com/questions/50562960/sort-recyclerview-by-date
+        Collections.sort(toDoItems, new Comparator<ToDoItem>() {
+            @Override
+            public int compare(ToDoItem time1, ToDoItem time2) {
+                String time_1 = time1.getHour() + ":" + time1.getMin();
+                Log.d("time_1   ", "time_1   " + time_1);
+
+                String time_2 = time2.getHour() + ":" + time2.getMin();
+                Log.d("time_2   ", "time_2   " + time_2);
+
+                return time_1.compareTo(time_2);
+            }
+        });
 
         // 데이터가 있으면 RecyclerView 보이기
         todoListRecyclerview.setVisibility(View.VISIBLE);
