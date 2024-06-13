@@ -9,10 +9,12 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class NoticeViewActivity extends AppCompatActivity {
 
+    public static final int REQUEST_CODE_NOTICE = 102;
     private DBHelper mDBHelper;
     private WriteData writeData;
     ImageView moreBtn;
@@ -55,13 +57,15 @@ public class NoticeViewActivity extends AppCompatActivity {
                         intent.putExtra("content", writeData.getContent());
                         Log.d("content   ", "content   " + writeData.getContent());
 
-                        startActivity(intent);
-                        finish();
+                        startActivityForResult(intent, REQUEST_CODE_NOTICE);
                         break;
 
                     case R.id.delete_text:
                         String beforeTime = String.valueOf(writeData.getId());
                         mDBHelper.DeleteDiary(beforeTime);
+                        Intent deleteIntent = new Intent();
+                        deleteIntent.putExtra("deletedId", writeData.getId());
+                        setResult(RESULT_OK, deleteIntent);
                         finish();
                         break;
                 }
@@ -71,6 +75,15 @@ public class NoticeViewActivity extends AppCompatActivity {
         popupMenu.show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_NOTICE) {
+            setResult(RESULT_OK);
+            finish();
+        }
+    }
+
     public void diaryView() {
         mDBHelper = new DBHelper(getApplicationContext());
         Intent intent = getIntent();
@@ -78,6 +91,7 @@ public class NoticeViewActivity extends AppCompatActivity {
         writeData.setId(intent.getIntExtra("id", -1));
         writeData.setTitle(intent.getStringExtra("title"));
         writeData.setContent(intent.getStringExtra("content"));
+
         viewTitle.setText(writeData.getTitle());
         viewContent.setText(writeData.getContent());
     }

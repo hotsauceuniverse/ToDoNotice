@@ -46,8 +46,19 @@ public class FragmentNoticeOutline extends Fragment {
             }
         });
 
-        setInit();
+        // WriteActivity View 이동
+        write_button = rootView.findViewById(R.id.write_button);
+        write_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), WriteActivity.class);
+                // 새 액티비티를 열어줌과 동시에 결과 값을 전달해야함
+                // REQUEST_CODE_FOR_INTENT을 통해 내가 보낸 요청이 맞는지 판단
+                startActivityForResult(intent, REQUEST_CODE_FOR_INTENT);
+            }
+        });
 
+        setInit();
         return rootView;
     }
 
@@ -62,18 +73,6 @@ public class FragmentNoticeOutline extends Fragment {
 
         loadRecentDB();
         recyclerView.smoothScrollToPosition(0);
-
-        // WriteActivity View 이동
-        write_button = rootView.findViewById(R.id.write_button);
-        write_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), WriteActivity.class);
-                // 새 액티비티를 열어줌과 동시에 결과 값을 전달해야함
-                // REQUEST_CODE_FOR_INTENT을 통해 내가 보낸 요청이 맞는지 판단
-                startActivityForResult(intent, REQUEST_CODE_FOR_INTENT);    
-            }
-        });
     }
 
     private void loadRecentDB() {
@@ -83,10 +82,9 @@ public class FragmentNoticeOutline extends Fragment {
 
         if (mAdapter == null) {
             // Adapter가 null인 경우 새로운 Adapter를 생성하고 리사이클러뷰에 설정
-            mAdapter = new NoticeAdapter(writeData, getActivity());
+            mAdapter = new NoticeAdapter(writeData, getContext(), this);
             recyclerView.setHasFixedSize(true);
             recyclerView.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();
         } else {
             // Adapter가 이미 존재하는 경우 데이터를 업데이트하고 어댑터를 갱신
             mAdapter.setWriteData(writeData);
@@ -97,16 +95,17 @@ public class FragmentNoticeOutline extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("resultCode   ", "resultCode   " + resultCode);
 
         if (resultCode == RESULT_OK) {
-            Toast.makeText(getContext(),"수신 성공",Toast.LENGTH_SHORT).show();
-            Log.d("ok", "ok" + resultCode);
-            if (requestCode == REQUEST_CODE_FOR_INTENT) {
+            Log.d("ok   ", "ok   " + resultCode);
+            if (requestCode == REQUEST_CODE_FOR_INTENT || requestCode == NoticeAdapter.REQUEST_CODE_NOTICE) {
                 loadRecentDB();
+            } else {
+                Log.d("fail   ", "fail   " + resultCode);
             }
         } else {
-            Toast.makeText(getContext(),"수신 실패",Toast.LENGTH_SHORT).show();
-            Log.d("fail", "fail" + resultCode);
+            Log.d("fail   ", "fail   ");
         }
     }
 }

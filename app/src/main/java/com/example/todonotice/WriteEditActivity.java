@@ -56,34 +56,31 @@ public class WriteEditActivity extends AppCompatActivity {
         writeData.setId(intent.getIntExtra("id", -1));
         writeData.setTitle(intent.getStringExtra("title"));
         writeData.setContent(intent.getStringExtra("content"));
+
         title_area.setText(writeData.getTitle());
         context_area.setText(writeData.getContent());
 
         edit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    // Update DataBase
-                    String editTitle = title_area.getText().toString();
-                    Log.d("111", "111   " + editTitle);
-                    String editContent = context_area.getText().toString();
-                    Log.d("222", "222   " + editContent);
-                    String editCurrentTime = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-                    Log.d("333", "333   " + editCurrentTime);
 
-                    // 수정할 데이터의 id 가져오기
-                    int id = writeData.getId();
-                    Log.d("editID   ", "editID   " + id);
+                // Update DataBase
+                String editTitle = title_area.getText().toString();
+                Log.d("111", "111   " + editTitle);
+                String editContent = context_area.getText().toString();
+                Log.d("222", "222   " + editContent);
+                String editCurrentTime = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                Log.d("333", "333   " + editCurrentTime);
 
-                    // 수정하기
-                    if (id != -1) {
-                        mDBHelper.UpdateDiary(id, editTitle, editContent, editCurrentTime);
+                // 수정할 데이터의 id 가져오기
+                int id = writeData.getId();
+                Log.d("editID   ", "editID   " + id);
 
-                        // UI 업데이트 기능 처리 필요
-                    }
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
+                // 수정하기
+                mDBHelper.UpdateDiary(id, editTitle, editContent, editCurrentTime);
+
+                Intent resultIntent = new Intent();
+                setResult(RESULT_OK, resultIntent);
                 finish();
             }
         });

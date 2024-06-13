@@ -17,13 +17,16 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
     private ArrayList<WriteData> mWriteData;
     private Context mContext;
     private DBHelper mDBHelper;
+    private FragmentNoticeOutline fragmentNoticeOutline;
+    public static final int REQUEST_CODE_NOTICE = 102;
 
     // Alt + Insert
     // Constructor
     // 생성자에서 데이터 리스트 객체를 전달받음
-    public NoticeAdapter(ArrayList<WriteData> mWriteData, Context mContext) {
+    public NoticeAdapter(ArrayList<WriteData> mWriteData, Context mContext, FragmentNoticeOutline fragment) {
         this.mWriteData = mWriteData;
         this.mContext = mContext;
+        this.fragmentNoticeOutline = fragment;
         mDBHelper = new DBHelper(mContext);
     }
 
@@ -63,7 +66,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
                 intent.putExtra("title", writeData.getTitle());
                 intent.putExtra("content", writeData.getContent());
 
-                mContext.startActivities(new Intent[]{intent});
+                fragmentNoticeOutline.startActivityForResult(intent, REQUEST_CODE_NOTICE);
             }
         });
     }
@@ -73,7 +76,6 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
     public int getItemCount() {
         return mWriteData.size();
     }
-
 
     // 아이템 뷰를 저장하는 뷰홀더 클래스
     public class ViewHolder extends RecyclerView.ViewHolder {
