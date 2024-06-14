@@ -64,7 +64,7 @@ public class NoticeViewActivity extends AppCompatActivity {
                         String beforeTime = String.valueOf(writeData.getId());
                         mDBHelper.DeleteDiary(beforeTime);
                         Intent deleteIntent = new Intent();
-                        deleteIntent.putExtra("deletedId", writeData.getId());
+//                        deleteIntent.putExtra("deletedId", writeData.getId());
                         setResult(RESULT_OK, deleteIntent);
                         finish();
                         break;

@@ -79,7 +79,7 @@ public class ToDoListViewActivity extends AppCompatActivity {
                         String beforeTime = String.valueOf(toDoItem.getId());
                         mDBHelper2.DeleteToDoList(beforeTime);
                         Intent deleteIntent = new Intent();
-                        deleteIntent.putExtra("deletedIntent", toDoItem.getId());
+//                        deleteIntent.putExtra("deletedIntent", toDoItem.getId());
                         setResult(RESULT_OK, deleteIntent);
                         finish();
                         break;
