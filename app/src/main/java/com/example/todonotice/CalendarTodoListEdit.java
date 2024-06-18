@@ -144,8 +144,12 @@ public class CalendarTodoListEdit extends AppCompatActivity {
                             int hour = timeIntent.getIntExtra("editHour", 0);
                             int min = timeIntent.getIntExtra("editMin", 0);
 
-                            hourEdit.setText(String.valueOf(hour));
-                            minuteEdit.setText(String.valueOf(min));
+                            // 시간 2자리로 노출
+                            String timeHour = String.format("%02d", hour);
+                            String timeMin = String.format("%02d", min);
+
+                            hourEdit.setText(timeHour);
+                            minuteEdit.setText(timeMin);
 
                             editDialog.dismiss();
                         }

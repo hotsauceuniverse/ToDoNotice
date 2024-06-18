@@ -103,8 +103,13 @@ public class CalendarTodoList extends AppCompatActivity {
                             int hour = timeIntent.getIntExtra("hour", 0);
                             int min = timeIntent.getIntExtra("min", 0);
 
-                            HourText.setText(String.valueOf(hour));
-                            MinuteText.setText(String.valueOf(min));
+                            // 시간 2자리로 노출
+                            // https://db-log.tistory.com/entry/Timestamp%EB%A1%9C-%EB%B0%9B%EC%9D%80-%EC%A0%95%EB%B3%B4-android%EC%97%90%EC%84%9C-Calendar%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0
+                            String timeHour = String.format("%02d", hour);
+                            String timeMin = String.format("%02d", min);
+
+                            HourText.setText(timeHour);
+                            MinuteText.setText(timeMin);
                         }
                         dialog.dismiss();
                     }
