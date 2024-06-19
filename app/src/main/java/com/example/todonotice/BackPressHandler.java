@@ -7,7 +7,6 @@ import android.widget.Toast;
 public class BackPressHandler {
     private long backKeyPressedTime = 0;
     private Toast toast;
-
     private Activity activity;
 
     // 생성자 작성
@@ -26,12 +25,7 @@ public class BackPressHandler {
         }
 
         if (isBefore2Seconds()) {
-            // 현재 액티비티가 HomeActivity인 경우에만 앱 종료
-            if (activity instanceof MainActivity) {
-                appShutdown();
-            } else {
-                activity.finish();
-            }
+            appShutdown();
             toast.cancel();
         }
     }
@@ -57,4 +51,3 @@ public class BackPressHandler {
         System.exit(0); // 현재 Activity 종료
     }
 }
-

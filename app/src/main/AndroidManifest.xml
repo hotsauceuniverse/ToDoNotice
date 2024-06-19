@@ -64,12 +64,6 @@
         <activity android:name="FragmentHome" />
 
         <activity
-            android:name=".ProfileActivity"
-            android:windowSoftInputMode="adjustPan"
-            /> <!-- 뷰에 영향 없이 키패드 밀어올리기 -->
-
-        <activity android:name=".NoticeDetailActivity"/>
-        <activity
             android:name=".WriteActivity"
             android:windowSoftInputMode="adjustResize"
             /> <!-- 키보드가 올라갈 때 액티비티의 크기를 조정 -->

@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentToDoList fragmentToDoList = new FragmentToDoList();
     private FragmentNoticeOutline fragmentNoticeOutline = new FragmentNoticeOutline();
     private FragmentProfile fragmentProfile = new FragmentProfile();
+    private BackPressHandler backPressHandler;
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -31,6 +32,12 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(new ItemSelectedListener());
 
+        backPressHandler = new BackPressHandler(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        backPressHandler.onBackPressed();
     }
 
     class ItemSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener{
