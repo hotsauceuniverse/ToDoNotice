@@ -72,6 +72,7 @@ public class DBHelper2 extends SQLiteOpenHelper {
         return todoList;
     }
 
+    // INSERT (할 일 목록 추가)
     public void InsertToDoList(String _todo, String _hour, String _min, String _place, String _memo, String _writeDate) {
         SQLiteDatabase db = getWritableDatabase();
 

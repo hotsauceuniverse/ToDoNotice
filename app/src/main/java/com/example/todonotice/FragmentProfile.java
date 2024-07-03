@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -54,9 +55,11 @@ public class FragmentProfile extends Fragment {
     private TextView logOut;
     private TextView deleteAccount;
     String originNickname ="";  // 기존 닉네임 저장
+    String kakaoNickname = "";  // 카카오톡에서 가져온 닉네임 저장
     private Context context;
     private DBHelper mDBHelper;
     private DBHelper2 mDBHelper2;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,6 +67,10 @@ public class FragmentProfile extends Fragment {
 
         profileImageView = rootView.findViewById(R.id.profile_image);
         profileImageView.setImageResource(Default_profile);
+        logOut = rootView.findViewById(R.id.log_out);
+        deleteAccount = rootView.findViewById(R.id.delete_account);
+        nicknameEditText = rootView.findViewById(R.id.nickname);
+        profile_edit_button = rootView.findViewById(R.id.profile_edit_button);
 
         // 사진 업로드
         profileImageView.setOnClickListener(new View.OnClickListener() {
@@ -73,12 +80,48 @@ public class FragmentProfile extends Fragment {
             }
         });
 
-        // 프로필 버튼 색상 변경
-        nicknameEditText = rootView.findViewById(R.id.nickname);
-        profile_edit_button = rootView.findViewById(R.id.profile_edit_button);
-
+        // 프로필 닉네임 변경
+        changeNickName();
+        profile_edit_button.setClickable(false);
+        profile_edit_button.setBackground(getResources().getDrawable(R.drawable.profile_edit_button_off));
         // 로그아웃
-        logOut = rootView.findViewById(R.id.log_out);
+        logoutAccount();
+        // 회원 탈퇴
+        deleteAccount();
+        // 카카오 로그인 후 프로필 사진, 닉네임 연동
+        profileImageConnect();
+        return rootView;
+    }
+
+    public void changeNickName() {
+        sharedPreferences = getActivity().getSharedPreferences("Profile", Context.MODE_PRIVATE);
+        // SharedPreferences에서 저장된 닉네임 불러오기
+        String savedNickname = sharedPreferences.getString("nickName", "Default Nickname");
+        nicknameEditText.setText(savedNickname);
+        originNickname = savedNickname;  // 초기 닉네임 저장
+
+        profile_edit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String newNickName = nicknameEditText.getText().toString();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("nickName", newNickName);
+                editor.apply();
+
+                Toast.makeText(getActivity(), "닉네임이 저장되었습니다.", Toast.LENGTH_SHORT).show();
+                originNickname = newNickName;  // 저장 후 초기 닉네임 업데이트
+                editContext();
+
+                // 닉네임 저장 후 버튼 비활성화 및 색상 변경
+                int gray = ContextCompat.getColor(getContext(), R.color.android_top_bar);
+                profile_edit_button.setBackgroundColor(gray);
+                profile_edit_button.setBackground(getResources().getDrawable(R.drawable.profile_edit_button_off));
+                profile_edit_button.setClickable(false);
+            }
+        });
+    }
+
+    public void logoutAccount(){
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,9 +151,9 @@ public class FragmentProfile extends Fragment {
                         .show();
             }
         });
+    }
 
-        // 회원 탈퇴
-        deleteAccount = rootView.findViewById(R.id.delete_account);
+    public void deleteAccount() {
         deleteAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,29 +191,50 @@ public class FragmentProfile extends Fragment {
                         .show();
             }
         });
+    }
 
-        // 카카오 로그인 후 프로필 사진, 닉네임 연동
-        profileImageConnect();
-        return rootView;
+    public void editContext() {
+        nicknameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                updateButtonColor();
+            }
+        });
     }
 
     private void updateButtonColor() {
-        String currentNickname = nicknameEditText.getText().toString().trim();
-
-        Log.e("asdww   ", "TextUtils.isEmpty(currentNickname)   " + TextUtils.isEmpty(currentNickname));
-
         // 프로필 사진 & 닉네임 변경 될 때 = 핑크색
         // 초기 프로필 사진 & 초기 닉네임 일 때 = 회색
-        if(!TextUtils.isEmpty(currentNickname) && !currentNickname.equals(originNickname)) {
-            int iphone_pink = ContextCompat.getColor(getContext(), R.color.iphone_pink);
-            Drawable shapeDrawableOn = getResources().getDrawable(R.drawable.profile_edit_button_on);
+        String isNickName = nicknameEditText.getText().toString();
+        Log.e("asdww   ", "TextUtils.isEmpty(isNickName)   " + TextUtils.isEmpty(isNickName));
+
+        int gray = ContextCompat.getColor(getContext(), R.color.android_top_bar);
+        int iphone_pink = ContextCompat.getColor(getContext(), R.color.iphone_pink);
+        Drawable shapeDrawableOff = getResources().getDrawable(R.drawable.profile_edit_button_off);
+        Drawable shapeDrawableOn = getResources().getDrawable(R.drawable.profile_edit_button_on);
+
+        if (!TextUtils.isEmpty(isNickName) && !isNickName.equals(originNickname)) {
             profile_edit_button.setBackgroundColor(iphone_pink);
             profile_edit_button.setBackground(shapeDrawableOn);
+            profile_edit_button.setClickable(true);
+        } else if (isNickName.equals(kakaoNickname)) {
+            profile_edit_button.setBackgroundColor(iphone_pink);
+            profile_edit_button.setBackground(shapeDrawableOn);
+            profile_edit_button.setClickable(true);
         } else {
-            int gray = ContextCompat.getColor(getContext(), R.color.android_top_bar);
-            Drawable shapeDrawableOff = getResources().getDrawable(R.drawable.profile_edit_button_off);
             profile_edit_button.setBackgroundColor(gray);
             profile_edit_button.setBackground(shapeDrawableOff);
+            profile_edit_button.setClickable(false);
         }
     }
 
@@ -203,22 +267,11 @@ public class FragmentProfile extends Fragment {
                 String nickname = user.getKakaoAccount().getProfile().getNickname();
                 originNickname = nickname;
                 nicknameEditText.setText(nickname);
-                nicknameEditText.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-                        updateButtonColor();
-                    }
-                });
+                // SharedPreferences에서 저장된 닉네임으로 대체
+                String savedNickname = sharedPreferences.getString("nickName", nickname);
+                nicknameEditText.setText(savedNickname);
+                editContext();
             } else{
                 Log.d("fail   ", "fail   ");
             }
