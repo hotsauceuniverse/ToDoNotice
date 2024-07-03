@@ -83,7 +83,6 @@ public class FragmentProfile extends Fragment {
         // 프로필 닉네임 변경
         changeNickName();
         profile_edit_button.setClickable(false);
-        profile_edit_button.setBackground(getResources().getDrawable(R.drawable.profile_edit_button_off));
         // 로그아웃
         logoutAccount();
         // 회원 탈퇴
