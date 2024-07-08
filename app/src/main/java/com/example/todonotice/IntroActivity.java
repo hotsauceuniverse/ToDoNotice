@@ -55,6 +55,7 @@ public class IntroActivity extends AppCompatActivity {
                 } else {
                     // 로그인 실패
                     Log.d(TAG_k, "로그인 실패");
+                    Log.d("hashKey   ", "hashKey   " + getKeyHash(IntroActivity.this));
                 }
                 return null;
             }

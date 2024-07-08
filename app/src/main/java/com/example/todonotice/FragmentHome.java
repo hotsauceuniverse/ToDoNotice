@@ -174,20 +174,20 @@ public class FragmentHome extends Fragment {
                     String hour;
                     String min;
 
-                    // 문구 : 오늘은 hour시 min분에 todo 약속이 있어요 :)
+                    // 문구 : hour시 min분에 todo 약속이 있어요
                     if (i == 0) {
                         todo = cursor.getString(todoIndex);
                         hour = cursor.getString(hourIndex);
                         min = cursor.getString(minIndex);
 
-                        todolistFirst.setText("오늘 " + hour + "시 " + min + "분에 " + todo + "약속이 있어요.");
+                        todolistFirst.setText(hour + "시 " + min + "분에 " + todo + " 약속이 있어요.");
                     } else if (i == 1) {
                         if (cursor.moveToNext()) {
                             todo = cursor.getString(todoIndex);
                             hour = cursor.getString(hourIndex);
                             min = cursor.getString(minIndex);
 
-                            todolistSecond.setText("오늘 " + hour + "시 " + min + "분에 " + todo + "약속이 있어요. :)");
+                            todolistSecond.setText(hour + "시 " + min + "분에 " + todo + " 약속이 있어요.");
                         } else {
                             todo = defaultTodo;
                             todolistSecond.setText(todo);
