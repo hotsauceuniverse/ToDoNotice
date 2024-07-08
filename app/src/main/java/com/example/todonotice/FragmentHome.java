@@ -3,6 +3,7 @@ package com.example.todonotice;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -191,6 +192,7 @@ public class FragmentHome extends Fragment {
                         } else {
                             todo = defaultTodo;
                             todolistSecond.setText(todo);
+                            todolistSecond.setTextColor(Color.parseColor("#808080"));
                         }
                     }
                 }
@@ -201,7 +203,9 @@ public class FragmentHome extends Fragment {
         } else {
             // 오늘 날짜가 아니면 해당 핃드에 defaultTodo문구 노출
             todolistFirst.setText(defaultTodo);
+            todolistFirst.setTextColor(Color.parseColor("#808080"));
             todolistSecond.setText(defaultTodo);
+            todolistSecond.setTextColor(Color.parseColor("#808080"));
         }
     }
 
