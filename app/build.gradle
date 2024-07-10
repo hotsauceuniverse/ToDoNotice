@@ -1,14 +1,14 @@
 plugins {
     id 'com.android.application'
-    id 'com.google.gms.google-services' //구글서비스 추가
+//    id 'com.google.gms.google-services' //구글서비스 추가
 }
 
 android {
-    namespace 'com.example.todonotice'
+    namespace 'com.seyoung.todonotice'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.todonotice"
+        applicationId "com.seyoung.todonotice"
         minSdk 26
         targetSdk 33
         versionCode 1

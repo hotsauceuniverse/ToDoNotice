@@ -23,7 +23,6 @@ import android.widget.TimePicker;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.example.todonotice.R;
 
 public class CalendarTodoListEdit extends AppCompatActivity {
 

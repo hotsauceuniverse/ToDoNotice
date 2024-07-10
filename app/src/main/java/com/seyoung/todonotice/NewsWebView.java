@@ -16,7 +16,6 @@ import android.webkit.WebViewClient;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.todonotice.R;
 
 public class NewsWebView extends AppCompatActivity {
 
