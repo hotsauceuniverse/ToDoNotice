@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.todonotice.R;
+
 public class ToDoListViewActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE_FOR_INTENT = 101;

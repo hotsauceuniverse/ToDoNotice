@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.todonotice.R;
+
 import java.util.ArrayList;
 
 public class FragmentNoticeOutline extends Fragment {

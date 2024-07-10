@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.todonotice.R;
+
 public class FragmentNotice extends Fragment {
 
     TextView diaryTitle;

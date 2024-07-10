@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.todonotice.R;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 

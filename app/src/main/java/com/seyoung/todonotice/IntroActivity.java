@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.example.todonotice.R;
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.User;

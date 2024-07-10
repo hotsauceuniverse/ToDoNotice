@@ -14,6 +14,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.todonotice.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
