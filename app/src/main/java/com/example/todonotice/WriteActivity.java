@@ -57,7 +57,7 @@ public class WriteActivity extends AppCompatActivity {
                     Intent intent = new Intent();
                     setResult(RESULT_OK, intent);
 
-                    Toast.makeText(WriteActivity.this, "추가", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(WriteActivity.this, "추가", Toast.LENGTH_SHORT).show();
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
