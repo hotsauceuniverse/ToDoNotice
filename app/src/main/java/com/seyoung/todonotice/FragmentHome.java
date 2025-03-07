@@ -19,10 +19,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
@@ -31,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -210,20 +213,23 @@ public class FragmentHome extends Fragment {
     }
 
     public void newsApiSearch() {
-        String url = "https://newsapi.org/v2/top-headlines?country=kr&apiKey=ce563d897b6c46a6b2e5ee5f32a22b1f";
+//        String url = "https://newsapi.org/v2/top-headlines?country=kr&apiKey=ce563d897b6c46a6b2e5ee5f32a22b1f";
+        String url = "https://newsdata.io/api/1/latest?country=kr&apikey=pub_73438e4b7354e40d8799ddd29d7727f303967";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    JSONArray array = jsonObject.getJSONArray("articles");
+//                    JSONArray array = jsonObject.getJSONArray("articles");
+                    JSONArray array = jsonObject.getJSONArray("results");
 
                     int count = 0;
 
                     for (int i = 0; i < array.length() && count < 3; i++) {
                         JSONObject obj = array.getJSONObject(i);
                         String title = obj.getString("title");
-                        String imageUrl = obj.optString("urlToImage", null);
+//                        String imageUrl = obj.optString("urlToImage", null);
+                        String imageUrl = obj.optString("image_url", null);
 
                         if (imageUrl != null && !imageUrl.equals("null") && !imageUrl.startsWith("http://") && !imageUrl.startsWith("/")) {
                             count++;
@@ -255,12 +261,24 @@ public class FragmentHome extends Fragment {
                 Log.d("error", "error");
             }
         }) {
+            // 뉴스 api 변경 후 새로운 뉴스 api 한글깨짐 utf-8 변환
+            // https://honeyinfo7.tistory.com/78
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<>();
-                headers.put("User-Agent", "Mozilla/5.0");
-                return headers;
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String utf8String = new String(response.data, "UTF-8");
+                    return Response.success(utf8String, HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                return super.parseNetworkResponse(response);
             }
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                HashMap<String, String> headers = new HashMap<>();
+//                headers.put("User-Agent", "Mozilla/5.0");
+//                return headers;
+//            }
         };
         queue.add(stringRequest);
     }

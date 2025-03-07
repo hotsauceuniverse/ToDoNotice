@@ -12,6 +12,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.user.UserApiClient;
@@ -27,6 +28,7 @@ public class IntroActivity extends AppCompatActivity {
 
     RelativeLayout Kakao_Button;
     private static final String TAG_k = "KakaoLogin";
+    TextView goMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,15 @@ public class IntroActivity extends AppCompatActivity {
                     // 카카오톡이 설치 되어 있지 않다면
                     UserApiClient.getInstance().loginWithKakaoTalk(IntroActivity.this, callback);
                 }
+            }
+        });
+
+        goMain = findViewById(R.id.go_main);
+        goMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(IntroActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }

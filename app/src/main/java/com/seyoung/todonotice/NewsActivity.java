@@ -12,10 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -23,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -72,7 +75,8 @@ public class NewsActivity extends AppCompatActivity {
     // 네트워크 요청을 보내고, 응답을 받은 후 JSON 데이터를 처리
     public void getNews() {
 
-        String url = "https://newsapi.org/v2/top-headlines?country=kr&apiKey=ce563d897b6c46a6b2e5ee5f32a22b1f";
+//        String url = "https://newsapi.org/v2/top-headlines?country=kr&apiKey=ce563d897b6c46a6b2e5ee5f32a22b1f";
+        String url = "https://newsdata.io/api/1/latest?country=kr&apikey=pub_73438e4b7354e40d8799ddd29d7727f303967";
                       
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -89,7 +93,8 @@ public class NewsActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(response);
 
                     // JSON 객체 안의 JSON객체들을 담고있는 JSONArray객체 get
-                    JSONArray arrayArticles = jsonObject.getJSONArray("articles");
+//                    JSONArray arrayArticles = jsonObject.getJSONArray("articles");
+                    JSONArray arrayArticles = jsonObject.getJSONArray("results");
 
                     // response -> NewsData Class 분류
                     List<NewsData> news = new ArrayList<>();
@@ -103,11 +108,17 @@ public class NewsActivity extends AppCompatActivity {
                         newsData.setTitle(obj.getString("title"));
                         Log.d("title   ", "title   " + obj.get("title"));
 
-                        newsData.setUrlToImage(obj.getString("urlToImage"));
-                        Log.d("urlToImage   ", "urlToImage   " + obj.get("urlToImage"));
+//                        newsData.setUrlToImage(obj.getString("urlToImage"));
+//                        Log.d("urlToImage   ", "urlToImage   " + obj.get("urlToImage"));
+                        newsData.setUrlToImage(obj.getString("image_url"));
+                        Log.d("urlToImage   ", "urlToImage   " + obj.get("image_url"));
 
-                        newsData.setUrl(obj.getString("url"));
-                        Log.d("url   ", "url   " + obj.get("url"));
+
+//                        newsData.setUrl(obj.getString("url"));
+//                        Log.d("url   ", "url   " + obj.get("url"));
+                        newsData.setUrl(obj.getString("link"));
+                        Log.d("url   ", "url   " + obj.get("link"));
+
 
                         // 처음부터 UrlToImage가 null인 경우와 http://로 시작하는 경우와 특정경로로 시작하는 기사를 배열에서 제외
                         if (!newsData.getUrlToImage().equals("null") &&
@@ -145,7 +156,6 @@ public class NewsActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-
             }, new Response.ErrorListener() {
 
             @Override
@@ -155,16 +165,30 @@ public class NewsActivity extends AppCompatActivity {
 
                 loadingAnimation.setVisibility(View.INVISIBLE);
             }
-        }){
-            // BasinNetwork.performRequest results "Unexpected response code 403 for 에러코드
-            // header가 없어서 생기는 문제 -> onErrorResponse 여기로 떨어짐
+        }) {
+            // 뉴스 api 변경 후 새로운 뉴스 api 한글깨짐 utf-8 변환
+            // https://honeyinfo7.tistory.com/78
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<>();
-                headers.put("User-Agent", "Mozilla/5.0");
-                return headers;
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String utf8String = new String(response.data, "UTF-8");
+                    return Response.success(utf8String, HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                return super.parseNetworkResponse(response);
             }
         };
+//        {
+//            // BasinNetwork.performRequest results "Unexpected response code 403 for 에러코드
+//            // header가 없어서 생기는 문제 -> onErrorResponse 여기로 떨어짐
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                HashMap<String, String> headers = new HashMap<>();
+//                headers.put("User-Agent", "Mozilla/5.0");
+//                return headers;
+//            }
+//        };
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
     }
