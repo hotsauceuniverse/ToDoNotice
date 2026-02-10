@@ -108,7 +108,7 @@
                 android:id="@+id/go_main"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="이용하기"
+                android:text="게스트로 이용하기"
                 android:textSize="16dp"
                 android:textColor="@color/black"
                 android:layout_gravity="center"
